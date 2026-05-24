@@ -417,10 +417,10 @@
   <div class="leave-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">🏖 Apply Leave</div>
-    <div class="modal-sub" id="leaveModalSub">Tap morning / evening per day to mark sessions absent. Minimum 3 sessions required for dues adjustment.</div>
+    <div class="modal-sub" id="leaveModalSub">Tap morning / evening per day to mark sessions absent. Dues adjust at 3+ sessions.</div>
 
     <div class="leave-rule-note">
-      💡 <strong>Rule:</strong> Leave is only applied if you mark <strong>3 or more sessions</strong> (morning or evening) in a week. Fewer than 3 sessions are not counted and dues remain unchanged.
+      💡 <strong>Rule:</strong> You can save leave for any number of sessions. Dues are only adjusted when you mark <strong>3 or more sessions</strong> absent in a week.
     </div>
 
     <div class="leave-week-hd">
@@ -976,9 +976,9 @@
     const applyBtn = document.getElementById('leaveApplyBtn');
     applyBtn.disabled = count === 0;
     if (count === 0) applyBtn.textContent = 'Apply Leave';
-    else if (!valid) applyBtn.textContent = `Select ${3 - count} more session(s) to apply`;
+    else if (!valid) applyBtn.textContent = `Save Leave — no dues adjustment (${3 - count} more to adjust)`;
     else applyBtn.textContent = `Apply Leave (${count} session${count > 1 ? 's' : ''})`;
-    applyBtn.style.background = valid ? 'var(--red)' : 'var(--text3)';
+    applyBtn.style.background = count === 0 ? 'var(--text3)' : valid ? 'var(--red)' : 'var(--orange)';
 
     const existingLeave = getRiderLeaveSetForWeek(rider.key, monday);
     const cancelBtn = document.getElementById('leaveCancelLeaveBtn');
@@ -1015,10 +1015,6 @@
     // Count total sessions selected
     let count = 0;
     Object.values(pendingLeave).forEach(s => { if (s.morning) count++; if (s.evening) count++; });
-    if (count < 3) {
-      showToast(`⚠ Need at least 3 sessions — ${count} selected, not saved`);
-      return;
-    }
     // Clear all leave for this week first, then apply selected sessions
     const allDays = getWeekDays(monday).map(toDateStr);
     clearLeaveFromData(rider.key, allDays, rider);
@@ -1029,7 +1025,10 @@
     const wk = getWeekRange(monday);
     const sk = `${rider.name}_${wk.key}`;
     const alreadySettled = !!settlements[sk];
-    showToast(`🏖 ${count}-session leave saved — dues adjusted${alreadySettled ? ' (settled week recalculated)' : ''}`);
+    const duesAdjusted = count >= 3;
+    showToast(duesAdjusted
+      ? `🏖 ${count}-session leave saved — dues adjusted${alreadySettled ? ' (recalculated)' : ''}`
+      : `🏖 ${count}-session leave saved — dues unchanged (need ${3 - count} more to adjust)`);
   });
 
   document.getElementById('leaveCancel').addEventListener('click', closeLeaveModal);
