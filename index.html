@@ -827,15 +827,24 @@
   // Apply / remove leave for a rider on specific dates — only their enrolled sessions
   function applyLeaveToData(riderKey, leaveMap, rider) {
     // leaveMap: { dateStr: { morning: bool, evening: bool } }
+    // Count total leave sessions being applied so we know if dues should adjust
+    let totalLeaveSessions = 0;
+    Object.values(leaveMap).forEach(s => {
+      if (rider.sessions.includes('morning') && s.morning) totalLeaveSessions++;
+      if (rider.sessions.includes('evening') && s.evening) totalLeaveSessions++;
+    });
+    const adjustDues = totalLeaveSessions >= 3;
+
     Object.entries(leaveMap).forEach(([ds, sessions]) => {
       if (!data[ds]) data[ds] = {morning:{}, evening:{}};
       if (!data[ds].morning) data[ds].morning = {};
       if (!data[ds].evening) data[ds].evening = {};
       if (!data[ds].leave) data[ds].leave = {};
       data[ds].leave[riderKey] = { morning: !!sessions.morning, evening: !!sessions.evening };
-      // Mark sessions absent/present based on leave
-      if (rider.sessions.includes('morning')) data[ds].morning[riderKey] = !sessions.morning;
-      if (rider.sessions.includes('evening')) data[ds].evening[riderKey] = !sessions.evening;
+      // Only mark absent (affecting dues) when total leave sessions >= 3
+      // With fewer sessions, save the leave record but keep rider marked present
+      if (rider.sessions.includes('morning')) data[ds].morning[riderKey] = adjustDues ? !sessions.morning : true;
+      if (rider.sessions.includes('evening')) data[ds].evening[riderKey] = adjustDues ? !sessions.evening : true;
     });
   }
 
@@ -1167,11 +1176,16 @@
     [['morning',morning],['evening',evening]].forEach(([sess,present])=>{
       const riders=sess==='morning'?getMorningRiders():getEveningRiders();
       data[dateStr][sess].captain=present;riders.forEach(k=>{if(k!=='captain')data[dateStr][sess][k]=present;});
-      // If captain is now absent for this session, clear any rider leave marked for it
+      // If captain is now absent for this session, clear any rider leave for it
+      // and restore the rider's attendance flag to true (captain absence already waives the cost)
       if (!present) {
         cfg.riders.forEach(r => {
           if (data[dateStr].leave && data[dateStr].leave[r.key]) {
             data[dateStr].leave[r.key][sess] = false;
+          }
+          // Restore attendance flag so rider isn't double-penalised
+          if (r.sessions.includes(sess) && data[dateStr][sess]) {
+            data[dateStr][sess][r.key] = true;
           }
         });
       }
@@ -1281,9 +1295,14 @@
     unsettled.sort((a,b)=>a.wk<b.wk?1:-1);
 
     const now=istNow();
-    const nextMon=getMonday(new Date(now.getTime()+7*24*60*60*1000));
+    const thisWeekMonday=getMonday(now);
     let thisWeekEst=0;
-    getWeekDays(nextMon).forEach(d=>{thisWeekEst+=(calculateDayDue({morning:{captain:true},evening:{captain:true}},d)[rider.key]||0);});
+    getWeekDays(thisWeekMonday).forEach(d=>{
+      const ds=toDateStr(d);
+      // Use real data if available, otherwise assume captain present (for future days)
+      const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
+      thisWeekEst+=(calculateDayDue(entry,d)[rider.key]||0);
+    });
 
     const initials=rider.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
     const monday=getMonday(realToday);
@@ -1632,8 +1651,9 @@
     if(_rolesListener){off(rolesRef,'value',_rolesListener);_rolesListener=null;}
     _rolesListener=snap=>{
       const all=snap.val()||{};rolesCache=all;container.innerHTML='';
-      const entries=Object.entries(all).filter(([,u])=>cfg.riders.some(r=>r.email&&r.email.toLowerCase()===(u.email||'').toLowerCase())).sort(([,a],[,b])=>(a.email||'').localeCompare(b.email||''));
-      if(!entries.length){container.innerHTML='<div style="padding:14px;font-size:12px;color:var(--text3);text-align:center">No linked users yet.</div>';return;}
+      // Show ALL signed-in users, not just linked ones — so admin can see and link pending users
+      const entries=Object.entries(all).sort(([,a],[,b])=>(a.email||'').localeCompare(b.email||''));
+      if(!entries.length){container.innerHTML='<div style="padding:14px;font-size:12px;color:var(--text3);text-align:center">No users have signed in yet.</div>';return;}
       entries.forEach(([key,u])=>{
         const isSelf=currentUser&&u.email===currentUser.email;
         const linkedRider=cfg.riders.find(r=>r.email&&r.email.toLowerCase()===(u.email||'').toLowerCase());
