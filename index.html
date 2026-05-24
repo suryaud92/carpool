@@ -745,23 +745,21 @@
     });
 
     if (entry.morning && entry.morning.captain !== false && mr.length > 1) {
-      // Only non-captain riders pay; captain earns
+      // All travellers including captain split equally; captain earns total minus their own share
+      const totalTravellers = mr.length; // includes captain
+      const s = cfg.morningCost / totalTravellers;
       const payers = mr.filter(k => k !== 'captain');
-      if (payers.length) {
-        const s = cfg.morningCost / payers.length;
-        payers.forEach(p => { dues[p] = (dues[p] || 0) + s; });
-        dues.captain = (dues.captain || 0) + cfg.morningCost;
-      }
+      payers.forEach(p => { dues[p] = (dues[p] || 0) + s; });
+      dues.captain = (dues.captain || 0) + cfg.morningCost - s; // earns total minus their own share
     } else if (entry.morning && entry.morning.captain !== false && mr.length === 1) {
       // Only captain — no payers
     }
     if (entry.evening && entry.evening.captain !== false && er.length > 1) {
+      const totalTravellers = er.length; // includes captain
+      const s = cfg.eveningCost / totalTravellers;
       const payers = er.filter(k => k !== 'captain');
-      if (payers.length) {
-        const s = cfg.eveningCost / payers.length;
-        payers.forEach(p => { dues[p] = (dues[p] || 0) + s; });
-        dues.captain = (dues.captain || 0) + cfg.eveningCost;
-      }
+      payers.forEach(p => { dues[p] = (dues[p] || 0) + s; });
+      dues.captain = (dues.captain || 0) + cfg.eveningCost - s; // earns total minus their own share
     }
     return dues;
   }
