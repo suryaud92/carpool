@@ -846,8 +846,15 @@
       if (!data[ds]) data[ds] = {morning:{}, evening:{}};
       if (!data[ds].morning) data[ds].morning = {};
       if (!data[ds].evening) data[ds].evening = {};
-      if (!data[ds].leave) data[ds].leave = {};
-      data[ds].leave[riderKey] = { morning: !!sessions.morning, evening: !!sessions.evening };
+      const hasAnyLeave = !!(sessions.morning || sessions.evening);
+      if (hasAnyLeave) {
+        if (!data[ds].leave) data[ds].leave = {};
+        data[ds].leave[riderKey] = { morning: !!sessions.morning, evening: !!sessions.evening };
+      } else if (data[ds].leave) {
+        // No leave for this day → don't leave an empty record behind
+        delete data[ds].leave[riderKey];
+        if (!Object.keys(data[ds].leave).length) delete data[ds].leave;
+      }
       // Only mark absent (affecting dues) when total leave sessions >= threshold
       // With fewer sessions, save the leave record but keep rider marked present
       if (rider.sessions.includes('morning')) data[ds].morning[riderKey] = adjustDues ? !sessions.morning : true;
@@ -858,7 +865,10 @@
   function clearLeaveFromData(riderKey, leaveDates, rider) {
     leaveDates.forEach(ds => {
       if (!data[ds]) return;
-      if (data[ds].leave) delete data[ds].leave[riderKey];
+      if (data[ds].leave) {
+        delete data[ds].leave[riderKey];
+        if (!Object.keys(data[ds].leave).length) delete data[ds].leave;
+      }
       // Restore presence for their enrolled sessions
       if (rider.sessions.includes('morning') && data[ds].morning) data[ds].morning[riderKey] = true;
       if (rider.sessions.includes('evening') && data[ds].evening) data[ds].evening[riderKey] = true;
@@ -1087,19 +1097,52 @@
     return grouped;
   }
 
-  // Per-week contribution breakdown — what each person (captain included) put toward the week's cost.
-  // For passengers: their share of each session they rode (calculateDayDue already gives this).
-  // For the captain: cost − captain's own head share for each session he drove (also from calculateDayDue).
+  // Per-week contribution breakdown — what each person (captain included) put toward the week's fuel cost.
+  // Captain's contribution = their own head share per session (cost / total_travellers including captain).
+  // Passenger contribution  = their head share per session (same per-head amount).
+  // Sum of all contributions for a day = morning cost (if morning ran) + evening cost (if evening ran).
   // Returns array of { key, name, color, role, amount } sorted by amount desc.
   function getWeekContributions(monday){
     const totals={captain:0};
     cfg.riders.forEach(r=>{totals[r.key]=0;});
+
     getWeekDays(monday).forEach(d=>{
       const ds=toDateStr(d);
       const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
-      const dues=calculateDayDue(entry,d);
-      Object.entries(dues).forEach(([k,v])=>{if(totals[k]!==undefined)totals[k]+=(v||0);});
+
+      // Replicate the active-rider filter from calculateDayDue so contributions match dues exactly
+      const activeKeys=new Set(cfg.riders.filter(r=>{
+        const sd=r.startDate?parseDate(r.startDate):new Date(2000,0,1);
+        if(d<sd)return false;
+        if(r.pausedFrom&&r.pausedUntil){
+          const pFrom=parseDate(r.pausedFrom),pUntil=parseDate(r.pausedUntil);
+          if(d>=pFrom&&d<=pUntil)return false;
+        }
+        return true;
+      }).map(r=>r.key));
+
+      [['morning',cfg.morningCost],['evening',cfg.eveningCost]].forEach(([sess,cost])=>{
+        // Captain didn't drive → no trip → no contributions for this session
+        if(!(entry[sess]&&entry[sess].captain!==false))return;
+
+        // Riders present this session: enrolled, active, and attendance flag is not false
+        const presentRiders=cfg.riders.filter(r=>{
+          if(!r.sessions.includes(sess))return false;
+          if(!activeKeys.has(r.key))return false;
+          return entry[sess]&&entry[sess][r.key]!==false;
+        });
+
+        const totalTravellers=presentRiders.length+1; // +1 for captain
+        if(totalTravellers<2)return; // captain alone — nobody contributes (no shared trip cost)
+
+        const headShare=cost/totalTravellers;
+        // Each present rider contributes their head share
+        presentRiders.forEach(r=>{totals[r.key]+=headShare;});
+        // Captain contributes their own head share (NOT cost - share, which is what passengers pay them)
+        totals.captain+=headShare;
+      });
     });
+
     const out=[];
     if(totals.captain>0)out.push({key:'captain',name:'Surya (Captain)',color:'#1a1917',role:'captain',amount:totals.captain});
     cfg.riders.forEach(r=>{
@@ -1214,19 +1257,29 @@
     const{dateStr,morning,evening}=captainSessCtx;
     initDate(dateStr);
     [['morning',morning],['evening',evening]].forEach(([sess,present])=>{
-      const riders=sess==='morning'?getMorningRiders():getEveningRiders();
-      data[dateStr][sess].captain=present;riders.forEach(k=>{if(k!=='captain')data[dateStr][sess][k]=present;});
-      // If captain is now absent for this session, clear any rider leave for it
-      // and restore the rider's attendance flag to true (captain absence already waives the cost)
+      data[dateStr][sess].captain=present;
       if (!present) {
+        // Captain absent → no trip → all riders' attendance for this session is moot.
+        // Set every enrolled rider's flag to true (captain absence already waives cost in calculateDayDue),
+        // and zero out any leave intent for this session (the trip didn't happen — there's nothing to take leave from).
         cfg.riders.forEach(r => {
-          if (data[dateStr].leave && data[dateStr].leave[r.key]) {
-            data[dateStr].leave[r.key][sess] = false;
-          }
-          // Restore attendance flag so rider isn't double-penalised
-          if (r.sessions.includes(sess) && data[dateStr][sess]) {
-            data[dateStr][sess][r.key] = true;
-          }
+          if (r.sessions.includes(sess) && data[dateStr][sess]) data[dateStr][sess][r.key] = true;
+          if (data[dateStr].leave && data[dateStr].leave[r.key]) data[dateStr].leave[r.key][sess] = false;
+        });
+      } else {
+        // Captain present → respect each rider's existing leave intent for this session.
+        // Whether the leave intent actually adjusts dues still depends on the rider's threshold
+        // over the whole week. We recompute that per rider here.
+        cfg.riders.forEach(r => {
+          if (!r.sessions.includes(sess)) return;
+          const monday = getMonday(parseDate(dateStr));
+          const weekLeaveMap = getRiderLeaveSessionMapForWeek(r.key, monday, r);
+          const totalSessionsInWeek = Object.values(weekLeaveMap).reduce((sum, s) => sum + (s.morning?1:0) + (s.evening?1:0), 0);
+          const threshold = getLeaveThreshold(r);
+          const adjustDues = totalSessionsInWeek >= threshold;
+          const hasLeaveThisSession = weekLeaveMap[dateStr] && weekLeaveMap[dateStr][sess];
+          // Attendance flag: false (absent) only if rider has leave intent AND week meets threshold
+          data[dateStr][sess][r.key] = !(adjustDues && hasLeaveThisSession);
         });
       }
     });
