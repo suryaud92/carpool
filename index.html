@@ -20,7 +20,6 @@
     }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 16px 16px 60px; font-size: 14px; line-height: 1.5; }
     .app { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-
     .sync-bar { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; transition: all 0.3s, opacity 0.5s, max-height 0.5s, padding 0.5s; max-height: 60px; overflow: hidden; }
     .sync-bar.hide { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; pointer-events: none; }
     .sync-bar.connecting { background: var(--yellow-soft); border: 1px solid var(--yellow-border); color: var(--yellow); }
@@ -30,7 +29,6 @@
     .sync-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: currentColor; }
     .sync-dot.pulse { animation: pulse 1.2s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
     .header-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; position: relative; }
     .header-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none; text-align: center; }
     .header-app-name { font-size: 17px; font-weight: 700; color: var(--text); text-align: center; line-height: 1.3; letter-spacing: -0.5px; }
@@ -47,7 +45,6 @@
     .admin-user-email { font-size: 11px; color: var(--text3); }
     .admin-signout-btn { font-size: 12px; font-weight: 600; padding: 7px 13px; border-radius: 8px; border: 1px solid var(--red-border); background: var(--red-soft); color: var(--red); cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 6px; transition: opacity 0.15s; flex-shrink: 0; }
     .admin-signout-btn:hover { opacity: 0.8; }
-
     .login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 24px; }
     .login-screen.hidden { display: none; }
     .login-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 24px; width: 100%; max-width: 360px; display: flex; flex-direction: column; align-items: center; gap: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
@@ -57,21 +54,17 @@
     .google-btn  { display: flex; align-items: center; gap: 10px; background: var(--white); border: 1.5px solid var(--border2); border-radius: 10px; padding: 12px 20px; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; width: 100%; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); transition: background 0.15s; }
     .google-btn:hover { background: var(--bg); }
     .login-error { font-size: 12px; color: var(--red); background: var(--red-soft); border: 1px solid var(--red-border); border-radius: 8px; padding: 8px 12px; width: 100%; text-align: center; display: none; }
-
     .role-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
     .role-row:last-child { border-bottom: none; }
     .role-select { padding: 5px 8px; border: 1.5px solid var(--border2); border-radius: 7px; font-family: inherit; font-size: 12px; font-weight: 600; background: var(--bg); color: var(--text); cursor: pointer; }
     .role-select:disabled { opacity: 0.5; cursor: default; }
-
     .tab-bar { display: flex; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
     .tab-btn  { flex: 1; padding: 11px 8px; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text2); background: transparent; border: none; cursor: pointer; transition: all 0.15s; }
     .tab-btn.active { background: var(--text); color: #fff; }
     .tab-panel { display: none; flex-direction: column; gap: 10px; }
     .tab-panel.active { display: flex; }
-
     .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
     .card-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
-
     .captain-days-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
     .captain-day-btn { display: flex; flex-direction: column; align-items: center; padding: 8px 4px; border-radius: 9px; border: 1.5px solid var(--border); background: var(--white); cursor: pointer; font-family: inherit; transition: all 0.15s; gap: 2px; }
     .captain-day-btn .cd-name { font-size: 9px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.3px; }
@@ -84,10 +77,8 @@
     .captain-day-btn.absent .cd-name, .captain-day-btn.absent .cd-date { color: #9e9e9e; }
     .captain-day-btn .cd-sub { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: inherit; margin-top: 1px; }
     .captain-day-btn.is-future { opacity: 0.3; cursor: not-allowed; }
-
     .captain-leave-note { display: flex; align-items: flex-start; gap: 7px; margin-top: 8px; padding: 8px 10px; background: var(--yellow-soft); border: 1px solid var(--yellow-border); border-radius: 8px; font-size: 11px; color: var(--yellow); line-height: 1.5; }
     .captain-leave-note-icon { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
-
     .dues-week-block { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 8px; }
     .dues-week-block:last-child { margin-bottom: 0; }
     .dues-week-hd { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg); border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
@@ -112,13 +103,14 @@
     .dues-rider-amt.settled   { color: var(--green); }
     .dues-rider-amt.pending   { color: var(--orange); }
     .dues-rider-amt.projected { color: var(--blue); }
-
     .action-btn { font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 7px; border: none; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; flex-shrink: 0; font-family: inherit; }
     .action-btn:hover { opacity: 0.8; }
     .btn-pay    { background: var(--green); color: #fff; }
     .btn-revert { background: var(--red-soft); color: var(--red); border: 1px solid var(--red-border); }
     .btn-paynow { background: var(--blue); color: #fff; }
-
+    .adj-note { display:flex; align-items:flex-start; gap:6px; padding:6px 14px 8px; font-size:11px; line-height:1.5; }
+    .adj-note.owe    { color:var(--orange); background:var(--orange-soft); }
+    .adj-note.credit { color:var(--green);  background:var(--green-soft); }
     .dash-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
     .dash-user-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .dash-avatar { width: 40px; height: 40px; border-radius: 50%; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -134,17 +126,6 @@
     .dash-metric-value.warn { color: var(--orange); }
     .dash-metric-value.ok   { color: var(--green); }
     .dash-section-title { font-size: 10px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
-    .dash-day { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 7px 3px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--white); }
-    .dash-day .dd-name { font-size: 8px; font-weight: 700; text-transform: uppercase; color: var(--text2); letter-spacing: 0.3px; }
-    .dash-day .dd-num  { font-size: 14px; font-weight: 700; color: var(--text); }
-    .dash-day .dd-sub  { font-size: 8px; font-weight: 700; text-transform: uppercase; color: inherit; }
-    .dash-day.present { background: #e8f5e9; border-color: #a5d6a7; }
-    .dash-day.present .dd-name, .dash-day.present .dd-num { color: #2e7d32; }
-    .dash-day.absent-partial { background: var(--orange-soft); border-color: var(--orange-border); }
-    .dash-day.absent-partial .dd-name, .dash-day.absent-partial .dd-num { color: var(--orange); }
-    .dash-day.absent { background: #f5f5f5; border-color: #bdbdbd; }
-    .dash-day.absent .dd-name, .dash-day.absent .dd-num { color: #9e9e9e; }
-    .dash-day.future { opacity: 0.3; }
     .dash-tab-row { display: flex; gap: 4px; margin-bottom: 10px; }
     .dash-tab { flex: 1; padding: 7px; border: 1px solid var(--border2); border-radius: 7px; background: transparent; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--text2); cursor: pointer; }
     .dash-tab.active { background: var(--text); color: #fff; border-color: var(--text); }
@@ -161,11 +142,8 @@
     .dash-badge.due  { background: var(--orange-soft); color: var(--orange); border: 1px solid var(--orange-border); }
     .dash-badge.paid { background: var(--green-soft);  color: var(--green);  border: 1px solid var(--green-border); }
     .dash-total-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 4px; border-top: 1px solid var(--border); margin-top: 6px; }
-
     .make-payment-btn { width: 100%; padding: 13px; border: none; border-radius: var(--radius-sm); background: var(--blue); font-family: inherit; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; transition: opacity 0.15s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .make-payment-btn:hover { opacity: 0.9; }
-
-    /* Payment selector */
     .payment-selector-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: flex-end; justify-content: center; z-index: 350; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .payment-selector-overlay.open { opacity: 1; pointer-events: all; }
     .payment-selector-sheet { background: var(--white); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; padding: 8px 20px 36px; transform: translateY(30px); transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1); max-height: 88vh; overflow-y: auto; }
@@ -185,19 +163,15 @@
     .ps-pay-btn { width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm); background: var(--blue); font-family: inherit; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; transition: opacity 0.15s; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .ps-pay-btn:hover { opacity: 0.9; }
     .ps-pay-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* Leave modal */
     .leave-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: flex-end; justify-content: center; z-index: 350; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .leave-overlay.open { opacity: 1; pointer-events: all; }
     .leave-sheet { background: var(--white); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; padding: 8px 20px 36px; transform: translateY(30px); transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1); max-height: 90vh; overflow-y: auto; }
     .leave-overlay.open .leave-sheet { transform: translateY(0); }
-
     .leave-week-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; margin-top: 18px; }
     .leave-week-label { font-size: 13px; font-weight: 700; color: var(--text); }
     .leave-week-nav { display: flex; align-items: center; gap: 6px; }
     .leave-nav-btn { background: var(--bg); border: 1px solid var(--border2); border-radius: 7px; padding: 4px 10px; font-size: 13px; cursor: pointer; color: var(--text2); }
     .leave-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
     .leave-days-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 14px; }
     .leave-day-btn { display: flex; flex-direction: column; align-items: center; padding: 8px 4px; border-radius: 9px; border: 1.5px solid var(--border); background: var(--white); cursor: default; font-family: inherit; transition: all 0.12s; gap: 4px; }
     .leave-day-btn .ld-name { font-size: 9px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.3px; }
@@ -205,14 +179,12 @@
     .leave-day-btn .ld-sub  { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 1px; }
     .leave-day-btn.on-leave { background: var(--red-soft); border-color: var(--red-border); }
     .leave-day-btn.on-leave .ld-name, .leave-day-btn.on-leave .ld-date { color: var(--red); }
-    .leave-day-btn.on-leave .ld-sub { color: var(--red); }
     .leave-day-btn.future { opacity: 0.3; pointer-events: none; }
     .sess-btns { display: flex; gap: 3px; width: 100%; }
     .sess-btn { flex: 1; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; padding: 3px 2px; border-radius: 5px; border: 1.5px solid var(--border); background: var(--white); color: var(--text2); cursor: pointer; font-family: inherit; transition: all 0.12s; text-align: center; }
     .sess-btn.active { background: var(--red-soft); border-color: var(--red-border); color: var(--red); }
     .sess-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     .sess-btn.captain-off { background: #f5f5f5; border-color: #bdbdbd; color: #9e9e9e; opacity: 0.5; cursor: not-allowed; }
-
     .leave-rule-note { padding: 10px 12px; background: var(--blue-soft); border: 1px solid var(--blue-border); border-radius: 9px; font-size: 11px; color: var(--blue); line-height: 1.6; margin-bottom: 14px; }
     .leave-count-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg); border-radius: 9px; margin-bottom: 14px; }
     .leave-count-label { font-size: 12px; color: var(--text2); font-weight: 600; }
@@ -220,14 +192,10 @@
     .leave-count-val.ok   { color: var(--green); }
     .leave-count-val.warn { color: var(--orange); }
     .leave-count-val.err  { color: var(--red); }
-
     .leave-apply-btn { width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm); background: var(--red); font-family: inherit; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; transition: opacity 0.15s; }
     .leave-apply-btn:hover { opacity: 0.9; }
     .leave-apply-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* Leave chip on dashboard */
     .leave-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: var(--red-soft); color: var(--red); border: 1px solid var(--red-border); }
-
     .captain-sess-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; justify-content: center; z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .captain-sess-modal.open { opacity: 1; pointer-events: all; }
     .captain-sess-sheet { background: var(--white); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; padding: 8px 20px 36px; transform: translateY(30px); transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1); }
@@ -245,12 +213,10 @@
     .modal-cancel  { flex: 1; padding: 13px; border: 1px solid var(--border2); border-radius: var(--radius-sm); background: var(--white); font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; }
     .modal-confirm { flex: 2; padding: 13px; border: none; border-radius: var(--radius-sm); background: var(--blue); font-family: inherit; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: opacity 0.15s; }
     .modal-confirm:hover { opacity: 0.9; }
-
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: flex-end; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal-sheet { background: var(--white); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; padding: 8px 20px 36px; transform: translateY(30px); transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1); max-height: 92vh; overflow-y: auto; }
     .modal-overlay.open .modal-sheet { transform: translateY(0); }
-
     .admin-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; justify-content: center; z-index: 400; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .admin-overlay.open { opacity: 1; pointer-events: all; }
     .admin-sheet { background: var(--bg); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; padding: 0 0 36px; transform: translateY(40px); transition: transform 0.28s cubic-bezier(0.34,1.1,0.64,1); max-height: 94vh; overflow-y: auto; display: flex; flex-direction: column; }
@@ -362,39 +328,26 @@
     <div class="sync-dot pulse" id="syncDot"></div>
     <span id="syncMsg">Connecting…</span>
   </div>
-
   <div class="header-card">
     <div style="width:36px;flex-shrink:0"></div>
-    <div class="header-center">
-      <div class="header-app-name">🚗 Narayana Carpool</div>
-    </div>
+    <div class="header-center"><div class="header-app-name">🚗 Narayana Carpool</div></div>
     <div class="header-right">
       <button class="header-admin-btn" id="openAdminBtn" title="Settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
     </div>
   </div>
-
   <div class="tab-bar">
     <button class="tab-btn active" id="tabDashBtn">🏠 Dashboard</button>
     <button class="tab-btn" id="tabDuesBtn" style="display:none">📋 Dues</button>
     <button class="tab-btn" id="tabHistoryBtn" style="display:none">🕐 History</button>
   </div>
-
-  <div class="tab-panel active" id="tabDashboard">
-    <div id="personalDashCard"></div>
-  </div>
+  <div class="tab-panel active" id="tabDashboard"><div id="personalDashCard"></div></div>
   <div class="tab-panel" id="tabDues">
-    <div class="card">
-      <div class="card-title">Dues — by week</div>
-      <div id="adminDuesContainer"></div>
-    </div>
+    <div class="card"><div class="card-title">Dues — by week</div><div id="adminDuesContainer"></div></div>
   </div>
   <div class="tab-panel" id="tabHistory">
-    <div class="card">
-      <div class="card-title">Payment History</div>
-      <div id="historyContainer"></div>
-    </div>
+    <div class="card"><div class="card-title">Payment History</div><div id="historyContainer"></div></div>
   </div>
 </div>
 
@@ -418,11 +371,9 @@
     <div class="modal-handle"></div>
     <div class="modal-title">🏖 Apply Leave</div>
     <div class="modal-sub" id="leaveModalSub">Tap morning / evening per day to mark sessions absent.</div>
-
     <div class="leave-rule-note" id="leaveRuleNote">
       💡 <strong>Rule:</strong> You can save leave for any number of sessions. Dues are only adjusted when the minimum session threshold is reached for the week.
     </div>
-
     <div class="leave-week-hd">
       <span class="leave-week-label" id="leaveWeekLabel">Week of …</span>
       <div class="leave-week-nav">
@@ -430,14 +381,11 @@
         <button class="leave-nav-btn" id="leaveWeekNext">›</button>
       </div>
     </div>
-
     <div class="leave-days-grid" id="leaveDaysGrid"></div>
-
     <div class="leave-count-bar">
       <span class="leave-count-label">Sessions selected this week</span>
       <span class="leave-count-val" id="leaveCountVal">0 / 10</span>
     </div>
-
     <button class="leave-apply-btn" id="leaveApplyBtn" disabled>Apply Leave</button>
     <button class="leave-apply-btn" id="leaveCancelLeaveBtn" style="display:none;background:var(--text2);margin-top:8px">✕ Cancel Leave for this Week</button>
     <button class="modal-cancel" style="width:100%;margin-top:8px;text-align:center" id="leaveCancel">Close</button>
@@ -541,19 +489,13 @@
 <div class="rider-edit-overlay" id="riderEditOverlay">
   <div class="rider-edit-sheet">
     <div class="rider-edit-title" id="riderEditTitle">Add Co-Traveller</div>
-    <div class="form-row">
-      <label class="form-label">Name</label>
-      <input class="form-input" id="re-name" type="text" placeholder="e.g. Ananya">
-    </div>
+    <div class="form-row"><label class="form-label">Name</label><input class="form-input" id="re-name" type="text" placeholder="e.g. Ananya"></div>
     <div class="form-row">
       <label class="form-label">Google Email</label>
       <input class="form-input" id="re-email" type="email" placeholder="e.g. ananya@gmail.com">
       <div style="margin-top:5px;font-size:11px;color:var(--text3)">Leave blank — the user will request access and you approve it, or enter their email directly here.</div>
     </div>
-    <div class="form-row">
-      <label class="form-label">Carpool Start Date</label>
-      <input class="form-input" id="re-startdate" type="date" style="width:100%">
-    </div>
+    <div class="form-row"><label class="form-label">Carpool Start Date</label><input class="form-input" id="re-startdate" type="date" style="width:100%"></div>
     <div class="form-row">
       <label class="form-label">Sessions</label>
       <div class="form-sess-row">
@@ -561,10 +503,7 @@
         <button class="sess-toggle" id="re-evening" type="button">🌆 Evening</button>
       </div>
     </div>
-    <div class="form-row">
-      <label class="form-label">Colour</label>
-      <div class="color-swatches" id="reColorSwatches"></div>
-    </div>
+    <div class="form-row"><label class="form-label">Colour</label><div class="color-swatches" id="reColorSwatches"></div></div>
     <div class="modal-actions" style="margin-top:18px">
       <button class="modal-cancel" id="riderEditCancel">Cancel</button>
       <button class="modal-confirm" id="riderEditConfirm">Save</button>
@@ -603,7 +542,7 @@
   provider.setCustomParameters({prompt:'select_account'});
   setPersistence(auth,browserLocalPersistence).catch(()=>{});
 
-  const dataRef=ref(db,'carpoolData'),settlementsRef=ref(db,'carpoolSettlements'),configRef=ref(db,'carpoolConfig'),rolesRef=ref(db,'carpoolRoles');
+  const dataRef=ref(db,'carpoolData'),settlementsRef=ref(db,'carpoolSettlements'),configRef=ref(db,'carpoolConfig'),rolesRef=ref(db,'carpoolRoles'),adjustmentsRef=ref(db,'carpoolAdjustments');
 
   let currentUser=null,currentRole='user',rolesCache={};
   function emailToKey(e){return e.replace(/[.#$[\]]/g,'_');}
@@ -641,7 +580,7 @@
 
   onAuthStateChanged(auth,async user=>{
     _authResolved=true;hideAllAuthScreens();document.getElementById('mainApp').style.display='none';
-    _riderLeaveStripMonday=null; // reset per-rider strip position on every auth change
+    _riderLeaveStripMonday=null;
     if(!user){document.getElementById('loginScreen').classList.remove('hidden');return;}
     currentUser=user;const key=emailToKey(user.email);
     try{
@@ -671,7 +610,7 @@
   });
 
   // ── Sync ─────────────────────────────────────────────
-  let fbReady=false,dataLoaded=false,settlementsLoaded=false,configLoaded=false,syncHideTimer=null;
+  let fbReady=false,dataLoaded=false,settlementsLoaded=false,configLoaded=false,adjustmentsLoaded=false,syncHideTimer=null;
   function setSyncStatus(state,msg){
     const bar=document.getElementById('syncBar');
     bar.className='sync-bar '+state;
@@ -686,7 +625,7 @@
     {key:'prema',name:'Prema',sessions:['morning','evening'],color:'#3d7c47',startDate:'2026-04-27'},
     {key:'praseetha',name:'Praseetha',sessions:['evening'],color:'#b45309',startDate:'2026-04-27'},
   ]};
-  let cfg=JSON.parse(JSON.stringify(DEFAULT_CONFIG)),data={},settlements={};
+  let cfg=JSON.parse(JSON.stringify(DEFAULT_CONFIG)),data={},settlements={},adjustments={};
   const realToday=new Date();realToday.setHours(0,0,0,0);
 
   function getMorningRiders(){return['captain',...cfg.riders.filter(r=>r.sessions.includes('morning')).map(r=>r.key)];}
@@ -702,13 +641,22 @@
   });
   onValue(dataRef,snap=>{data=snap.val()||{};dataLoaded=true;checkReady();if(fbReady){renderPersonalDashboard();renderAdminDues();}});
   onValue(settlementsRef,snap=>{settlements=snap.val()||{};settlementsLoaded=true;checkReady();if(fbReady){renderPersonalDashboard();renderAdminDues();}});
-  function checkReady(){if(dataLoaded&&settlementsLoaded&&configLoaded&&!fbReady){fbReady=true;setSyncStatus('synced','Synced');renderAll();}}
+  onValue(adjustmentsRef,snap=>{adjustments=snap.val()||{};adjustmentsLoaded=true;checkReady();if(fbReady){renderPersonalDashboard();renderAdminDues();}});
+  function checkReady(){if(dataLoaded&&settlementsLoaded&&configLoaded&&adjustmentsLoaded&&!fbReady){fbReady=true;setSyncStatus('synced','Synced');renderAll();}}
   onValue(ref(db,'.info/connected'),snap=>{if(!snap.val())setSyncStatus('error','Offline');else if(fbReady)setSyncStatus('synced','Synced');});
 
   let saveTimer=null;
   function saveData(){setSyncStatus('saving','Saving…');clearTimeout(saveTimer);saveTimer=setTimeout(()=>set(dataRef,data).then(()=>setSyncStatus('synced','Synced')).catch(()=>setSyncStatus('error','Save failed')),400);}
   function saveSettlements(){setSyncStatus('saving','Saving…');set(settlementsRef,settlements).then(()=>setSyncStatus('synced','Synced')).catch(()=>setSyncStatus('error','Save failed'));}
   function saveConfig(){setSyncStatus('saving','Saving…');set(configRef,cfg).then(()=>setSyncStatus('synced','Synced')).catch(()=>setSyncStatus('error','Save failed'));}
+  function saveAdjustments(){setSyncStatus('saving','Saving…');set(adjustmentsRef,adjustments).then(()=>setSyncStatus('synced','Synced')).catch(()=>setSyncStatus('error','Save failed'));}
+
+  // ── Settlement helpers ────────────────────────────────
+  // Settlements stored as { paid: true, amount: N } OR legacy true.
+  function isSettled(sk){const v=settlements[sk];return v===true||(v&&v.paid===true);}
+  function getSettledAmount(sk){const v=settlements[sk];if(!v)return null;if(v===true)return null;return v.amount||null;}
+  function markSettled(sk,amount){settlements[sk]={paid:true,amount:Math.round(amount)};}
+  function markUnsettled(sk){settlements[sk]=false;}
 
   function toDateStr(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
   function parseDate(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
@@ -716,7 +664,7 @@
   function getMonday(date){const d=new Date(date),day=d.getDay();d.setDate(d.getDate()+(day===0?-6:1-day));d.setHours(0,0,0,0);return d;}
   function getWeekDays(monday){return Array.from({length:5},(_,i)=>{const d=new Date(monday);d.setDate(d.getDate()+i);return d;});}
   function getWeekRange(date){const monday=getMonday(date),friday=new Date(monday);friday.setDate(friday.getDate()+4);return{key:`${toDateStr(monday)}_${toDateStr(friday)}`,label:`${fmtDateShort(monday)} – ${fmtDateShort(friday)}`,monday,friday};}
-  function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
+  function showToast(msg,duration=2800){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),duration);}
 
   function initDate(dateStr){
     if(!data[dateStr])data[dateStr]={morning:{},evening:{}};
@@ -725,70 +673,40 @@
     getEveningRiders().forEach(k=>{if(d.evening[k]===undefined)d.evening[k]=true;});
   }
 
-  // weekLeaveCache: optional pre-computed map of { riderKey: { adjustDues: bool } } for the week.
-  // When called in a tight loop (buildGroupedWeeks), pass this in to avoid O(n²) rescanning.
-  // When called for a single day (captain modal, thisWeekEst), omit it — it will be computed here.
+  // weekLeaveCache: optional pre-computed { riderKey: { adjustDues } } for the week.
   function calculateDayDue(entry, date, weekLeaveCache) {
-    const dues = {}; cfg.riders.forEach(r => { dues[r.key] = 0; }); dues.captain = 0;
-    const activeKeys = new Set(cfg.riders.filter(r => {
-      const sd = r.startDate ? parseDate(r.startDate) : new Date(2000, 0, 1);
-      if (date < sd) return false;
-      if (r.pausedFrom && r.pausedUntil) {
-        const pFrom = parseDate(r.pausedFrom), pUntil = parseDate(r.pausedUntil);
-        if (date >= pFrom && date <= pUntil) return false;
-      }
+    const dues={}; cfg.riders.forEach(r=>{dues[r.key]=0;}); dues.captain=0;
+    const activeKeys=new Set(cfg.riders.filter(r=>{
+      const sd=r.startDate?parseDate(r.startDate):new Date(2000,0,1);
+      if(date<sd)return false;
+      if(r.pausedFrom&&r.pausedUntil){const pFrom=parseDate(r.pausedFrom),pUntil=parseDate(r.pausedUntil);if(date>=pFrom&&date<=pUntil)return false;}
       return true;
-    }).map(r => r.key));
-
-    const ds = toDateStr(date);
-    // Single source of truth for "is this rider on effective leave for this session this day?"
-    // Use pre-computed weekLeaveCache if provided, otherwise compute now (single-day call).
-    const leaveCache = weekLeaveCache || (() => {
-      const monday = getMonday(date);
-      const cache = {};
-      cfg.riders.forEach(r => {
-        const sessCount = getRiderLeaveSessionsInWeek(r.key, monday, r);
-        cache[r.key] = { adjustDues: sessCount >= getLeaveThreshold(r) };
-      });
+    }).map(r=>r.key));
+    const ds=toDateStr(date);
+    const leaveCache=weekLeaveCache||(()=>{
+      const monday=getMonday(date),cache={};
+      cfg.riders.forEach(r=>{const sessCount=getRiderLeaveSessionsInWeek(r.key,monday,r);cache[r.key]={adjustDues:sessCount>=getLeaveThreshold(r)};});
       return cache;
     })();
-    const riderEffectiveLeave = {};
-    cfg.riders.forEach(r => {
-      const lv = data[ds] && data[ds].leave && data[ds].leave[r.key];
-      riderEffectiveLeave[r.key] = {
-        morning: !!(leaveCache[r.key].adjustDues && lv && lv.morning),
-        evening: !!(leaveCache[r.key].adjustDues && lv && lv.evening),
+    const riderEffectiveLeave={};
+    cfg.riders.forEach(r=>{
+      const lv=data[ds]&&data[ds].leave&&data[ds].leave[r.key];
+      riderEffectiveLeave[r.key]={
+        morning:!!(leaveCache[r.key].adjustDues&&lv&&lv.morning),
+        evening:!!(leaveCache[r.key].adjustDues&&lv&&lv.evening),
       };
     });
-
-    // A rider is present in a session only if: active, captain drove, and not on effective leave
-    const mr = getMorningRiders().filter(k => {
-      if (k === 'captain') return true;
-      if (!activeKeys.has(k)) return false;
-      return !riderEffectiveLeave[k].morning;
-    });
-    const er = getEveningRiders().filter(k => {
-      if (k === 'captain') return true;
-      if (!activeKeys.has(k)) return false;
-      return !riderEffectiveLeave[k].evening;
-    });
-
-    if (entry.morning && entry.morning.captain !== false && mr.length > 1) {
-      // All travellers including captain split equally; captain earns total minus their own share
-      const totalTravellers = mr.length; // includes captain
-      const s = cfg.morningCost / totalTravellers;
-      const payers = mr.filter(k => k !== 'captain');
-      payers.forEach(p => { dues[p] = (dues[p] || 0) + s; });
-      dues.captain = (dues.captain || 0) + cfg.morningCost - s; // earns total minus their own share
-    } else if (entry.morning && entry.morning.captain !== false && mr.length === 1) {
-      // Only captain — no payers
+    const mr=getMorningRiders().filter(k=>{if(k==='captain')return true;if(!activeKeys.has(k))return false;return!riderEffectiveLeave[k].morning;});
+    const er=getEveningRiders().filter(k=>{if(k==='captain')return true;if(!activeKeys.has(k))return false;return!riderEffectiveLeave[k].evening;});
+    if(entry.morning&&entry.morning.captain!==false&&mr.length>1){
+      const s=cfg.morningCost/mr.length;
+      mr.filter(k=>k!=='captain').forEach(p=>{dues[p]=(dues[p]||0)+s;});
+      dues.captain=(dues.captain||0)+cfg.morningCost-s;
     }
-    if (entry.evening && entry.evening.captain !== false && er.length > 1) {
-      const totalTravellers = er.length; // includes captain
-      const s = cfg.eveningCost / totalTravellers;
-      const payers = er.filter(k => k !== 'captain');
-      payers.forEach(p => { dues[p] = (dues[p] || 0) + s; });
-      dues.captain = (dues.captain || 0) + cfg.eveningCost - s; // earns total minus their own share
+    if(entry.evening&&entry.evening.captain!==false&&er.length>1){
+      const s=cfg.eveningCost/er.length;
+      er.filter(k=>k!=='captain').forEach(p=>{dues[p]=(dues[p]||0)+s;});
+      dues.captain=(dues.captain||0)+cfg.eveningCost-s;
     }
     return dues;
   }
@@ -798,320 +716,303 @@
   function weekIsOver(monday){const fri=new Date(monday);fri.setDate(fri.getDate()+4);fri.setHours(0,0,0,0);return istNow()>fri;}
 
   // ── Leave helpers ─────────────────────────────────────
-  // Stored in data[dateStr].leave[riderKey] = { morning: true/false, evening: true/false }
-  // The rule: dues are adjusted only if the rider hits a minimum number of absent sessions in the week.
-  //   - Rider enrolled in both morning + evening → threshold is 5 sessions
-  //   - Rider enrolled in only one session       → threshold is 3 sessions
-  // Below the threshold, save the leave record but keep dues unchanged.
-  function getLeaveThreshold(rider) {
-    return rider && rider.sessions && rider.sessions.length >= 2 ? 5 : 3;
-  }
-
-  function getRiderLeaveDaysInWeek(riderKey, monday) {
-    let count = 0;
-    getWeekDays(monday).forEach(d => {
-      const ds = toDateStr(d);
-      if (data[ds] && data[ds].leave && data[ds].leave[riderKey]) count++;
+  function getLeaveThreshold(rider){return rider&&rider.sessions&&rider.sessions.length>=2?5:3;}
+  function getRiderLeaveDaysInWeek(riderKey,monday){let count=0;getWeekDays(monday).forEach(d=>{const ds=toDateStr(d);if(data[ds]&&data[ds].leave&&data[ds].leave[riderKey])count++;});return count;}
+  function getRiderLeaveSessionsInWeek(riderKey,monday,rider){
+    let count=0;
+    getWeekDays(monday).forEach(d=>{
+      const ds=toDateStr(d),lv=data[ds]&&data[ds].leave&&data[ds].leave[riderKey];
+      if(!lv)return;
+      if(rider.sessions.includes('morning')&&lv.morning)count++;
+      if(rider.sessions.includes('evening')&&lv.evening)count++;
     });
     return count;
   }
-
-  // Count total leave sessions (morning + evening) for a rider in a week
-  function getRiderLeaveSessionsInWeek(riderKey, monday, rider) {
-    let count = 0;
-    getWeekDays(monday).forEach(d => {
-      const ds = toDateStr(d);
-      const lv = data[ds] && data[ds].leave && data[ds].leave[riderKey];
-      if (!lv) return;
-      if (rider.sessions.includes('morning') && lv.morning) count++;
-      if (rider.sessions.includes('evening') && lv.evening) count++;
-    });
-    return count;
-  }
-
-  // Returns Set of dateStr strings where rider has any leave session this week
-  function getRiderLeaveSetForWeek(riderKey, monday) {
-    const s = new Set();
-    getWeekDays(monday).forEach(d => {
-      const ds = toDateStr(d);
-      const lv = data[ds] && data[ds].leave && data[ds].leave[riderKey];
-      if (lv && (lv.morning || lv.evening)) s.add(ds);
-    });
+  function getRiderLeaveSetForWeek(riderKey,monday){
+    const s=new Set();
+    getWeekDays(monday).forEach(d=>{const ds=toDateStr(d),lv=data[ds]&&data[ds].leave&&data[ds].leave[riderKey];if(lv&&(lv.morning||lv.evening))s.add(ds);});
     return s;
   }
-
-  // Returns map of dateStr -> { morning, evening } for pending leave
-  function getRiderLeaveSessionMapForWeek(riderKey, monday, rider) {
-    const map = {};
-    getWeekDays(monday).forEach(d => {
-      const ds = toDateStr(d);
-      const lv = data[ds] && data[ds].leave && data[ds].leave[riderKey];
-      map[ds] = {
-        morning: rider.sessions.includes('morning') ? !!(lv && lv.morning) : false,
-        evening: rider.sessions.includes('evening') ? !!(lv && lv.evening) : false,
-      };
+  function getRiderLeaveSessionMapForWeek(riderKey,monday,rider){
+    const map={};
+    getWeekDays(monday).forEach(d=>{
+      const ds=toDateStr(d),lv=data[ds]&&data[ds].leave&&data[ds].leave[riderKey];
+      map[ds]={morning:rider.sessions.includes('morning')?!!(lv&&lv.morning):false,evening:rider.sessions.includes('evening')?!!(lv&&lv.evening):false};
     });
     return map;
   }
 
-  // Apply / remove leave for a rider on specific dates — only their enrolled sessions
-  function applyLeaveToData(riderKey, leaveMap, rider) {
-    // leaveMap: { dateStr: { morning: bool, evening: bool } }
-    // Count total leave sessions being applied so we know if dues should adjust
-    let totalLeaveSessions = 0;
-    Object.values(leaveMap).forEach(s => {
-      if (rider.sessions.includes('morning') && s.morning) totalLeaveSessions++;
-      if (rider.sessions.includes('evening') && s.evening) totalLeaveSessions++;
-    });
-    const threshold = getLeaveThreshold(rider);
-    const adjustDues = totalLeaveSessions >= threshold;
-
-    const riderStart = rider.startDate ? parseDate(rider.startDate) : new Date(2000,0,1);
-    Object.entries(leaveMap).forEach(([ds, sessions]) => {
-      // Skip days before the rider's carpool start date — no DB entry should exist for them
-      if (parseDate(ds) < riderStart) return;
-      if (!data[ds]) data[ds] = {morning:{}, evening:{}};
-      if (!data[ds].morning) data[ds].morning = {};
-      if (!data[ds].evening) data[ds].evening = {};
-      const hasAnyLeave = !!(sessions.morning || sessions.evening);      if (hasAnyLeave) {
-        if (!data[ds].leave) data[ds].leave = {};
-        data[ds].leave[riderKey] = { morning: !!sessions.morning, evening: !!sessions.evening };
-      } else if (data[ds].leave) {
-        // No leave for this day → don't leave an empty record behind
-        delete data[ds].leave[riderKey];
-        if (!Object.keys(data[ds].leave).length) delete data[ds].leave;
-      }
-      // Only mark absent (affecting dues) when total leave sessions >= threshold
-      // With fewer sessions, save the leave record but keep rider marked present
-      if (rider.sessions.includes('morning')) data[ds].morning[riderKey] = adjustDues ? !sessions.morning : true;
-      if (rider.sessions.includes('evening')) data[ds].evening[riderKey] = adjustDues ? !sessions.evening : true;
+  function applyLeaveToData(riderKey,leaveMap,rider){
+    let totalLeaveSessions=0;
+    Object.values(leaveMap).forEach(s=>{if(rider.sessions.includes('morning')&&s.morning)totalLeaveSessions++;if(rider.sessions.includes('evening')&&s.evening)totalLeaveSessions++;});
+    const threshold=getLeaveThreshold(rider),adjustDues=totalLeaveSessions>=threshold;
+    const riderStart=rider.startDate?parseDate(rider.startDate):new Date(2000,0,1);
+    Object.entries(leaveMap).forEach(([ds,sessions])=>{
+      if(parseDate(ds)<riderStart)return;
+      if(!data[ds])data[ds]={morning:{},evening:{}};
+      if(!data[ds].morning)data[ds].morning={};if(!data[ds].evening)data[ds].evening={};
+      const hasAnyLeave=!!(sessions.morning||sessions.evening);
+      if(hasAnyLeave){if(!data[ds].leave)data[ds].leave={};data[ds].leave[riderKey]={morning:!!sessions.morning,evening:!!sessions.evening};}
+      else if(data[ds].leave){delete data[ds].leave[riderKey];if(!Object.keys(data[ds].leave).length)delete data[ds].leave;}
+      if(rider.sessions.includes('morning'))data[ds].morning[riderKey]=adjustDues?!sessions.morning:true;
+      if(rider.sessions.includes('evening'))data[ds].evening[riderKey]=adjustDues?!sessions.evening:true;
     });
   }
 
-  function clearLeaveFromData(riderKey, leaveDates, rider) {
-    leaveDates.forEach(ds => {
-      if (!data[ds]) return;
-      if (data[ds].leave) {
-        delete data[ds].leave[riderKey];
-        if (!Object.keys(data[ds].leave).length) delete data[ds].leave;
-      }
-      // Restore presence for their enrolled sessions
-      if (rider.sessions.includes('morning') && data[ds].morning) data[ds].morning[riderKey] = true;
-      if (rider.sessions.includes('evening') && data[ds].evening) data[ds].evening[riderKey] = true;
+  function clearLeaveFromData(riderKey,leaveDates,rider){
+    leaveDates.forEach(ds=>{
+      if(!data[ds])return;
+      if(data[ds].leave){delete data[ds].leave[riderKey];if(!Object.keys(data[ds].leave).length)delete data[ds].leave;}
+      if(rider.sessions.includes('morning')&&data[ds].morning)data[ds].morning[riderKey]=true;
+      if(rider.sessions.includes('evening')&&data[ds].evening)data[ds].evening[riderKey]=true;
     });
+  }
+
+  // ── Adjustment helpers ────────────────────────────────
+  // Stored at carpoolAdjustments/{riderName}/{adjId}
+  // { amount, sourceWeekKey, sourceWeekLabel, reason, direction:'owe'|'credit', resolved:bool, resolvedInWeekKey }
+
+  function getPendingAdjustments(riderName){
+    const all=adjustments[riderName]||{};
+    return Object.entries(all).filter(([,a])=>!a.resolved).map(([id,a])=>({id,...a}));
+  }
+
+  function getAdjustmentsForWeek(riderName,weekKey){
+    const all=adjustments[riderName]||{};
+    return Object.entries(all).filter(([,a])=>a.sourceWeekKey===weekKey).map(([id,a])=>({id,...a}));
+  }
+
+  // Compute adjustment for all OTHER settled riders when leave is applied/cancelled for a week
+  // Returns array of { riderName, riderKey, oldAmount, newAmount, diff }
+  function computeAffectedRiders(monday,excludeRiderKey){
+    const wk=getWeekRange(monday);
+    const affected=[];
+    cfg.riders.forEach(r=>{
+      if(r.key===excludeRiderKey)return;
+      const sk=`${r.name}_${wk.key}`;
+      if(!isSettled(sk))return;
+      const paidAmount=getSettledAmount(sk);
+      if(paidAmount===null)return; // legacy settlement — no snapshot, skip
+      // Recalculate what they should have paid given new leave state
+      let newAmount=0;
+      let cachedWeekKey=null,weekLeaveCache=null;
+      getWeekDays(monday).forEach(d=>{
+        const ds=toDateStr(d),date=parseDate(ds);
+        const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
+        const wkR=getWeekRange(date);
+        if(wkR.key!==cachedWeekKey){
+          cachedWeekKey=wkR.key;weekLeaveCache={};
+          cfg.riders.forEach(ri=>{const sc=getRiderLeaveSessionsInWeek(ri.key,wkR.monday,ri);weekLeaveCache[ri.key]={adjustDues:sc>=getLeaveThreshold(ri)};});
+        }
+        newAmount+=(calculateDayDue(entry,date,weekLeaveCache)[r.key]||0);
+      });
+      newAmount=Math.round(newAmount);
+      const diff=newAmount-paidAmount;
+      if(Math.abs(diff)>=1)affected.push({riderName:r.name,riderKey:r.key,oldAmount:paidAmount,newAmount,diff});
+    });
+    return affected;
+  }
+
+  // Write adjustments for affected riders; find the next unsettled week to roll into
+  function writeAdjustments(affected,sourceWk,triggerRiderName){
+    if(!affected.length)return;
+    const now=Date.now();
+    affected.forEach(({riderName,diff,newAmount,oldAmount},i)=>{
+      const direction=diff>0?'owe':'credit';
+      const absAmt=Math.abs(diff);
+      const adjId=`adj_${now+i}`;
+      // Find the next unsettled week for this rider to roll into
+      const allWks=getAllWeekKeys();
+      const nextUnsettledWk=allWks.slice().reverse().find(w=>{
+        if(!weekIsOver(w.monday))return false;
+        if(w.key===sourceWk.key)return false;
+        return!isSettled(`${riderName}_${w.key}`);
+      });
+      if(!adjustments[riderName])adjustments[riderName]={};
+      adjustments[riderName][adjId]={
+        amount:absAmt,
+        direction,
+        sourceWeekKey:sourceWk.key,
+        sourceWeekLabel:sourceWk.label,
+        reason:`${triggerRiderName} applied leave adjustment`,
+        resolved:false,
+        resolvedInWeekKey:nextUnsettledWk?nextUnsettledWk.key:null,
+        createdAt:now+i,
+      };
+    });
+    saveAdjustments();
+  }
+
+  // Clear unresolved adjustments that originated from a specific week for a rider
+  function clearAdjustmentsFromWeek(riderName,weekKey){
+    const all=adjustments[riderName]||{};
+    let changed=false;
+    Object.entries(all).forEach(([id,a])=>{if(a.sourceWeekKey===weekKey&&!a.resolved){delete adjustments[riderName][id];changed=true;}});
+    if(changed)saveAdjustments();
+  }
+
+  // Get total pending adjustment amount for a rider (to add to their outstanding)
+  function getRiderPendingAdjTotal(riderName){
+    return getPendingAdjustments(riderName).reduce((sum,a)=>{
+      return sum+(a.direction==='owe'?a.amount:-a.amount);
+    },0);
   }
 
   // ── Leave modal state ─────────────────────────────────
-  // pendingLeave: { dateStr: { morning: bool, evening: bool } }
-// pendingLeaveByWeek stores unsaved selections per week key so navigating
-  // ‹ › and back doesn't discard changes the user hasn't tapped Apply on yet.
-  let leaveCtx = { rider: null, monday: null, pendingLeave: {}, pendingLeaveByWeek: {} };
+  let leaveCtx={rider:null,monday:null,pendingLeave:{},pendingLeaveByWeek:{}};
 
-  function openLeaveModalForDay(rider, dateObj) {
-    const monday = getMonday(dateObj);
-    leaveCtx.rider = rider;
-    leaveCtx.monday = monday;
-    leaveCtx.pendingLeaveByWeek = {}; // fresh session — clear any stale unsaved state
-    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(rider.key, monday, rider);
-    leaveCtx.pendingLeaveByWeek[toDateStr(monday)] = leaveCtx.pendingLeave;
-    renderLeaveModal();
-    document.getElementById('leaveOverlay').classList.add('open');
+  function openLeaveModalForDay(rider,dateObj){
+    const monday=getMonday(dateObj);
+    leaveCtx.rider=rider;leaveCtx.monday=monday;
+    leaveCtx.pendingLeaveByWeek={};
+    leaveCtx.pendingLeave=getRiderLeaveSessionMapForWeek(rider.key,monday,rider);
+    leaveCtx.pendingLeaveByWeek[toDateStr(monday)]=leaveCtx.pendingLeave;
+    renderLeaveModal();document.getElementById('leaveOverlay').classList.add('open');
   }
 
-  function openLeaveModal(rider) {
-    const monday = getMonday(realToday);
-    leaveCtx.rider = rider;
-    leaveCtx.monday = monday;
-    leaveCtx.pendingLeaveByWeek = {}; // fresh session — clear any stale unsaved state
-    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(rider.key, monday, rider);
-    leaveCtx.pendingLeaveByWeek[toDateStr(monday)] = leaveCtx.pendingLeave;
-    renderLeaveModal();
-    document.getElementById('leaveOverlay').classList.add('open');
+  function openLeaveModal(rider){
+    const monday=getMonday(realToday);
+    leaveCtx.rider=rider;leaveCtx.monday=monday;
+    leaveCtx.pendingLeaveByWeek={};
+    leaveCtx.pendingLeave=getRiderLeaveSessionMapForWeek(rider.key,monday,rider);
+    leaveCtx.pendingLeaveByWeek[toDateStr(monday)]=leaveCtx.pendingLeave;
+    renderLeaveModal();document.getElementById('leaveOverlay').classList.add('open');
   }
 
+  function getMaxLeaveMonday(){const m=getMonday(realToday);m.setDate(m.getDate()+4*7);return m;}
+  function closeLeaveModal(){document.getElementById('leaveOverlay').classList.remove('open');}
 
-  // Max week users can navigate to (4 weeks ahead)
-  function getMaxLeaveMonday() {
-    const m = getMonday(realToday);
-    m.setDate(m.getDate() + 4 * 7);
-    return m;
-  }
+  function renderLeaveModal(){
+    const{rider,monday,pendingLeave}=leaveCtx;
+    const days=getWeekDays(monday);
+    const currentWeekMonday=getMonday(realToday);
+    const maxMonday=getMaxLeaveMonday();
+    const isCurrentWeek=toDateStr(monday)===toDateStr(currentWeekMonday);
+    const isFutureWeek=monday>currentWeekMonday;
+    const weekLabel=isCurrentWeek?`This Week (${fmtDateShort(days[0])} – ${fmtDateShort(days[4])})`:`${fmtDateShort(days[0])} – ${fmtDateShort(days[4])}`;
+    document.getElementById('leaveWeekLabel').textContent=weekLabel;
 
-  function closeLeaveModal() {
-    document.getElementById('leaveOverlay').classList.remove('open');
-  }
+    const prevMonday=new Date(monday);prevMonday.setDate(prevMonday.getDate()-7);
+    const nextMonday=new Date(monday);nextMonday.setDate(nextMonday.getDate()+7);
+    const riderStart=rider.startDate?parseDate(rider.startDate):new Date(2000,0,1);
+    const prevFriday=new Date(prevMonday);prevFriday.setDate(prevFriday.getDate()+4);
+    document.getElementById('leaveWeekPrev').disabled=prevFriday<riderStart;
+    document.getElementById('leaveWeekNext').disabled=nextMonday>maxMonday;
 
-  function renderLeaveModal() {
-    const { rider, monday, pendingLeave } = leaveCtx;
-    const days = getWeekDays(monday);
-    const currentWeekMonday = getMonday(realToday);
-    const maxMonday = getMaxLeaveMonday();
-    const isCurrentWeek = toDateStr(monday) === toDateStr(currentWeekMonday);
-    const isFutureWeek = monday > currentWeekMonday;
-    const weekLabel = isCurrentWeek
-      ? `This Week (${fmtDateShort(days[0])} – ${fmtDateShort(days[4])})`
-      : `${fmtDateShort(days[0])} – ${fmtDateShort(days[4])}`;
-    document.getElementById('leaveWeekLabel').textContent = weekLabel;
-
-    const prevMonday = new Date(monday); prevMonday.setDate(prevMonday.getDate() - 7);
-    const nextMonday = new Date(monday); nextMonday.setDate(nextMonday.getDate() + 7);
-    const riderStart = rider.startDate ? parseDate(rider.startDate) : new Date(2000, 0, 1);
-    const riderStartMonday = getMonday(riderStart);
-    // Only allow stepping back to a week whose Friday is on/after the rider's start date
-    const prevFriday = new Date(prevMonday); prevFriday.setDate(prevFriday.getDate() + 4);
-    document.getElementById('leaveWeekPrev').disabled = prevFriday < riderStart;
-    document.getElementById('leaveWeekNext').disabled = nextMonday > maxMonday;
-
-    const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri'];
-    const grid = document.getElementById('leaveDaysGrid');
-    grid.innerHTML = '';
-    days.forEach((d, i) => {
-      const ds = toDateStr(d);
-      const isFutureDay = !isFutureWeek && d > realToday;
-      const isBeforeStart = d < riderStart;
-      const sess = pendingLeave[ds] || { morning: false, evening: false };
-      const anyLeave = sess.morning || sess.evening;
-
-      const card = document.createElement('div');
-      card.className = `leave-day-btn${anyLeave ? ' on-leave' : ''}${(isFutureDay || isBeforeStart) ? ' future' : ''}`;
-
-      const nameEl = document.createElement('span');
-      nameEl.className = 'ld-name'; nameEl.textContent = DAY_NAMES[i];
-      const dateEl = document.createElement('span');
-      dateEl.className = 'ld-date'; dateEl.textContent = d.getDate();
-
-      const sessRow = document.createElement('div');
-      sessRow.className = 'sess-btns';
-
-      // Check if captain is absent for each session on this day — block leave if so
-      const captainMorningAbsent = data[ds] && data[ds].morning && data[ds].morning.captain === false;
-      const captainEveningAbsent = data[ds] && data[ds].evening && data[ds].evening.captain === false;
-
-      if (rider.sessions.includes('morning')) {
-        const mb = document.createElement('button');
-        const capOff = captainMorningAbsent;
-        mb.className = `sess-btn${sess.morning ? ' active' : ''}${capOff ? ' captain-off' : ''}`;
-        mb.textContent = '\u{1F305}';
-        mb.disabled = isFutureDay || isBeforeStart || capOff;
-        mb.title = isBeforeStart ? 'Before your carpool start date' : (capOff ? 'No trip — captain absent' : 'Morning');
-        if (!capOff && !isBeforeStart) {
-          mb.addEventListener('click', () => {
-            pendingLeave[ds] = { ...pendingLeave[ds], morning: !pendingLeave[ds].morning };
-            renderLeaveModal();
-          });
-        }
+    const DAY_NAMES=['Mon','Tue','Wed','Thu','Fri'];
+    const grid=document.getElementById('leaveDaysGrid');grid.innerHTML='';
+    days.forEach((d,i)=>{
+      const ds=toDateStr(d);
+      const isFutureDay=!isFutureWeek&&d>realToday;
+      const isBeforeStart=d<riderStart;
+      const sess=pendingLeave[ds]||{morning:false,evening:false};
+      const anyLeave=sess.morning||sess.evening;
+      const card=document.createElement('div');
+      card.className=`leave-day-btn${anyLeave?' on-leave':''}${(isFutureDay||isBeforeStart)?' future':''}`;
+      const nameEl=document.createElement('span');nameEl.className='ld-name';nameEl.textContent=DAY_NAMES[i];
+      const dateEl=document.createElement('span');dateEl.className='ld-date';dateEl.textContent=d.getDate();
+      const sessRow=document.createElement('div');sessRow.className='sess-btns';
+      const capMornOff=data[ds]&&data[ds].morning&&data[ds].morning.captain===false;
+      const capEveOff=data[ds]&&data[ds].evening&&data[ds].evening.captain===false;
+      if(rider.sessions.includes('morning')){
+        const mb=document.createElement('button');
+        const capOff=capMornOff;
+        mb.className=`sess-btn${sess.morning?' active':''}${capOff?' captain-off':''}`;
+        mb.textContent='\u{1F305}';mb.disabled=isFutureDay||isBeforeStart||capOff;
+        mb.title=isBeforeStart?'Before your carpool start date':(capOff?'No trip — captain absent':'Morning');
+        if(!capOff&&!isBeforeStart)mb.addEventListener('click',()=>{pendingLeave[ds]={...pendingLeave[ds],morning:!pendingLeave[ds].morning};renderLeaveModal();});
         sessRow.appendChild(mb);
       }
-      if (rider.sessions.includes('evening')) {
-        const eb = document.createElement('button');
-        const capOff = captainEveningAbsent;
-        eb.className = `sess-btn${sess.evening ? ' active' : ''}${capOff ? ' captain-off' : ''}`;
-        eb.textContent = '\u{1F306}';
-        eb.disabled = isFutureDay || isBeforeStart || capOff;
-        eb.title = isBeforeStart ? 'Before your carpool start date' : (capOff ? 'No trip — captain absent' : 'Evening');
-        if (!capOff && !isBeforeStart) {
-          eb.addEventListener('click', () => {
-            pendingLeave[ds] = { ...pendingLeave[ds], evening: !pendingLeave[ds].evening };
-            renderLeaveModal();
-          });
-        }
+      if(rider.sessions.includes('evening')){
+        const eb=document.createElement('button');
+        const capOff=capEveOff;
+        eb.className=`sess-btn${sess.evening?' active':''}${capOff?' captain-off':''}`;
+        eb.textContent='\u{1F306}';eb.disabled=isFutureDay||isBeforeStart||capOff;
+        eb.title=isBeforeStart?'Before your carpool start date':(capOff?'No trip — captain absent':'Evening');
+        if(!capOff&&!isBeforeStart)eb.addEventListener('click',()=>{pendingLeave[ds]={...pendingLeave[ds],evening:!pendingLeave[ds].evening};renderLeaveModal();});
         sessRow.appendChild(eb);
       }
-
-      card.appendChild(nameEl);
-      card.appendChild(dateEl);
-      card.appendChild(sessRow);
-      grid.appendChild(card);
+      card.appendChild(nameEl);card.appendChild(dateEl);card.appendChild(sessRow);grid.appendChild(card);
     });
 
-    let count = 0;
-    const maxSessions = rider.sessions.length * 5;
-    Object.values(pendingLeave).forEach(s => {
-      if (s.morning) count++;
-      if (s.evening) count++;
-    });
-
-    const threshold = getLeaveThreshold(rider);
-
-    // Update the rule note to reflect this rider's actual threshold
-    const ruleNote = document.getElementById('leaveRuleNote');
-    if (ruleNote) {
-      ruleNote.innerHTML = `💡 <strong>Rule:</strong> You can save leave for any number of sessions. Dues are only adjusted when you mark <strong>${threshold} or more sessions</strong> absent in a week.`;
-    }
-
-    const countEl = document.getElementById('leaveCountVal');
-    countEl.textContent = `${count} / ${maxSessions}`;
-    const valid = count >= threshold;
-    countEl.className = 'leave-count-val ' + (count === 0 ? 'err' : count < threshold ? 'warn' : 'ok');
-
-    const applyBtn = document.getElementById('leaveApplyBtn');
-    applyBtn.disabled = count === 0;
-    if (count === 0) applyBtn.textContent = 'Apply Leave';
-    else if (!valid) applyBtn.textContent = `Save Leave — no dues adjustment (${threshold - count} more to adjust)`;
-    else applyBtn.textContent = `Apply Leave (${count} session${count > 1 ? 's' : ''})`;
-    applyBtn.style.background = count === 0 ? 'var(--text3)' : valid ? 'var(--red)' : 'var(--orange)';
-
-    const existingLeave = getRiderLeaveSetForWeek(rider.key, monday);
-    const cancelBtn = document.getElementById('leaveCancelLeaveBtn');
-    cancelBtn.style.display = existingLeave.size > 0 ? '' : 'none';
+    let count=0;
+    const maxSessions=rider.sessions.length*5;
+    Object.values(pendingLeave).forEach(s=>{if(s.morning)count++;if(s.evening)count++;});
+    const threshold=getLeaveThreshold(rider);
+    const ruleNote=document.getElementById('leaveRuleNote');
+    if(ruleNote)ruleNote.innerHTML=`💡 <strong>Rule:</strong> You can save leave for any number of sessions. Dues are only adjusted when you mark <strong>${threshold} or more sessions</strong> absent in a week.`;
+    const countEl=document.getElementById('leaveCountVal');
+    countEl.textContent=`${count} / ${maxSessions}`;
+    const valid=count>=threshold;
+    countEl.className='leave-count-val '+(count===0?'err':count<threshold?'warn':'ok');
+    const applyBtn=document.getElementById('leaveApplyBtn');
+    applyBtn.disabled=count===0;
+    if(count===0)applyBtn.textContent='Apply Leave';
+    else if(!valid)applyBtn.textContent=`Save Leave — no dues adjustment (${threshold-count} more to adjust)`;
+    else applyBtn.textContent=`Apply Leave (${count} session${count>1?'s':''})`;
+    applyBtn.style.background=count===0?'var(--text3)':valid?'var(--red)':'var(--orange)';
+    const existingLeave=getRiderLeaveSetForWeek(rider.key,monday);
+    document.getElementById('leaveCancelLeaveBtn').style.display=existingLeave.size>0?'':'none';
   }
 
-
-  function navigateLeaveWeek(newMonday) {
-    // Save current week's pending state before navigating away
-    leaveCtx.pendingLeaveByWeek[toDateStr(leaveCtx.monday)] = leaveCtx.pendingLeave;
-    leaveCtx.monday = newMonday;
-    const key = toDateStr(newMonday);
-    // Restore previously unsaved state if user navigated here before, else seed from DB
-    leaveCtx.pendingLeave = leaveCtx.pendingLeaveByWeek[key]
-      || getRiderLeaveSessionMapForWeek(leaveCtx.rider.key, newMonday, leaveCtx.rider);
-    leaveCtx.pendingLeaveByWeek[key] = leaveCtx.pendingLeave;
+  function navigateLeaveWeek(newMonday){
+    leaveCtx.pendingLeaveByWeek[toDateStr(leaveCtx.monday)]=leaveCtx.pendingLeave;
+    leaveCtx.monday=newMonday;
+    const key=toDateStr(newMonday);
+    leaveCtx.pendingLeave=leaveCtx.pendingLeaveByWeek[key]||getRiderLeaveSessionMapForWeek(leaveCtx.rider.key,newMonday,leaveCtx.rider);
+    leaveCtx.pendingLeaveByWeek[key]=leaveCtx.pendingLeave;
     renderLeaveModal();
   }
-  document.getElementById('leaveWeekPrev').addEventListener('click', () => {
-    const prev = new Date(leaveCtx.monday); prev.setDate(prev.getDate() - 7);
-    navigateLeaveWeek(prev);
-  });
-  document.getElementById('leaveWeekNext').addEventListener('click', () => {
-    const next = new Date(leaveCtx.monday); next.setDate(next.getDate() + 7);
-    navigateLeaveWeek(next);
-  });
+  document.getElementById('leaveWeekPrev').addEventListener('click',()=>{const prev=new Date(leaveCtx.monday);prev.setDate(prev.getDate()-7);navigateLeaveWeek(prev);});
+  document.getElementById('leaveWeekNext').addEventListener('click',()=>{const next=new Date(leaveCtx.monday);next.setDate(next.getDate()+7);navigateLeaveWeek(next);});
 
-  document.getElementById('leaveCancelLeaveBtn').addEventListener('click', () => {
-    const { rider, monday } = leaveCtx;
-    const allDays = getWeekDays(monday).map(toDateStr);
-    clearLeaveFromData(rider.key, allDays, rider);
-    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(rider.key, monday, rider);
-    saveData();
-    renderAll();
-    renderLeaveModal();
+  document.getElementById('leaveCancelLeaveBtn').addEventListener('click',()=>{
+    const{rider,monday}=leaveCtx;
+    const allDays=getWeekDays(monday).map(toDateStr);
+    const wk=getWeekRange(monday);
+    // Before clearing, compute affected riders (leave is being removed — splits change back)
+    const affected=computeAffectedRiders(monday,rider.key);
+    clearLeaveFromData(rider.key,allDays,rider);
+    // Clear any existing adjustments from this week for affected riders, then rewrite
+    affected.forEach(a=>clearAdjustmentsFromWeek(a.riderName,wk.key));
+    writeAdjustments(affected,wk,rider.name);
+    leaveCtx.pendingLeave=getRiderLeaveSessionMapForWeek(rider.key,monday,rider);
+    saveData();renderAll();renderLeaveModal();
     showToast('✓ Leave cancelled — dues restored');
   });
 
-  document.getElementById('leaveApplyBtn').addEventListener('click', () => {
-    const { rider, monday, pendingLeave } = leaveCtx;
-    // Count total sessions selected
-    let count = 0;
-    Object.values(pendingLeave).forEach(s => { if (s.morning) count++; if (s.evening) count++; });
-    // Clear all leave for this week first, then apply selected sessions
-    const allDays = getWeekDays(monday).map(toDateStr);
-    clearLeaveFromData(rider.key, allDays, rider);
-    applyLeaveToData(rider.key, pendingLeave, rider);
-    saveData();
-    renderAll();
-    closeLeaveModal();
-    const wk = getWeekRange(monday);
-    const sk = `${rider.name}_${wk.key}`;
-    const alreadySettled = !!settlements[sk];
-    const threshold = getLeaveThreshold(rider);
-    const duesAdjusted = count >= threshold;
-    showToast(duesAdjusted
-      ? `🏖 ${count}-session leave saved — dues adjusted${alreadySettled ? ' (recalculated)' : ''}`
-      : `🏖 ${count}-session leave saved — dues unchanged (need ${threshold - count} more to adjust)`);
+  document.getElementById('leaveApplyBtn').addEventListener('click',()=>{
+    const{rider,monday,pendingLeave}=leaveCtx;
+    let count=0;
+    Object.values(pendingLeave).forEach(s=>{if(s.morning)count++;if(s.evening)count++;});
+    const allDays=getWeekDays(monday).map(toDateStr);
+    clearLeaveFromData(rider.key,allDays,rider);
+    applyLeaveToData(rider.key,pendingLeave,rider);
+
+    const wk=getWeekRange(monday);
+    const threshold=getLeaveThreshold(rider);
+    const duesAdjusted=count>=threshold;
+
+    // Detect affected settled riders and write adjustments
+    const affected=computeAffectedRiders(monday,rider.key);
+    affected.forEach(a=>clearAdjustmentsFromWeek(a.riderName,wk.key));
+    writeAdjustments(affected,wk,rider.name);
+
+    saveData();renderAll();closeLeaveModal();
+
+    const alreadySettled=isSettled(`${rider.name}_${wk.key}`);
+    let toastMsg=duesAdjusted
+      ?`🏖 ${count}-session leave saved — dues adjusted${alreadySettled?' (recalculated)':''}`
+      :`🏖 ${count}-session leave saved — dues unchanged (need ${threshold-count} more to adjust)`;
+    if(affected.length){
+      const names=affected.map(a=>a.riderName).join(', ');
+      toastMsg+=` · ⚠ ${names} settlement adjusted`;
+    }
+    showToast(toastMsg,4000);
   });
 
-  document.getElementById('leaveCancel').addEventListener('click', closeLeaveModal);
-  document.getElementById('leaveOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLeaveModal(); });
+  document.getElementById('leaveCancel').addEventListener('click',closeLeaveModal);
+  document.getElementById('leaveOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLeaveModal();});
 
   // ── GPay ─────────────────────────────────────────────
   let gpayPendingPerson=null;
@@ -1124,22 +1025,16 @@
     cfg.riders.forEach(r=>{grouped[r.name]={};});
     const earliestStart=cfg.riders.reduce((min,r)=>{const sd=r.startDate?parseDate(r.startDate):now;return sd<min?sd:min;},now);
     const cursor=new Date(earliestStart);cursor.setHours(0,0,0,0);
-    // Cache leave threshold results per rider per week to avoid O(n²) rescanning in calculateDayDue
-    let cachedWeekKey=null, weekLeaveCache=null;
+    let cachedWeekKey=null,weekLeaveCache=null;
     while(cursor<=now){
       const day=cursor.getDay();
       if(day!==0&&day!==6){
         const ds=toDateStr(new Date(cursor)),date=parseDate(ds);
         const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
-        // Recompute weekLeaveCache only when the week changes
         const wk=getWeekRange(date);
         if(wk.key!==cachedWeekKey){
-          cachedWeekKey=wk.key;
-          weekLeaveCache={};
-          cfg.riders.forEach(r=>{
-            const sessCount=getRiderLeaveSessionsInWeek(r.key,wk.monday,r);
-            weekLeaveCache[r.key]={adjustDues:sessCount>=getLeaveThreshold(r)};
-          });
+          cachedWeekKey=wk.key;weekLeaveCache={};
+          cfg.riders.forEach(r=>{const sc=getRiderLeaveSessionsInWeek(r.key,wk.monday,r);weekLeaveCache[r.key]={adjustDues:sc>=getLeaveThreshold(r)};});
         }
         const dues=calculateDayDue(entry,date,weekLeaveCache);
         cfg.riders.forEach(r=>{
@@ -1152,74 +1047,36 @@
     return grouped;
   }
 
-  // Per-week contribution breakdown — what each person (captain included) put toward the week's fuel cost.
-  // Captain's contribution = their own head share per session (cost / total_travellers including captain).
-  // Passenger contribution  = their head share per session (same per-head amount).
-  // Sum of all contributions for a day = morning cost (if morning ran) + evening cost (if evening ran).
-  // Uses the SAME effective-leave logic as calculateDayDue: a rider is absent only if their leave is
-  // recorded for that session AND their week's session count meets their threshold.
-  // Returns array of { key, name, color, role, amount } sorted by amount desc.
   function getWeekContributions(monday){
     const totals={captain:0};
     cfg.riders.forEach(r=>{totals[r.key]=0;});
-
-    // Precompute effective leave for each rider for this week (so we don't recompute per day)
     const riderWeekLeave={};
-    cfg.riders.forEach(r=>{
-      const sessCount=getRiderLeaveSessionsInWeek(r.key,monday,r);
-      riderWeekLeave[r.key]={adjustDues:sessCount>=getLeaveThreshold(r)};
-    });
-
+    cfg.riders.forEach(r=>{const sc=getRiderLeaveSessionsInWeek(r.key,monday,r);riderWeekLeave[r.key]={adjustDues:sc>=getLeaveThreshold(r)};});
     getWeekDays(monday).forEach(d=>{
-      const ds=toDateStr(d);
-      const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
-
-      // Replicate the active-rider filter from calculateDayDue so contributions match dues exactly
+      const ds=toDateStr(d),entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
       const activeKeys=new Set(cfg.riders.filter(r=>{
         const sd=r.startDate?parseDate(r.startDate):new Date(2000,0,1);
         if(d<sd)return false;
-        if(r.pausedFrom&&r.pausedUntil){
-          const pFrom=parseDate(r.pausedFrom),pUntil=parseDate(r.pausedUntil);
-          if(d>=pFrom&&d<=pUntil)return false;
-        }
+        if(r.pausedFrom&&r.pausedUntil){const pFrom=parseDate(r.pausedFrom),pUntil=parseDate(r.pausedUntil);if(d>=pFrom&&d<=pUntil)return false;}
         return true;
       }).map(r=>r.key));
-
       [['morning',cfg.morningCost],['evening',cfg.eveningCost]].forEach(([sess,cost])=>{
-        // Captain didn't drive → no trip → no contributions for this session
         if(!(entry[sess]&&entry[sess].captain!==false))return;
-
-        // Riders present this session: enrolled, active, and not on effective leave (leave + threshold met)
         const presentRiders=cfg.riders.filter(r=>{
-          if(!r.sessions.includes(sess))return false;
-          if(!activeKeys.has(r.key))return false;
+          if(!r.sessions.includes(sess))return false;if(!activeKeys.has(r.key))return false;
           const lv=data[ds]&&data[ds].leave&&data[ds].leave[r.key];
-          const onEffectiveLeave=riderWeekLeave[r.key].adjustDues&&lv&&lv[sess];
-          return !onEffectiveLeave;
+          return!(riderWeekLeave[r.key].adjustDues&&lv&&lv[sess]);
         });
-
-       const totalTravellers=presentRiders.length+1; // +1 for captain
-        if(totalTravellers<2){
-          // Captain drove alone this session — full session cost falls on captain.
-          // This only happens when all enrolled passengers have approved leave (threshold met).
-          // We still record it in captain's contribution so the weekly total always = fuel consumed.
-          totals.captain+=cost;
-          return;
-        }
-
+        const totalTravellers=presentRiders.length+1;
+        if(totalTravellers<2){totals.captain+=cost;return;}
         const headShare=cost/totalTravellers;
-        // Each present rider contributes their head share
         presentRiders.forEach(r=>{totals[r.key]+=headShare;});
-        // Captain contributes their own head share (NOT cost - share, which is what passengers pay them)
         totals.captain+=headShare;
       });
     });
-
     const out=[];
     if(totals.captain>0)out.push({key:'captain',name:'Surya (Captain)',color:'#1a1917',role:'captain',amount:totals.captain});
-    cfg.riders.forEach(r=>{
-      if(totals[r.key]>0)out.push({key:r.key,name:r.name,color:r.color,role:'rider',amount:totals[r.key]});
-    });
+    cfg.riders.forEach(r=>{if(totals[r.key]>0)out.push({key:r.key,name:r.name,color:r.color,role:'rider',amount:totals[r.key]});});
     out.sort((a,b)=>b.amount-a.amount);
     return out;
   }
@@ -1236,8 +1093,7 @@
   let renderAll=function(){renderPersonalDashboard();renderAdminDues();if(document.getElementById('tabHistory').classList.contains('active'))renderHistory();};
 
   // ── Admin captain week selector ───────────────────────
-  let _adminDisplayMonday=null;
-  let _riderLeaveStripMonday=null;
+  let _adminDisplayMonday=null,_riderLeaveStripMonday=null;
   function getAdminDisplayMonday(){if(!_adminDisplayMonday)_adminDisplayMonday=getMonday(realToday);return _adminDisplayMonday;}
   function getRiderLeaveStripMonday(){if(!_riderLeaveStripMonday)_riderLeaveStripMonday=getMonday(realToday);return _riderLeaveStripMonday;}
 
@@ -1254,16 +1110,12 @@
     const DAY_NAMES=['Mon','Tue','Wed','Thu','Fri'];
     let gridHtml='';
     days.forEach((d,i)=>{
-      const ds=toDateStr(d),isFuture=d>realToday;
-      const entry=data[ds]||{};
-      const mAbs=entry.morning&&entry.morning.captain===false;
-      const eAbs=entry.evening&&entry.evening.captain===false;
+      const ds=toDateStr(d),isFuture=d>realToday,entry=data[ds]||{};
+      const mAbs=entry.morning&&entry.morning.captain===false,eAbs=entry.evening&&entry.evening.captain===false;
       const both=mAbs&&eAbs,either=mAbs||eAbs;
       const cls=isFuture?'is-future':both?'absent':either?'absent-partial':'present';
       const sub=both?'M+E absent':mAbs?'Morn off':eAbs?'Eve off':'Present';
-      gridHtml+=`<button class="captain-day-btn ${cls}" data-date="${ds}" ${isFuture?'disabled':''}>
-        <span class="cd-name">${DAY_NAMES[i]}</span><span class="cd-date">${d.getDate()}</span><span class="cd-sub">${sub}</span>
-      </button>`;
+      gridHtml+=`<button class="captain-day-btn ${cls}" data-date="${ds}" ${isFuture?'disabled':''}><span class="cd-name">${DAY_NAMES[i]}</span><span class="cd-date">${d.getDate()}</span><span class="cd-sub">${sub}</span></button>`;
     });
     container.innerHTML=`<div class="card" style="margin-bottom:0">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
@@ -1284,9 +1136,7 @@
         💡 Tap a day to mark morning / evening leave. Passenger costs are waived for absent sessions.
       </div>
     </div>`;
-    container.querySelectorAll('.captain-day-btn:not([disabled])').forEach(btn=>{
-      btn.addEventListener('click',()=>openCaptainSessModal(btn.dataset.date,parseDate(btn.dataset.date)));
-    });
+    container.querySelectorAll('.captain-day-btn:not([disabled])').forEach(btn=>{btn.addEventListener('click',()=>openCaptainSessModal(btn.dataset.date,parseDate(btn.dataset.date)));});
     document.getElementById('captainWeekPrev')?.addEventListener('click',()=>{_adminDisplayMonday=prevMonday;renderCaptainGridForWeek(_adminDisplayMonday);});
     document.getElementById('captainWeekNext')?.addEventListener('click',()=>{if(!canGoNext)return;_adminDisplayMonday=nextMonday;renderCaptainGridForWeek(_adminDisplayMonday);});
   }
@@ -1294,15 +1144,11 @@
   function getCaptainLeaveNotes(weekMonday){
     const notes=[];
     getWeekDays(weekMonday).forEach(d=>{
-      const ds=toDateStr(d),entry=data[ds];
-      if(!entry)return;
-      const mAbs=entry.morning&&entry.morning.captain===false;
-      const eAbs=entry.evening&&entry.evening.captain===false;
+      const ds=toDateStr(d),entry=data[ds];if(!entry)return;
+      const mAbs=entry.morning&&entry.morning.captain===false,eAbs=entry.evening&&entry.evening.captain===false;
       if(!mAbs&&!eAbs)return;
-      const dateLabel=d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
-      if(mAbs&&eAbs)notes.push(`${dateLabel} — both sessions`);
-      else if(mAbs)notes.push(`${dateLabel} — morning`);
-      else notes.push(`${dateLabel} — evening`);
+      const lbl=d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+      if(mAbs&&eAbs)notes.push(`${lbl} — both sessions`);else if(mAbs)notes.push(`${lbl} — morning`);else notes.push(`${lbl} — evening`);
     });
     return notes;
   }
@@ -1330,28 +1176,20 @@
     initDate(dateStr);
     [['morning',morning],['evening',evening]].forEach(([sess,present])=>{
       data[dateStr][sess].captain=present;
-      if (!present) {
-        // Captain absent → no trip → all riders' attendance for this session is moot.
-        // Set every enrolled rider's flag to true (captain absence already waives cost in calculateDayDue),
-        // and zero out any leave intent for this session (the trip didn't happen — there's nothing to take leave from).
-        cfg.riders.forEach(r => {
-          if (r.sessions.includes(sess) && data[dateStr][sess]) data[dateStr][sess][r.key] = true;
-          if (data[dateStr].leave && data[dateStr].leave[r.key]) data[dateStr].leave[r.key][sess] = false;
+      if(!present){
+        cfg.riders.forEach(r=>{
+          if(r.sessions.includes(sess)&&data[dateStr][sess])data[dateStr][sess][r.key]=true;
+          if(data[dateStr].leave&&data[dateStr].leave[r.key])data[dateStr].leave[r.key][sess]=false;
         });
       } else {
-        // Captain present → respect each rider's existing leave intent for this session.
-        // Whether the leave intent actually adjusts dues still depends on the rider's threshold
-        // over the whole week. We recompute that per rider here.
-        cfg.riders.forEach(r => {
-          if (!r.sessions.includes(sess)) return;
-          const monday = getMonday(parseDate(dateStr));
-          const weekLeaveMap = getRiderLeaveSessionMapForWeek(r.key, monday, r);
-          const totalSessionsInWeek = Object.values(weekLeaveMap).reduce((sum, s) => sum + (s.morning?1:0) + (s.evening?1:0), 0);
-          const threshold = getLeaveThreshold(r);
-          const adjustDues = totalSessionsInWeek >= threshold;
-          const hasLeaveThisSession = weekLeaveMap[dateStr] && weekLeaveMap[dateStr][sess];
-          // Attendance flag: false (absent) only if rider has leave intent AND week meets threshold
-          data[dateStr][sess][r.key] = !(adjustDues && hasLeaveThisSession);
+        cfg.riders.forEach(r=>{
+          if(!r.sessions.includes(sess))return;
+          const monday=getMonday(parseDate(dateStr));
+          const weekLeaveMap=getRiderLeaveSessionMapForWeek(r.key,monday,r);
+          const totalSessionsInWeek=Object.values(weekLeaveMap).reduce((sum,s)=>sum+(s.morning?1:0)+(s.evening?1:0),0);
+          const threshold=getLeaveThreshold(r),adjustDues=totalSessionsInWeek>=threshold;
+          const hasLeaveThisSession=weekLeaveMap[dateStr]&&weekLeaveMap[dateStr][sess];
+          data[dateStr][sess][r.key]=!(adjustDues&&hasLeaveThisSession);
         });
       }
     });
@@ -1372,77 +1210,92 @@
     const nextMon=getMonday(new Date(now.getTime()+7*24*60*60*1000));
     const ongoingWk=getWeekRange(nextMon);
     const ongoingAmt={};
-    cfg.riders.forEach(r=>{let a=0;getWeekDays(nextMon).forEach(d=>{const ds=toDateStr(d);const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};a+=(calculateDayDue(entry,d)[r.key]||0);});ongoingAmt[r.name]=a;});
+    cfg.riders.forEach(r=>{
+      let a=0;
+      getWeekDays(nextMon).forEach(d=>{
+        const ds=toDateStr(d),entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
+        a+=(calculateDayDue(entry,d)[r.key]||0);
+      });
+      ongoingAmt[r.name]=a;
+    });
     const allPast=getAllWeekKeys().filter(w=>w.key!==ongoingWk.key);
     const recent4=allPast.slice(0,4);
-    const olderWithDues=allPast.slice(4).filter(wk=>cfg.riders.some(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return d&&d.amount>0&&!settlements[`${r.name}_${wk.key}`];}));
+    const olderWithDues=allPast.slice(4).filter(wk=>cfg.riders.some(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return d&&d.amount>0&&!isSettled(`${r.name}_${wk.key}`);}));
     const weekList=[ongoingWk,...recent4,...olderWithDues];
     weekList.forEach((wk,wkIdx)=>{
       const isOngoing=wk.key===ongoingWk.key,isOver=weekIsOver(wk.monday);
-      const allSettled=!isOngoing&&isOver&&cfg.riders.every(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return!d||d.amount===0||!!settlements[`${r.name}_${wk.key}`];});
-      const anyUnsettled=!isOngoing&&isOver&&cfg.riders.some(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return d&&d.amount>0&&!settlements[`${r.name}_${wk.key}`];});
+      const allSettled=!isOngoing&&isOver&&cfg.riders.every(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return!d||d.amount===0||isSettled(`${r.name}_${wk.key}`);});
+      const anyUnsettled=!isOngoing&&isOver&&cfg.riders.some(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return d&&d.amount>0&&!isSettled(`${r.name}_${wk.key}`);});
       let weekTotal=0;
-      cfg.riders.forEach(r=>{if(isOngoing){weekTotal+=ongoingAmt[r.name]||0;}else{const d=grouped[r.name]&&grouped[r.name][wk.key];if(d&&d.amount>0&&!settlements[`${r.name}_${wk.key}`])weekTotal+=d.amount;}});
+      cfg.riders.forEach(r=>{if(isOngoing){weekTotal+=ongoingAmt[r.name]||0;}else{const d=grouped[r.name]&&grouped[r.name][wk.key];if(d&&d.amount>0&&!isSettled(`${r.name}_${wk.key}`))weekTotal+=d.amount;}});
       const tagHtml=isOngoing?`<span class="dues-week-tag tag-ongoing">Upcoming</span>`:!isOver?`<span class="dues-week-tag tag-ongoing">In progress</span>`:allSettled?`<span class="dues-week-tag tag-settled">All settled</span>`:anyUnsettled?`<span class="dues-week-tag tag-unsettled">Pending</span>`:'';
       const block=document.createElement('div');block.className='dues-week-block';
       const hd=document.createElement('div');hd.className='dues-week-hd';
       hd.innerHTML=`<div class="dues-week-hd-left"><span class="dues-week-label">${wk.label}</span>${tagHtml}${anyUnsettled&&weekTotal>0?`<span style="font-size:12px;font-weight:700;color:var(--orange)">₹${Math.round(weekTotal)}</span>`:''}</div><span class="dues-week-chevron ${wkIdx===0?'open':''}">▼</span>`;
       const body=document.createElement('div');body.className=`dues-week-body${wkIdx===0?'':' collapsed'}`;
       cfg.riders.forEach(rider=>{
-        let amt=0,isSettled=false;
+        let amt=0,settled=false;
         if(isOngoing){amt=ongoingAmt[rider.name]||0;}
-        else{const d=grouped[rider.name]&&grouped[rider.name][wk.key];amt=d?d.amount:0;isSettled=amt>0&&!!settlements[`${rider.name}_${wk.key}`];}
+        else{const d=grouped[rider.name]&&grouped[rider.name][wk.key];amt=d?d.amount:0;settled=amt>0&&isSettled(`${rider.name}_${wk.key}`);}
         const sk=`${rider.name}_${wk.key}`;
-         const sessLabel=rider.sessions.map(s=>s==='morning'?'🌅':'🌆').join(' ');
+        const sessLabel=rider.sessions.map(s=>s==='morning'?'🌅':'🌆').join(' ');
         const isInProgress=!isOngoing&&!isOver;
-        const amtClass=isOngoing?'projected':isSettled?'settled':isOver&&amt>0?'pending':'';
-        // Show leave chip if rider had enough leave this week to adjust dues
+        const amtClass=isOngoing?'projected':settled?'settled':isOver&&amt>0?'pending':'';
         const leaveDays=getRiderLeaveDaysInWeek(rider.key,wk.monday);
         const leaveSess=getRiderLeaveSessionsInWeek(rider.key,wk.monday,rider);
         const leaveChip=leaveSess>=getLeaveThreshold(rider)?`<span class="leave-chip">🏖 ${leaveDays}d leave</span>`:'';
+        // Adjustment badge on settled weeks
+        const wkAdjs=getAdjustmentsForWeek(rider.name,wk.key);
+        const adjBadge=settled&&wkAdjs.length?`<span style="font-size:9px;font-weight:700;background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-border);border-radius:20px;padding:1px 6px;margin-left:4px">⚠ adjusted</span>`:'';
         const riderRow=document.createElement('div');riderRow.className='dues-rider-row';
         let actionsHtml='';
         if(!isOngoing&&isOver&&amt>0){
-          if(!isSettled)actionsHtml=`<button class="action-btn btn-pay" data-pay="${sk}">Mark Paid</button>`;
+          if(!settled)actionsHtml=`<button class="action-btn btn-pay" data-pay="${sk}" data-amt="${Math.round(amt)}">Mark Paid</button>`;
           else actionsHtml=`<button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
         }
- const amtLabel=amt>0?(isInProgress?`₹${Math.round(amt)} <span style="font-size:10px;font-weight:500;color:var(--text3)">(so far)</span>`:`₹${Math.round(amt)}`):'—';
-        riderRow.innerHTML=`<div class="dues-rider-left"><div class="dues-rider-dot" style="background:${rider.color}"></div><div><div class="dues-rider-name">${rider.name} ${leaveChip}</div><div class="dues-rider-sessions">${sessLabel}</div></div></div><div class="dues-rider-right"><span class="dues-rider-amt ${amtClass}">${amtLabel}</span>${actionsHtml}</div>`;
-        riderRow.querySelector('[data-pay]')?.addEventListener('click',e=>{settlements[e.currentTarget.dataset.pay]=true;saveSettlements();renderAdminDues();renderPersonalDashboard();showToast('✓ Marked as paid');});
-        riderRow.querySelector('[data-revert]')?.addEventListener('click',e=>{settlements[e.currentTarget.dataset.revert]=false;saveSettlements();renderAdminDues();renderPersonalDashboard();renderHistory();showToast('↩ Payment reverted');});
+        const amtLabel=amt>0?(isInProgress?`₹${Math.round(amt)} <span style="font-size:10px;font-weight:500;color:var(--text3)">(so far)</span>`:`₹${Math.round(amt)}`):'—';
+        riderRow.innerHTML=`<div class="dues-rider-left"><div class="dues-rider-dot" style="background:${rider.color}"></div><div><div class="dues-rider-name">${rider.name} ${leaveChip}${adjBadge}</div><div class="dues-rider-sessions">${sessLabel}</div></div></div><div class="dues-rider-right"><span class="dues-rider-amt ${amtClass}">${amtLabel}</span>${actionsHtml}</div>`;
+        riderRow.querySelector('[data-pay]')?.addEventListener('click',e=>{
+          const s=e.currentTarget.dataset.pay,a=parseFloat(e.currentTarget.dataset.amt);
+          markSettled(s,a);saveSettlements();renderAdminDues();renderPersonalDashboard();showToast('✓ Marked as paid');
+        });
+        riderRow.querySelector('[data-revert]')?.addEventListener('click',e=>{
+          markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderAdminDues();renderPersonalDashboard();renderHistory();showToast('↩ Payment reverted');
+        });
+        // Show adjustment notes under settled rows
+        if(settled&&wkAdjs.length){
+          wkAdjs.forEach(a=>{
+            const adjRow=document.createElement('div');
+            adjRow.className=`adj-note ${a.direction}`;
+            const sign=a.direction==='owe'?'+':'-';
+            adjRow.innerHTML=`<span>⚠</span><span>${a.reason} · ${sign}₹${Math.round(a.amount)} ${a.direction==='owe'?'owed':'credited'} — rolled to next due week</span>`;
+            body.appendChild(adjRow);
+          });
+        }
         body.appendChild(riderRow);
       });
       hd.addEventListener('click',()=>{const ch=hd.querySelector('.dues-week-chevron'),open=!body.classList.contains('collapsed');body.classList.toggle('collapsed',open);ch.classList.toggle('open',!open);});
       if(!isOngoing&&isOver){
         const leaveNotes=getCaptainLeaveNotes(wk.monday);
-        if(leaveNotes.length){
-          const noteEl=document.createElement('div');noteEl.className='captain-leave-note';noteEl.style.margin='8px 14px 0';
-          noteEl.innerHTML=`<span class="captain-leave-note-icon">🚗</span><span><strong>Captain on leave:</strong> ${leaveNotes.join('; ')}</span>`;
-          body.prepend(noteEl);
-        }
+        if(leaveNotes.length){const noteEl=document.createElement('div');noteEl.className='captain-leave-note';noteEl.style.margin='8px 14px 0';noteEl.innerHTML=`<span class="captain-leave-note-icon">🚗</span><span><strong>Captain on leave:</strong> ${leaveNotes.join('; ')}</span>`;body.prepend(noteEl);}
       }
-      // ── Contributions breakdown ──
+      // Contributions breakdown
       const contribs=getWeekContributions(wk.monday);
       if(contribs.length){
         const weekFuelCost=contribs.reduce((s,c)=>s+c.amount,0);
-        const contribWrap=document.createElement('div');
-        contribWrap.style.cssText='margin:8px 14px 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg);overflow:hidden';
-        const contribHd=document.createElement('div');
-        contribHd.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;user-select:none;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px';
+        const contribWrap=document.createElement('div');contribWrap.style.cssText='margin:8px 14px 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg);overflow:hidden';
+        const contribHd=document.createElement('div');contribHd.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;user-select:none;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px';
         contribHd.innerHTML=`<span>💰 Contributions${isOngoing?' (projected)':''} · Total ₹${Math.round(weekFuelCost)}</span><span style="font-size:10px;color:var(--text3)">▼</span>`;
-        const contribBody=document.createElement('div');
-        contribBody.style.cssText='background:var(--white);display:none';
+        const contribBody=document.createElement('div');contribBody.style.cssText='background:var(--white);display:none';
         contribs.forEach(c=>{
-          const row=document.createElement('div');
-          row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--border)';
+          const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--border)';
           const pct=weekFuelCost>0?Math.round((c.amount/weekFuelCost)*100):0;
           const roleTag=c.role==='captain'?'<span style="font-size:9px;font-weight:700;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple-border);border-radius:20px;padding:1px 6px;margin-left:5px">CAPTAIN</span>':'';
           row.innerHTML=`<div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1"><div style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0"></div><div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}${roleTag}</div></div><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--text3);font-weight:600">${pct}%</span><span style="font-size:13px;font-weight:700;color:var(--text)">₹${Math.round(c.amount)}</span></div>`;
           contribBody.appendChild(row);
         });
         contribHd.addEventListener('click',()=>{const open=contribBody.style.display==='none';contribBody.style.display=open?'':'none';contribHd.querySelector('span:last-child').style.transform=open?'rotate(180deg)':'rotate(0deg)';});
-        contribWrap.appendChild(contribHd);contribWrap.appendChild(contribBody);
-        body.appendChild(contribWrap);
+        contribWrap.appendChild(contribHd);contribWrap.appendChild(contribBody);body.appendChild(contribWrap);
       }
       block.appendChild(hd);block.appendChild(body);container.appendChild(block);
     });
@@ -1464,7 +1317,8 @@
     let html=`<div class="dash-card"><div class="dash-section-title" style="margin-bottom:10px">📊 Outstanding</div>`;
     cfg.riders.forEach(rider=>{
       let outstanding=0;
-      Object.entries(grouped[rider.name]||{}).forEach(([wk,d])=>{const mon=parseDate(wk.split('_')[0]);if(weekIsOver(mon)&&!settlements[`${rider.name}_${wk}`]&&d.amount>0)outstanding+=d.amount;});
+      Object.entries(grouped[rider.name]||{}).forEach(([wk,d])=>{const mon=parseDate(wk.split('_')[0]);if(weekIsOver(mon)&&!isSettled(`${rider.name}_${wk}`)&&d.amount>0)outstanding+=d.amount;});
+      outstanding+=getRiderPendingAdjTotal(rider.name);
       html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)">
         <div style="display:flex;align-items:center;gap:8px"><div style="width:9px;height:9px;border-radius:50%;background:${rider.color};flex-shrink:0"></div><div><div style="font-size:13px;font-weight:700">${rider.name}</div><div style="font-size:10px;color:var(--text3)">${rider.sessions.map(s=>s==='morning'?'🌅 Morning':'🌆 Evening').join(' · ')}</div></div></div>
         <div style="font-size:18px;font-weight:700;color:${outstanding>0?'var(--orange)':'var(--green)'}">${outstanding>0?'₹'+Math.round(outstanding):'✓ Clear'}</div>
@@ -1477,67 +1331,96 @@
 
   function renderRiderDashboard(container,rider){
     const grouped=buildGroupedWeeks(),myWeeks=grouped[rider.name]||{};
+    const pendingAdjs=getPendingAdjustments(rider.name);
+    const adjTotal=getRiderPendingAdjTotal(rider.name);
     let outstanding=0,pendingCount=0;
     const unsettled=[];
     Object.entries(myWeeks).forEach(([wk,d])=>{
       const mon=parseDate(wk.split('_')[0]);
-      if(weekIsOver(mon)&&!settlements[`${rider.name}_${wk}`]&&d.amount>0){outstanding+=d.amount;pendingCount++;unsettled.push({wk,details:d});}
+      if(weekIsOver(mon)&&!isSettled(`${rider.name}_${wk}`)&&d.amount>0){outstanding+=d.amount;pendingCount++;unsettled.push({wk,details:d});}
     });
+    outstanding+=adjTotal;
+    if(adjTotal!==0)pendingCount=Math.max(pendingCount,1);
     unsettled.sort((a,b)=>a.wk<b.wk?1:-1);
 
-    const now=istNow();
-    const thisWeekMonday=getMonday(now);
+    const now=istNow(),thisWeekMonday=getMonday(now);
     let thisWeekEst=0;
     getWeekDays(thisWeekMonday).forEach(d=>{
-      const ds=toDateStr(d);
-      // Use real data if available, otherwise assume captain present (for future days)
-      const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
+      const ds=toDateStr(d),entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
       thisWeekEst+=(calculateDayDue(entry,d)[rider.key]||0);
     });
 
     const initials=rider.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
     const monday=getMonday(realToday);
-    const DAY_NAMES=['Mon','Tue','Wed','Thu','Fri'];
-    const currentLeaveDays=getRiderLeaveDaysInWeek(rider.key,monday);
 
-    // Build a compact contributions strip for a given week monday
     function buildContribStripHtml(weekMonday){
       const contribs=getWeekContributions(weekMonday);
       if(!contribs.length)return'';
       const total=contribs.reduce((s,c)=>s+c.amount,0);
       const rowsHtml=contribs.map(c=>{
-        const isMe=c.key===rider.key;
-        const pct=total>0?Math.round((c.amount/total)*100):0;
+        const isMe=c.key===rider.key,pct=total>0?Math.round((c.amount/total)*100):0;
         const roleTag=c.role==='captain'?'<span style="font-size:8px;font-weight:700;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple-border);border-radius:20px;padding:1px 5px;margin-left:4px">CAPTAIN</span>':'';
         const meTag=isMe?'<span style="font-size:8px;font-weight:700;background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-border);border-radius:20px;padding:1px 5px;margin-left:4px">YOU</span>':'';
-        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:11px"><div style="display:flex;align-items:center;gap:6px;min-width:0;flex:1"><div style="width:7px;height:7px;border-radius:50%;background:${c.color};flex-shrink:0"></div><span style="font-weight:${isMe?'700':'600'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}${roleTag}${meTag}</span></div><div style="display:flex;align-items:center;gap:6px"><span style="font-size:9px;color:var(--text3);font-weight:600">${pct}%</span><span style="font-weight:700">₹${Math.round(c.amount)}</span></div></div>`;
+        return`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:11px"><div style="display:flex;align-items:center;gap:6px;min-width:0;flex:1"><div style="width:7px;height:7px;border-radius:50%;background:${c.color};flex-shrink:0"></div><span style="font-weight:${isMe?'700':'600'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}${roleTag}${meTag}</span></div><div style="display:flex;align-items:center;gap:6px"><span style="font-size:9px;color:var(--text3);font-weight:600">${pct}%</span><span style="font-weight:700">₹${Math.round(c.amount)}</span></div></div>`;
       }).join('');
-      return `<details style="margin:0 12px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg)"><summary style="padding:7px 10px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;cursor:pointer;list-style:none">💰 Week Contributions · Total ₹${Math.round(total)}</summary><div style="padding:4px 10px 8px;background:var(--white);border-top:1px solid var(--border)">${rowsHtml}</div></details>`;
+      return`<details style="margin:0 12px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg)"><summary style="padding:7px 10px;font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;cursor:pointer;list-style:none">💰 Week Contributions · Total ₹${Math.round(total)}</summary><div style="padding:4px 10px 8px;background:var(--white);border-top:1px solid var(--border)">${rowsHtml}</div></details>`;
     }
 
-    // Due blocks
+    // Build adjustment rollover note for a week — finds adjs that resolve into this week
+    function buildAdjRolloverHtml(weekKey){
+      const rolledIn=pendingAdjs.filter(a=>a.resolvedInWeekKey===weekKey);
+      if(!rolledIn.length)return'';
+      return rolledIn.map(a=>{
+        const sign=a.direction==='owe'?'+':'-';
+        const color=a.direction==='owe'?'var(--orange)':'var(--green)';
+        const bg=a.direction==='owe'?'var(--orange-soft)':'var(--green-soft)';
+        const border=a.direction==='owe'?'var(--orange-border)':'var(--green-border)';
+        return`<div style="display:flex;align-items:flex-start;gap:6px;padding:6px 12px 8px;font-size:11px;background:${bg};border-top:1px solid ${border};line-height:1.5"><span style="font-size:13px">⚠</span><div><div style="font-weight:700;color:${color}">${sign}₹${Math.round(a.amount)} adjustment carried over</div><div style="color:${color};opacity:0.85">${a.reason} (${a.sourceWeekLabel})</div></div></div>`;
+      }).join('');
+    }
+
+    // Standalone adjustment block for adjs with no resolvedInWeekKey (no future unsettled week found)
+    const orphanAdjs=pendingAdjs.filter(a=>!a.resolvedInWeekKey);
+
     let dueBlocksHtml='';
-    if(!unsettled.length){
+    if(!unsettled.length&&adjTotal===0){
       dueBlocksHtml=`<div style="padding:12px 0;font-size:13px;color:var(--text2);text-align:center">✓ All dues cleared</div>`;
     } else {
+      // Orphan adjustments shown as a standalone block at the top
+      if(orphanAdjs.length){
+        orphanAdjs.forEach(a=>{
+          const sign=a.direction==='owe'?'+':'-';
+          const color=a.direction==='owe'?'var(--orange)':'var(--green)';
+          dueBlocksHtml+=`<div class="dash-week-block unpaid" style="border-color:${color}">
+            <div class="dash-week-block-hd">
+              <div><div class="dash-week-label">Pending Adjustment</div><div class="dash-week-amt orange">${sign}₹${Math.round(a.amount)}</div></div>
+            </div>
+            <div style="padding:0 12px 10px;font-size:11px;color:${color};line-height:1.5">${a.reason}<br><span style="opacity:0.8">From week: ${a.sourceWeekLabel}</span></div>
+          </div>`;
+        });
+      }
       unsettled.forEach(({wk,details})=>{
         const sk=`${rider.name}_${wk}`;
         const leaveNotes=getCaptainLeaveNotes(details.monday);
-        const leaveHtml=leaveNotes.length
-          ?`<div class="captain-leave-note"><span class="captain-leave-note-icon">🚗</span><span><strong>Captain on leave:</strong> ${leaveNotes.join('; ')}</span></div>`:'';
+        const leaveHtml=leaveNotes.length?`<div class="captain-leave-note"><span class="captain-leave-note-icon">🚗</span><span><strong>Captain on leave:</strong> ${leaveNotes.join('; ')}</span></div>`:'';
         const riderLeaveSessions=getRiderLeaveSessionsInWeek(rider.key,details.monday,rider);
-        const riderLeaveHtml=riderLeaveSessions>=getLeaveThreshold(rider)
-          ?`<div style="display:flex;align-items:center;gap:6px;padding:0 12px 8px;font-size:11px;color:var(--red)">🏖 Your ${riderLeaveSessions}-session leave applied — dues adjusted</div>`:'';
+        const riderLeaveHtml=riderLeaveSessions>=getLeaveThreshold(rider)?`<div style="display:flex;align-items:center;gap:6px;padding:0 12px 8px;font-size:11px;color:var(--red)">🏖 Your ${riderLeaveSessions}-session leave applied — dues adjusted</div>`:'';
+        const adjRolloverHtml=buildAdjRolloverHtml(wk);
         const contribHtml=buildContribStripHtml(details.monday);
+        // Base amount + any rolled-in adjustments
+        const rolledInAdjs=pendingAdjs.filter(a=>a.resolvedInWeekKey===wk);
+        const rolledInTotal=rolledInAdjs.reduce((sum,a)=>sum+(a.direction==='owe'?a.amount:-a.amount),0);
+        const totalDue=details.amount+rolledInTotal;
         dueBlocksHtml+=`<div class="dash-week-block unpaid">
           <div class="dash-week-block-hd">
             <div>
               <div class="dash-week-label">${details.label}</div>
-              <div class="dash-week-amt orange">₹${Math.round(details.amount)}</div>
+              <div class="dash-week-amt orange">₹${Math.round(totalDue)}${rolledInTotal!==0?`<span style="font-size:10px;font-weight:500;margin-left:4px;color:var(--text3)">(incl. ₹${Math.abs(Math.round(rolledInTotal))} adj.)</span>`:''}</div>
             </div>
-            <button class="action-btn btn-pay dash-mark-paid-btn" data-sk="${sk}" style="font-size:11px;padding:5px 10px">✓ Mark Paid</button>
+            <button class="action-btn btn-pay dash-mark-paid-btn" data-sk="${sk}" data-amt="${Math.round(totalDue)}" style="font-size:11px;padding:5px 10px">✓ Mark Paid</button>
           </div>
           ${riderLeaveHtml}
+          ${adjRolloverHtml}
           ${leaveHtml?`<div style="padding:0 12px 10px">${leaveHtml}</div>`:''}
           ${contribHtml}
         </div>`;
@@ -1549,63 +1432,54 @@
       <button class="make-payment-btn" id="makePaymentBtn">⚡ Make Payment</button>`;
     }
 
-    const settledList=Object.entries(myWeeks).filter(([wk,d])=>settlements[`${rider.name}_${wk}`]&&d.amount>0).sort(([a],[b])=>a<b?1:-1).slice(0,5);
+    const settledList=Object.entries(myWeeks).filter(([wk,d])=>isSettled(`${rider.name}_${wk}`)&&d.amount>0).sort(([a],[b])=>a<b?1:-1).slice(0,5);
     let histHtml=settledList.length
-      ? settledList.map(([wk,d])=>{
+      ?settledList.map(([wk,d])=>{
           const sk=`${rider.name}_${wk}`;
-          return `<div class="dash-week-block paid"><div class="dash-week-block-hd"><div><div class="dash-week-label">${d.label}</div><div class="dash-week-amt green">₹${Math.round(d.amount)}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="dash-badge paid">✓ Paid</span><button class="action-btn btn-revert" style="font-size:11px;padding:4px 9px" data-revert="${sk}">Revert</button></div></div>${buildContribStripHtml(d.monday)}</div>`;
+          const wkAdjs=getAdjustmentsForWeek(rider.name,wk);
+          const adjHtml=wkAdjs.length?wkAdjs.map(a=>{
+            const sign=a.direction==='owe'?'+':'-';
+            const color=a.direction==='owe'?'var(--orange)':'var(--green)';
+            return`<div style="padding:4px 12px 6px;font-size:11px;color:${color};line-height:1.5">⚠ ${sign}₹${Math.round(a.amount)} — ${a.reason} · rolled to ${a.resolvedInWeekKey?'next due week':'pending'}</div>`;
+          }).join(''):'';
+          return`<div class="dash-week-block paid"><div class="dash-week-block-hd"><div><div class="dash-week-label">${d.label}</div><div class="dash-week-amt green">₹${Math.round(d.amount)}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="dash-badge paid">✓ Paid</span><button class="action-btn btn-revert" style="font-size:11px;padding:4px 9px" data-revert="${sk}">Revert</button></div></div>${adjHtml}${buildContribStripHtml(d.monday)}</div>`;
         }).join('')
-      : `<div style="padding:12px 0;font-size:13px;color:var(--text2);text-align:center">No payment history yet</div>`;
+      :`<div style="padding:12px 0;font-size:13px;color:var(--text2);text-align:center">No payment history yet</div>`;
 
-    // Build rider leave day strip — now supports navigating to previous weeks
-    const stripMonday = getRiderLeaveStripMonday();
-    const stripDays = getWeekDays(stripMonday);
-    const currentWeekMonday = getMonday(realToday);
-    const isStripCurrentWeek = toDateStr(stripMonday) === toDateStr(currentWeekMonday);
-    const stripPrevMonday = new Date(stripMonday); stripPrevMonday.setDate(stripPrevMonday.getDate() - 7);
-    const stripNextMonday = new Date(stripMonday); stripNextMonday.setDate(stripNextMonday.getDate() + 7);
-    const riderStartDate = rider.startDate ? parseDate(rider.startDate) : new Date(2000, 0, 1);
-    const riderStartMonday = getMonday(riderStartDate);
-    // Earliest reachable week: the one whose Friday is on/after the rider's start date.
-    // (If startDate is Sat/Sun, the first real week is the following Monday.)
-    const stripPrevFriday = new Date(stripPrevMonday); stripPrevFriday.setDate(stripPrevFriday.getDate() + 4);
-    const canGoStripPrev = stripPrevFriday >= riderStartDate;
-    // Going forward on the dashboard strip stops at the current week — for future planning, the modal itself has nav
-    const canGoStripNext = stripNextMonday <= currentWeekMonday;
-    const stripWeekLabel = isStripCurrentWeek
-      ? 'This Week'
-      : `${fmtDateShort(stripDays[0])} – ${fmtDateShort(stripDays[4])}`;
-
-    const DAY_NAMES_STRIP = ['Mon','Tue','Wed','Thu','Fri'];
-    let riderGridHtml = '';
-    stripDays.forEach((d, i) => {
-      const ds = toDateStr(d);
-      const isFuture = d > realToday;
-      const isBeforeStart = d < riderStartDate;
-      const lv = data[ds] && data[ds].leave && data[ds].leave[rider.key];
-      const mLeave = rider.sessions.includes('morning') && lv && lv.morning;
-      const eLeave = rider.sessions.includes('evening') && lv && lv.evening;
-      const captainMornOff = data[ds] && data[ds].morning && data[ds].morning.captain === false;
-      const captainEveOff  = data[ds] && data[ds].evening && data[ds].evening.captain === false;
-      const both = mLeave && eLeave;
-      const either = mLeave || eLeave;
-      const cls = (isFuture || isBeforeStart) ? 'is-future' : both ? 'absent' : either ? 'absent-partial' : 'present';
-      const sub = isBeforeStart ? 'Pre-start' : (both ? 'M+E leave' : mLeave ? 'Morn off' : eLeave ? 'Eve off' : (captainMornOff && captainEveOff) ? 'No trip' : 'Present');
-      riderGridHtml += `<button class="captain-day-btn ${cls}" data-date="${ds}" ${(isFuture || isBeforeStart) ? 'disabled' : ''}>
-        <span class="cd-name">${DAY_NAMES_STRIP[i]}</span><span class="cd-date">${d.getDate()}</span><span class="cd-sub">${sub}</span>
-      </button>`;
+    // Build rider leave strip
+    const stripMonday=getRiderLeaveStripMonday();
+    const stripDays=getWeekDays(stripMonday);
+    const currentWeekMonday=getMonday(realToday);
+    const isStripCurrentWeek=toDateStr(stripMonday)===toDateStr(currentWeekMonday);
+    const stripPrevMonday=new Date(stripMonday);stripPrevMonday.setDate(stripPrevMonday.getDate()-7);
+    const stripNextMonday=new Date(stripMonday);stripNextMonday.setDate(stripNextMonday.getDate()+7);
+    const riderStartDate=rider.startDate?parseDate(rider.startDate):new Date(2000,0,1);
+    const stripPrevFriday=new Date(stripPrevMonday);stripPrevFriday.setDate(stripPrevFriday.getDate()+4);
+    const canGoStripPrev=stripPrevFriday>=riderStartDate;
+    const canGoStripNext=stripNextMonday<=currentWeekMonday;
+    const stripWeekLabel=isStripCurrentWeek?'This Week':`${fmtDateShort(stripDays[0])} – ${fmtDateShort(stripDays[4])}`;
+    const DAY_NAMES_STRIP=['Mon','Tue','Wed','Thu','Fri'];
+    let riderGridHtml='';
+    stripDays.forEach((d,i)=>{
+      const ds=toDateStr(d),isFuture=d>realToday,isBeforeStart=d<riderStartDate;
+      const lv=data[ds]&&data[ds].leave&&data[ds].leave[rider.key];
+      const mLeave=rider.sessions.includes('morning')&&lv&&lv.morning;
+      const eLeave=rider.sessions.includes('evening')&&lv&&lv.evening;
+      const captainMornOff=data[ds]&&data[ds].morning&&data[ds].morning.captain===false;
+      const captainEveOff=data[ds]&&data[ds].evening&&data[ds].evening.captain===false;
+      const both=mLeave&&eLeave,either=mLeave||eLeave;
+      const cls=(isFuture||isBeforeStart)?'is-future':both?'absent':either?'absent-partial':'present';
+      const sub=isBeforeStart?'Pre-start':(both?'M+E leave':mLeave?'Morn off':eLeave?'Eve off':(captainMornOff&&captainEveOff)?'No trip':'Present');
+      riderGridHtml+=`<button class="captain-day-btn ${cls}" data-date="${ds}" ${(isFuture||isBeforeStart)?'disabled':''}><span class="cd-name">${DAY_NAMES_STRIP[i]}</span><span class="cd-date">${d.getDate()}</span><span class="cd-sub">${sub}</span></button>`;
     });
-
-    // Show leave summary for the displayed week (not just current week)
-    const stripLeaveSessions = getRiderLeaveSessionsInWeek(rider.key, stripMonday, rider);
-    const stripThreshold = getLeaveThreshold(rider);
-    const stripLeaveSummary = stripLeaveSessions > 0
-      ? (stripLeaveSessions >= stripThreshold
-          ? `<div style="margin-top:8px;padding:7px 10px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:8px;font-size:11px;color:var(--red);font-weight:600">🏖 ${stripLeaveSessions}-session leave applied — dues adjusted for this week</div>`
-          : `<div style="margin-top:8px;padding:7px 10px;background:var(--orange-soft);border:1px solid var(--orange-border);border-radius:8px;font-size:11px;color:var(--orange);font-weight:600">🏖 ${stripLeaveSessions} session(s) marked — need ${stripThreshold - stripLeaveSessions} more for dues adjustment</div>`)
-      : '';
-
-    const leaveStatusHtml = `<div id="riderLeaveGrid" style="margin-bottom:14px">
+    const stripLeaveSessions=getRiderLeaveSessionsInWeek(rider.key,stripMonday,rider);
+    const stripThreshold=getLeaveThreshold(rider);
+    const stripLeaveSummary=stripLeaveSessions>0
+      ?(stripLeaveSessions>=stripThreshold
+        ?`<div style="margin-top:8px;padding:7px 10px;background:var(--red-soft);border:1px solid var(--red-border);border-radius:8px;font-size:11px;color:var(--red);font-weight:600">🏖 ${stripLeaveSessions}-session leave applied — dues adjusted for this week</div>`
+        :`<div style="margin-top:8px;padding:7px 10px;background:var(--orange-soft);border:1px solid var(--orange-border);border-radius:8px;font-size:11px;color:var(--orange);font-weight:600">🏖 ${stripLeaveSessions} session(s) marked — need ${stripThreshold-stripLeaveSessions} more for dues adjustment</div>`)
+      :'';
+    const leaveStatusHtml=`<div id="riderLeaveGrid" style="margin-bottom:14px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap">
         <div style="display:flex;align-items:center;gap:8px">
           <div style="font-size:13px;font-weight:700">🏖 Leave</div>
@@ -1649,7 +1523,6 @@
         <div class="dash-metric"><div class="dash-metric-label">This week (est.)</div><div class="dash-metric-value">₹${Math.round(thisWeekEst)}</div></div>
         <div class="dash-metric"><div class="dash-metric-label">Weeks pending</div><div class="dash-metric-value ${pendingCount>0?'warn':'ok'}">${pendingCount}</div></div>
       </div>
-
       <div class="dash-tab-row">
         <button class="dash-tab active" id="dashTabDue" onclick="switchDashTab('due')">Dues</button>
         <button class="dash-tab" id="dashTabHist" onclick="switchDashTab('hist')">History</button>
@@ -1658,52 +1531,62 @@
       <div id="dashHistPanel" style="display:none">${histHtml}</div>
     </div>`;
 
-    // Wire up rider leave day strip
-    document.querySelectorAll('#riderLeaveGrid .captain-day-btn:not([disabled])').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const d = parseDate(btn.dataset.date);
-        openLeaveModalForDay(rider, d);
+    document.querySelectorAll('#riderLeaveGrid .captain-day-btn:not([disabled])').forEach(btn=>{
+      btn.addEventListener('click',()=>openLeaveModalForDay(rider,parseDate(btn.dataset.date)));
+    });
+    document.getElementById('riderStripPrev')?.addEventListener('click',()=>{if(!canGoStripPrev)return;_riderLeaveStripMonday=stripPrevMonday;renderPersonalDashboard();});
+    document.getElementById('riderStripNext')?.addEventListener('click',()=>{if(!canGoStripNext)return;_riderLeaveStripMonday=stripNextMonday;renderPersonalDashboard();});
+    document.getElementById('makePaymentBtn')?.addEventListener('click',()=>openPaymentSelector(rider,unsettled,pendingAdjs));
+    container.querySelectorAll('.dash-mark-paid-btn').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        const sk=e.currentTarget.dataset.sk,amt=parseFloat(e.currentTarget.dataset.amt);
+        markSettled(sk,amt);
+        // Mark rolled-in adjustments for this week as resolved
+        const wkKey=sk.split('_').slice(1).join('_');
+        const rolledIn=pendingAdjs.filter(a=>a.resolvedInWeekKey===wkKey);
+        rolledIn.forEach(a=>{if(adjustments[rider.name]&&adjustments[rider.name][a.id])adjustments[rider.name][a.id].resolved=true;});
+        if(rolledIn.length)saveAdjustments();
+        saveSettlements();renderPersonalDashboard();showToast('✓ Marked as paid');
       });
     });
-    document.getElementById('riderStripPrev')?.addEventListener('click', () => {
-      if (!canGoStripPrev) return;
-      _riderLeaveStripMonday = stripPrevMonday;
-      renderPersonalDashboard();
-    });
-    document.getElementById('riderStripNext')?.addEventListener('click', () => {
-      if (!canGoStripNext) return;
-      _riderLeaveStripMonday = stripNextMonday;
-      renderPersonalDashboard();
-    });
-    document.getElementById('makePaymentBtn')?.addEventListener('click',()=>openPaymentSelector(rider,unsettled));
-
-    container.querySelectorAll('.dash-mark-paid-btn').forEach(btn=>{
-      btn.addEventListener('click',e=>{const sk=e.currentTarget.dataset.sk;settlements[sk]=true;saveSettlements();renderPersonalDashboard();showToast('✓ Marked as paid');});
-    });
     container.querySelectorAll('[data-revert]').forEach(btn=>{
-      btn.addEventListener('click',e=>{const sk=e.currentTarget.dataset.revert;settlements[sk]=false;saveSettlements();renderPersonalDashboard();showToast('↩ Payment reverted');});
+      btn.addEventListener('click',e=>{markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderPersonalDashboard();showToast('↩ Payment reverted');});
     });
   }
 
   // ── Payment Selector ──────────────────────────────────
-  let psCtx={rider:null,weeks:[],selected:new Set()};
-  function openPaymentSelector(rider,unsettledWeeks){
-    psCtx.rider=rider;psCtx.weeks=unsettledWeeks;psCtx.selected=new Set(unsettledWeeks.map(u=>u.wk));
+  let psCtx={rider:null,weeks:[],pendingAdjs:[],selected:new Set()};
+  function openPaymentSelector(rider,unsettledWeeks,pendingAdjs){
+    psCtx={rider,weeks:unsettledWeeks,pendingAdjs:pendingAdjs||[],selected:new Set(unsettledWeeks.map(u=>u.wk))};
     document.getElementById('psSub').textContent=`${rider.name} · select weeks to include`;
     renderPsWeekList();document.getElementById('paymentSelectorOverlay').classList.add('open');
   }
   function renderPsWeekList(){
     const list=document.getElementById('psWeekList');list.innerHTML='';
     let total=0;
+    // Unresolved orphan adjustments shown as a line item
+    psCtx.pendingAdjs.filter(a=>!a.resolvedInWeekKey).forEach(a=>{
+      const sign=a.direction==='owe'?'+':'-';
+      const adjAmt=a.direction==='owe'?a.amount:-a.amount;
+      total+=adjAmt;
+      const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--orange-border);border-radius:10px;margin-bottom:8px;background:var(--orange-soft)';
+      row.innerHTML=`<span style="font-size:12px;font-weight:600;color:var(--orange)">⚠ ${a.reason}</span><span style="font-size:14px;font-weight:700;color:var(--orange)">${sign}₹${Math.round(a.amount)}</span>`;
+      list.appendChild(row);
+    });
     psCtx.weeks.forEach(({wk,details})=>{
-      const sel=psCtx.selected.has(wk);if(sel)total+=details.amount;
+      const sel=psCtx.selected.has(wk);
+      // Include rolled-in adjustments in the displayed amount
+      const rolledIn=psCtx.pendingAdjs.filter(a=>a.resolvedInWeekKey===wk);
+      const rolledTotal=rolledIn.reduce((s,a)=>s+(a.direction==='owe'?a.amount:-a.amount),0);
+      const displayAmt=details.amount+rolledTotal;
+      if(sel)total+=displayAmt;
       const row=document.createElement('div');row.className=`ps-week-row${sel?' selected':''}`;
-      row.innerHTML=`<div class="ps-week-left"><div class="ps-checkbox"><span class="ps-checkbox-tick">✓</span></div><span class="ps-week-label">${details.label}</span></div><span class="ps-week-amt">₹${Math.round(details.amount)}</span>`;
+      row.innerHTML=`<div class="ps-week-left"><div class="ps-checkbox"><span class="ps-checkbox-tick">✓</span></div><span class="ps-week-label">${details.label}${rolledTotal!==0?`<span style="font-size:10px;color:var(--orange);margin-left:4px">+adj</span>`:''}</span></div><span class="ps-week-amt">₹${Math.round(displayAmt)}</span>`;
       row.addEventListener('click',()=>{if(psCtx.selected.has(wk))psCtx.selected.delete(wk);else psCtx.selected.add(wk);renderPsWeekList();});
       list.appendChild(row);
     });
     document.getElementById('psTotalAmt').textContent=total>0?`₹${Math.round(total)}`:'₹0';
-    const btn=document.getElementById('psPayBtn');btn.disabled=total===0;btn.textContent=total>0?`⚡ Pay ₹${Math.round(total)} via GPay`:'⚡ Pay Now via GPay';btn._total=Math.round(total);
+    const btn=document.getElementById('psPayBtn');btn.disabled=total<=0;btn.textContent=total>0?`⚡ Pay ₹${Math.round(total)} via GPay`:'⚡ Pay Now via GPay';btn._total=Math.round(total);
   }
   function closePaymentSelector(){document.getElementById('paymentSelectorOverlay').classList.remove('open');}
   document.getElementById('psCancel').addEventListener('click',closePaymentSelector);
@@ -1713,7 +1596,7 @@
     const selectedWeeks=[...psCtx.selected];
     const label=selectedWeeks.length===1?psCtx.weeks.find(u=>u.wk===selectedWeeks[0])?.details?.label||'dues':`${selectedWeeks.length} weeks`;
     const upi=buildUpiParams(total,label);
-    gpayPendingPerson={name:psCtx.rider.name,amount:total,selectedWeeks:[...psCtx.selected],riderName:psCtx.rider.name};
+    gpayPendingPerson={name:psCtx.rider.name,amount:total,selectedWeeks:[...psCtx.selected],riderName:psCtx.rider.name,pendingAdjs:psCtx.pendingAdjs,rider:psCtx.rider};
     closePaymentSelector();fireGpay(`gpay://upi/pay?${upi}`,`upi://pay?${upi}`);
     document.getElementById('gpayConfirmSub').textContent=`₹${total} to Surya via GPay`;
   });
@@ -1721,7 +1604,23 @@
   // ── GPay confirm ──────────────────────────────────────
   function closeGpayConfirm(){document.getElementById('gpayConfirmOverlay').classList.remove('open');gpayPendingPerson=null;}
   document.getElementById('gpayConfirmYes').addEventListener('click',()=>{
-    if(gpayPendingPerson?.selectedWeeks){gpayPendingPerson.selectedWeeks.forEach(wk=>{settlements[`${gpayPendingPerson.riderName}_${wk}`]=true;});saveSettlements();renderPersonalDashboard();showToast(`✓ ${gpayPendingPerson.selectedWeeks.length} week(s) marked as paid`);}
+    if(gpayPendingPerson?.selectedWeeks){
+      const grouped=buildGroupedWeeks(),myWeeks=grouped[gpayPendingPerson.riderName]||{};
+      const pendingAdjs=gpayPendingPerson.pendingAdjs||[];
+      gpayPendingPerson.selectedWeeks.forEach(wk=>{
+        const d=myWeeks[wk];
+        const rolledIn=pendingAdjs.filter(a=>a.resolvedInWeekKey===wk);
+        const rolledTotal=rolledIn.reduce((s,a)=>s+(a.direction==='owe'?a.amount:-a.amount),0);
+        const amt=d?d.amount+rolledTotal:rolledTotal;
+        markSettled(`${gpayPendingPerson.riderName}_${wk}`,amt);
+        // Mark rolled-in adjustments as resolved
+        rolledIn.forEach(a=>{if(adjustments[gpayPendingPerson.riderName]&&adjustments[gpayPendingPerson.riderName][a.id])adjustments[gpayPendingPerson.riderName][a.id].resolved=true;});
+      });
+      // Mark orphan adjustments as resolved too
+      pendingAdjs.filter(a=>!a.resolvedInWeekKey).forEach(a=>{if(adjustments[gpayPendingPerson.riderName]&&adjustments[gpayPendingPerson.riderName][a.id])adjustments[gpayPendingPerson.riderName][a.id].resolved=true;});
+      if(pendingAdjs.some(a=>!a.resolved))saveAdjustments();
+      saveSettlements();renderPersonalDashboard();showToast(`✓ ${gpayPendingPerson.selectedWeeks.length} week(s) marked as paid`);
+    }
     closeGpayConfirm();
   });
   document.getElementById('gpayConfirmNo').addEventListener('click',closeGpayConfirm);
@@ -1742,15 +1641,26 @@
     const container=document.getElementById('historyContainer');container.innerHTML='';
     const grouped=buildGroupedWeeks();let anyShown=false;
     cfg.riders.forEach(rider=>{
-      const settled=Object.entries(grouped[rider.name]||{}).filter(([wk,d])=>settlements[`${rider.name}_${wk}`]&&d.amount>0).sort(([a],[b])=>a<b?1:-1).slice(0,6);
+      const settled=Object.entries(grouped[rider.name]||{}).filter(([wk,d])=>isSettled(`${rider.name}_${wk}`)&&d.amount>0).sort(([a],[b])=>a<b?1:-1).slice(0,6);
       if(!settled.length)return;
       if(anyShown){const hr=document.createElement('div');hr.style='height:1px;background:var(--border);margin:10px 0';container.appendChild(hr);}
       const lbl=document.createElement('div');lbl.style='display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;margin-bottom:10px';lbl.innerHTML=`<div style="width:8px;height:8px;border-radius:50%;background:${rider.color}"></div>${rider.name}`;container.appendChild(lbl);
       settled.forEach(([wk,d])=>{
         const sk=`${rider.name}_${wk}`;
-        const row=document.createElement('div');row.style='display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--green-border);border-radius:9px;background:var(--green-soft);margin-bottom:6px';
-        row.innerHTML=`<div><div style="font-size:12px;color:var(--text2)">${d.label}</div><div style="font-size:15px;font-weight:700">₹${Math.round(d.amount)}</div><div style="font-size:11px;font-weight:600;color:var(--green)">✓ Settled</div></div><button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
-        row.querySelector('[data-revert]').addEventListener('click',e=>{settlements[e.currentTarget.dataset.revert]=false;saveSettlements();renderAdminDues();renderHistory();showToast('↩ Payment reverted');});
+        const wkAdjs=getAdjustmentsForWeek(rider.name,wk);
+        const row=document.createElement('div');row.style='border:1px solid var(--green-border);border-radius:9px;background:var(--green-soft);margin-bottom:6px;overflow:hidden';
+        const mainRow=document.createElement('div');mainRow.style='display:flex;align-items:center;justify-content:space-between;padding:9px 12px';
+        mainRow.innerHTML=`<div><div style="font-size:12px;color:var(--text2)">${d.label}</div><div style="font-size:15px;font-weight:700">₹${Math.round(d.amount)}</div><div style="font-size:11px;font-weight:600;color:var(--green)">✓ Settled</div></div><button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
+        mainRow.querySelector('[data-revert]').addEventListener('click',e=>{markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderAdminDues();renderHistory();showToast('↩ Payment reverted');});
+        row.appendChild(mainRow);
+        if(wkAdjs.length){
+          wkAdjs.forEach(a=>{
+            const sign=a.direction==='owe'?'+':'-';
+            const noteEl=document.createElement('div');noteEl.style='padding:4px 12px 7px;font-size:11px;color:var(--orange);border-top:1px solid var(--green-border)';
+            noteEl.innerHTML=`⚠ ${sign}₹${Math.round(a.amount)} adjustment — ${a.reason}`;
+            row.appendChild(noteEl);
+          });
+        }
         container.appendChild(row);
       });
       anyShown=true;
@@ -1904,7 +1814,6 @@
     if(_rolesListener){off(rolesRef,'value',_rolesListener);_rolesListener=null;}
     _rolesListener=snap=>{
       const all=snap.val()||{};rolesCache=all;container.innerHTML='';
-      // Show ALL signed-in users, not just linked ones — so admin can see and link pending users
       const entries=Object.entries(all).sort(([,a],[,b])=>(a.email||'').localeCompare(b.email||''));
       if(!entries.length){container.innerHTML='<div style="padding:14px;font-size:12px;color:var(--text3);text-align:center">No users have signed in yet.</div>';return;}
       entries.forEach(([key,u])=>{
