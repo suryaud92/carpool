@@ -641,6 +641,7 @@
 
   onAuthStateChanged(auth,async user=>{
     _authResolved=true;hideAllAuthScreens();document.getElementById('mainApp').style.display='none';
+    _riderLeaveStripMonday=null; // reset per-rider strip position on every auth change
     if(!user){document.getElementById('loginScreen').classList.remove('hidden');return;}
     currentUser=user;const key=emailToKey(user.email);
     try{
@@ -724,7 +725,10 @@
     getEveningRiders().forEach(k=>{if(d.evening[k]===undefined)d.evening[k]=true;});
   }
 
-  function calculateDayDue(entry, date) {
+  // weekLeaveCache: optional pre-computed map of { riderKey: { adjustDues: bool } } for the week.
+  // When called in a tight loop (buildGroupedWeeks), pass this in to avoid O(n²) rescanning.
+  // When called for a single day (captain modal, thisWeekEst), omit it — it will be computed here.
+  function calculateDayDue(entry, date, weekLeaveCache) {
     const dues = {}; cfg.riders.forEach(r => { dues[r.key] = 0; }); dues.captain = 0;
     const activeKeys = new Set(cfg.riders.filter(r => {
       const sd = r.startDate ? parseDate(r.startDate) : new Date(2000, 0, 1);
@@ -738,19 +742,22 @@
 
     const ds = toDateStr(date);
     // Single source of truth for "is this rider on effective leave for this session this day?"
-    // A rider is on leave only if BOTH:
-    //   - they have a leave record for the session that day, AND
-    //   - their total leave sessions for the week meet their threshold.
-    // The stored data[ds][sess][riderKey] = false flag is treated as legacy/cache and NOT trusted alone.
-    const riderEffectiveLeave = {}; // riderKey -> {morning, evening}
-    cfg.riders.forEach(r => {
+    // Use pre-computed weekLeaveCache if provided, otherwise compute now (single-day call).
+    const leaveCache = weekLeaveCache || (() => {
       const monday = getMonday(date);
-      const sessCount = getRiderLeaveSessionsInWeek(r.key, monday, r);
-      const adjustDues = sessCount >= getLeaveThreshold(r);
+      const cache = {};
+      cfg.riders.forEach(r => {
+        const sessCount = getRiderLeaveSessionsInWeek(r.key, monday, r);
+        cache[r.key] = { adjustDues: sessCount >= getLeaveThreshold(r) };
+      });
+      return cache;
+    })();
+    const riderEffectiveLeave = {};
+    cfg.riders.forEach(r => {
       const lv = data[ds] && data[ds].leave && data[ds].leave[r.key];
       riderEffectiveLeave[r.key] = {
-        morning: !!(adjustDues && lv && lv.morning),
-        evening: !!(adjustDues && lv && lv.evening),
+        morning: !!(leaveCache[r.key].adjustDues && lv && lv.morning),
+        evening: !!(leaveCache[r.key].adjustDues && lv && lv.evening),
       };
     });
 
@@ -859,12 +866,14 @@
     const threshold = getLeaveThreshold(rider);
     const adjustDues = totalLeaveSessions >= threshold;
 
+    const riderStart = rider.startDate ? parseDate(rider.startDate) : new Date(2000,0,1);
     Object.entries(leaveMap).forEach(([ds, sessions]) => {
+      // Skip days before the rider's carpool start date — no DB entry should exist for them
+      if (parseDate(ds) < riderStart) return;
       if (!data[ds]) data[ds] = {morning:{}, evening:{}};
       if (!data[ds].morning) data[ds].morning = {};
       if (!data[ds].evening) data[ds].evening = {};
-      const hasAnyLeave = !!(sessions.morning || sessions.evening);
-      if (hasAnyLeave) {
+      const hasAnyLeave = !!(sessions.morning || sessions.evening);      if (hasAnyLeave) {
         if (!data[ds].leave) data[ds].leave = {};
         data[ds].leave[riderKey] = { morning: !!sessions.morning, evening: !!sessions.evening };
       } else if (data[ds].leave) {
@@ -894,24 +903,32 @@
 
   // ── Leave modal state ─────────────────────────────────
   // pendingLeave: { dateStr: { morning: bool, evening: bool } }
-  let leaveCtx = { rider: null, monday: null, pendingLeave: {} };
+// pendingLeaveByWeek stores unsaved selections per week key so navigating
+  // ‹ › and back doesn't discard changes the user hasn't tapped Apply on yet.
+  let leaveCtx = { rider: null, monday: null, pendingLeave: {}, pendingLeaveByWeek: {} };
 
   function openLeaveModalForDay(rider, dateObj) {
     const monday = getMonday(dateObj);
     leaveCtx.rider = rider;
     leaveCtx.monday = monday;
+    leaveCtx.pendingLeaveByWeek = {}; // fresh session — clear any stale unsaved state
     leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(rider.key, monday, rider);
+    leaveCtx.pendingLeaveByWeek[toDateStr(monday)] = leaveCtx.pendingLeave;
     renderLeaveModal();
     document.getElementById('leaveOverlay').classList.add('open');
   }
 
   function openLeaveModal(rider) {
+    const monday = getMonday(realToday);
     leaveCtx.rider = rider;
-    leaveCtx.monday = getMonday(realToday);
-    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(rider.key, leaveCtx.monday, rider);
+    leaveCtx.monday = monday;
+    leaveCtx.pendingLeaveByWeek = {}; // fresh session — clear any stale unsaved state
+    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(rider.key, monday, rider);
+    leaveCtx.pendingLeaveByWeek[toDateStr(monday)] = leaveCtx.pendingLeave;
     renderLeaveModal();
     document.getElementById('leaveOverlay').classList.add('open');
   }
+
 
   // Max week users can navigate to (4 weeks ahead)
   function getMaxLeaveMonday() {
@@ -1040,17 +1057,24 @@
   }
 
 
+  function navigateLeaveWeek(newMonday) {
+    // Save current week's pending state before navigating away
+    leaveCtx.pendingLeaveByWeek[toDateStr(leaveCtx.monday)] = leaveCtx.pendingLeave;
+    leaveCtx.monday = newMonday;
+    const key = toDateStr(newMonday);
+    // Restore previously unsaved state if user navigated here before, else seed from DB
+    leaveCtx.pendingLeave = leaveCtx.pendingLeaveByWeek[key]
+      || getRiderLeaveSessionMapForWeek(leaveCtx.rider.key, newMonday, leaveCtx.rider);
+    leaveCtx.pendingLeaveByWeek[key] = leaveCtx.pendingLeave;
+    renderLeaveModal();
+  }
   document.getElementById('leaveWeekPrev').addEventListener('click', () => {
     const prev = new Date(leaveCtx.monday); prev.setDate(prev.getDate() - 7);
-    leaveCtx.monday = prev;
-    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(leaveCtx.rider.key, prev, leaveCtx.rider);
-    renderLeaveModal();
+    navigateLeaveWeek(prev);
   });
   document.getElementById('leaveWeekNext').addEventListener('click', () => {
     const next = new Date(leaveCtx.monday); next.setDate(next.getDate() + 7);
-    leaveCtx.monday = next;
-    leaveCtx.pendingLeave = getRiderLeaveSessionMapForWeek(leaveCtx.rider.key, next, leaveCtx.rider);
-    renderLeaveModal();
+    navigateLeaveWeek(next);
   });
 
   document.getElementById('leaveCancelLeaveBtn').addEventListener('click', () => {
@@ -1100,13 +1124,24 @@
     cfg.riders.forEach(r=>{grouped[r.name]={};});
     const earliestStart=cfg.riders.reduce((min,r)=>{const sd=r.startDate?parseDate(r.startDate):now;return sd<min?sd:min;},now);
     const cursor=new Date(earliestStart);cursor.setHours(0,0,0,0);
+    // Cache leave threshold results per rider per week to avoid O(n²) rescanning in calculateDayDue
+    let cachedWeekKey=null, weekLeaveCache=null;
     while(cursor<=now){
       const day=cursor.getDay();
       if(day!==0&&day!==6){
         const ds=toDateStr(new Date(cursor)),date=parseDate(ds);
         const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
-        const dues=calculateDayDue(entry,date);
+        // Recompute weekLeaveCache only when the week changes
         const wk=getWeekRange(date);
+        if(wk.key!==cachedWeekKey){
+          cachedWeekKey=wk.key;
+          weekLeaveCache={};
+          cfg.riders.forEach(r=>{
+            const sessCount=getRiderLeaveSessionsInWeek(r.key,wk.monday,r);
+            weekLeaveCache[r.key]={adjustDues:sessCount>=getLeaveThreshold(r)};
+          });
+        }
+        const dues=calculateDayDue(entry,date,weekLeaveCache);
         cfg.riders.forEach(r=>{
           if(!grouped[r.name][wk.key])grouped[r.name][wk.key]={label:wk.label,amount:0,monday:new Date(wk.monday),friday:new Date(wk.friday)};
           grouped[r.name][wk.key].amount+=(dues[r.key]||0);
@@ -1331,7 +1366,7 @@
     const nextMon=getMonday(new Date(now.getTime()+7*24*60*60*1000));
     const ongoingWk=getWeekRange(nextMon);
     const ongoingAmt={};
-    cfg.riders.forEach(r=>{let a=0;getWeekDays(nextMon).forEach(d=>{a+=(calculateDayDue({morning:{captain:true},evening:{captain:true}},d)[r.key]||0);});ongoingAmt[r.name]=a;});
+    cfg.riders.forEach(r=>{let a=0;getWeekDays(nextMon).forEach(d=>{const ds=toDateStr(d);const entry=data[ds]||{morning:{captain:true},evening:{captain:true}};a+=(calculateDayDue(entry,d)[r.key]||0);});ongoingAmt[r.name]=a;});
     const allPast=getAllWeekKeys().filter(w=>w.key!==ongoingWk.key);
     const recent4=allPast.slice(0,4);
     const olderWithDues=allPast.slice(4).filter(wk=>cfg.riders.some(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return d&&d.amount>0&&!settlements[`${r.name}_${wk.key}`];}));
@@ -1352,7 +1387,8 @@
         if(isOngoing){amt=ongoingAmt[rider.name]||0;}
         else{const d=grouped[rider.name]&&grouped[rider.name][wk.key];amt=d?d.amount:0;isSettled=amt>0&&!!settlements[`${rider.name}_${wk.key}`];}
         const sk=`${rider.name}_${wk.key}`;
-        const sessLabel=rider.sessions.map(s=>s==='morning'?'🌅':'🌆').join(' ');
+         const sessLabel=rider.sessions.map(s=>s==='morning'?'🌅':'🌆').join(' ');
+        const isInProgress=!isOngoing&&!isOver;
         const amtClass=isOngoing?'projected':isSettled?'settled':isOver&&amt>0?'pending':'';
         // Show leave chip if rider had enough leave this week to adjust dues
         const leaveDays=getRiderLeaveDaysInWeek(rider.key,wk.monday);
@@ -1364,7 +1400,8 @@
           if(!isSettled)actionsHtml=`<button class="action-btn btn-pay" data-pay="${sk}">Mark Paid</button>`;
           else actionsHtml=`<button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
         }
-        riderRow.innerHTML=`<div class="dues-rider-left"><div class="dues-rider-dot" style="background:${rider.color}"></div><div><div class="dues-rider-name">${rider.name} ${leaveChip}</div><div class="dues-rider-sessions">${sessLabel}</div></div></div><div class="dues-rider-right"><span class="dues-rider-amt ${amtClass}">${amt>0?'₹'+Math.round(amt):'—'}</span>${actionsHtml}</div>`;
+ const amtLabel=amt>0?(isInProgress?`₹${Math.round(amt)} <span style="font-size:10px;font-weight:500;color:var(--text3)">(so far)</span>`:`₹${Math.round(amt)}`):'—';
+        riderRow.innerHTML=`<div class="dues-rider-left"><div class="dues-rider-dot" style="background:${rider.color}"></div><div><div class="dues-rider-name">${rider.name} ${leaveChip}</div><div class="dues-rider-sessions">${sessLabel}</div></div></div><div class="dues-rider-right"><span class="dues-rider-amt ${amtClass}">${amtLabel}</span>${actionsHtml}</div>`;
         riderRow.querySelector('[data-pay]')?.addEventListener('click',e=>{settlements[e.currentTarget.dataset.pay]=true;saveSettlements();renderAdminDues();renderPersonalDashboard();showToast('✓ Marked as paid');});
         riderRow.querySelector('[data-revert]')?.addEventListener('click',e=>{settlements[e.currentTarget.dataset.revert]=false;saveSettlements();renderAdminDues();renderPersonalDashboard();renderHistory();showToast('↩ Payment reverted');});
         body.appendChild(riderRow);
