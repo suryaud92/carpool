@@ -1236,23 +1236,20 @@
       const isOver=weekIsOver(currentWk.monday);
       const inProgressWk=!isOver?currentWk:null;
 
-      const block=document.createElement('div');block.className='dues-week-block';
-
-      // Header — rider name + outstanding total, always open for first rider
-      const hd=document.createElement('div');hd.className='dues-week-hd';
-      const outstandingTag=outstanding>0
-        ?`<span style="font-size:13px;font-weight:700;color:var(--orange)">₹${Math.round(outstanding)}</span>`
-        :`<span style="font-size:12px;font-weight:700;color:var(--green)">✓ Clear</span>`;
-      hd.innerHTML=`<div class="dues-week-hd-left">
-        <div style="width:10px;height:10px;border-radius:50%;background:${rider.color};flex-shrink:0"></div>
-        <span class="dues-week-label">${rider.name}</span>
+      // ── Rider section header ──────────────────────────
+      const block=document.createElement('div');
+      // Rider label row — matches History tab style
+      const lbl=document.createElement('div');
+      lbl.style='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:4px';
+      lbl.innerHTML=`<div style="display:flex;align-items:center;gap:7px">
+        <div style="width:9px;height:9px;border-radius:50%;background:${rider.color}"></div>
+        <span style="font-size:13px;font-weight:700">${rider.name}</span>
         <span style="font-size:10px;color:var(--text3)">${rider.sessions.map(s=>s==='morning'?'🌅':'🌆').join(' ')}</span>
-        ${outstandingTag}
-      </div><span class="dues-week-chevron ${rIdx===0?'open':''}">▼</span>`;
+      </div>
+      <span style="font-size:13px;font-weight:700;color:${outstanding>0?'var(--orange)':'var(--green)'}">${outstanding>0?'₹'+Math.round(outstanding):'✓ Clear'}</span>`;
+      block.appendChild(lbl);
 
-      const body=document.createElement('div');body.className=`dues-week-body${rIdx===0?'':' collapsed'}`;
-
-      // In-progress current week row
+      // In-progress current week card
       if(inProgressWk){
         let inProgAmt=0;
         getWeekDays(inProgressWk.monday).forEach(d=>{
@@ -1260,93 +1257,108 @@
           inProgAmt+=(calculateDayDue(entry,d)[rider.key]||0);
         });
         if(inProgAmt>0){
-          const row=document.createElement('div');row.className='dues-rider-row';
-          row.innerHTML=`<div class="dues-rider-left"><div style="width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0"></div><div><div class="dues-rider-name">${inProgressWk.label}</div><div class="dues-rider-sessions">In progress</div></div></div>
-            <div class="dues-rider-right"><span class="dues-rider-amt projected">₹${Math.round(inProgAmt)} <span style="font-size:10px;font-weight:500;color:var(--text3)">(so far)</span></span></div>`;
-          body.appendChild(row);
+          const card=document.createElement('div');
+          card.style='display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--blue-border);border-radius:9px;background:var(--blue-soft);margin-bottom:6px';
+          card.innerHTML=`<div>
+            <div style="font-size:12px;color:var(--text2)">${inProgressWk.label}</div>
+            <div style="font-size:15px;font-weight:700;color:var(--blue)">₹${Math.round(inProgAmt)}</div>
+            <div style="font-size:11px;font-weight:600;color:var(--blue)">In progress (so far)</div>
+          </div>`;
+          block.appendChild(card);
         }
       }
 
       if(!weekRows.length&&!inProgressWk){
-        const empty=document.createElement('div');empty.style='padding:12px 14px;font-size:12px;color:var(--text3)';empty.textContent='No dues recorded yet.';body.appendChild(empty);
+        const empty=document.createElement('div');
+        empty.style='font-size:13px;color:var(--text3);padding:6px 0 10px';
+        empty.textContent='No dues recorded yet.';
+        block.appendChild(empty);
       }
 
+      // Week cards — matching History tab card style
       weekRows.forEach(wk=>{
         const d=myWeeks[wk.key];
         const sk=`${rider.name}_${wk.key}`;
         const settled=isSettled(sk);
         const amt=d.amount;
-        const amtClass=settled?'settled':'pending';
+        const borderColor=settled?'var(--green-border)':'var(--orange-border)';
+        const bgColor=settled?'var(--green-soft)':'var(--orange-soft)';
+        const amtColor=settled?'var(--green)':'var(--orange)';
+        const statusText=settled?'✓ Paid':'Unpaid';
+        const statusColor=settled?'var(--green)':'var(--orange)';
+
         const leaveSess=getRiderLeaveSessionsInWeek(rider.key,wk.monday,rider);
         const leaveDays=getRiderLeaveDaysInWeek(rider.key,wk.monday);
-        const leaveChip=leaveSess>=getLeaveThreshold(rider)?`<span class="leave-chip">🏖 ${leaveDays}d leave</span>`:'';
-        const wkAdjs=getAdjustmentsForWeek(rider.name,wk.key);
-        const adjBadge=settled&&wkAdjs.length?`<span style="font-size:9px;font-weight:700;background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-border);border-radius:20px;padding:1px 6px;margin-left:4px">⚠ adj</span>`:'';
-        // Captain leave note for this week
+        const leaveChip=leaveSess>=getLeaveThreshold(rider)?`<span class="leave-chip" style="margin-left:6px">🏖 ${leaveDays}d leave</span>`:'';
         const leaveNotes=getCaptainLeaveNotes(wk.monday);
         const captainChip=leaveNotes.length?`<span style="font-size:9px;font-weight:700;background:var(--yellow-soft);color:var(--yellow);border:1px solid var(--yellow-border);border-radius:20px;padding:1px 6px;margin-left:4px">🚗 cap. leave</span>`:'';
-        let actionsHtml='';
-        if(!settled)actionsHtml=`<button class="action-btn btn-pay" data-pay="${sk}" data-amt="${Math.round(amt)}">Mark Paid</button>`;
-        else actionsHtml=`<button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
+        const wkAdjs=getAdjustmentsForWeek(rider.name,wk.key);
+        const adjBadge=settled&&wkAdjs.length?`<span style="font-size:9px;font-weight:700;background:var(--orange-soft);color:var(--orange);border:1px solid var(--orange-border);border-radius:20px;padding:1px 6px;margin-left:4px">⚠ adj</span>`:'';
 
-        const row=document.createElement('div');row.className='dues-rider-row';
-        row.innerHTML=`<div class="dues-rider-left">
-          <div style="width:7px;height:7px;border-radius:50%;background:${settled?'var(--green)':'var(--orange)'};flex-shrink:0"></div>
-          <div>
-            <div class="dues-rider-name">${wk.label} ${leaveChip}${captainChip}${adjBadge}</div>
-            <div class="dues-rider-sessions">${settled?'✓ Paid':'Unpaid'}</div>
-          </div>
+        const card=document.createElement('div');
+        card.style=`border:1px solid ${borderColor};border-radius:9px;background:${bgColor};margin-bottom:6px;overflow:hidden`;
+
+        const mainRow=document.createElement('div');
+        mainRow.style='display:flex;align-items:center;justify-content:space-between;padding:9px 12px';
+        mainRow.innerHTML=`<div>
+          <div style="font-size:12px;color:var(--text2);display:flex;align-items:center;flex-wrap:wrap;gap:2px">${wk.label}${leaveChip}${captainChip}${adjBadge}</div>
+          <div style="font-size:15px;font-weight:700;color:${amtColor}">₹${Math.round(amt)}</div>
+          <div style="font-size:11px;font-weight:600;color:${statusColor}">${statusText}</div>
         </div>
-        <div class="dues-rider-right">
-          <span class="dues-rider-amt ${amtClass}">₹${Math.round(amt)}</span>
-          ${actionsHtml}
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          ${!settled?`<button class="action-btn btn-pay" data-pay="${sk}" data-amt="${Math.round(amt)}">Mark Paid</button>`:`<button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`}
         </div>`;
 
-        row.querySelector('[data-pay]')?.addEventListener('click',e=>{
+        mainRow.querySelector('[data-pay]')?.addEventListener('click',e=>{
           const s=e.currentTarget.dataset.pay,a=parseFloat(e.currentTarget.dataset.amt);
           markSettled(s,a);saveSettlements();renderAdminDues();renderPersonalDashboard();showToast('✓ Marked as paid');
         });
-        row.querySelector('[data-revert]')?.addEventListener('click',e=>{
+        mainRow.querySelector('[data-revert]')?.addEventListener('click',e=>{
           markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderAdminDues();renderPersonalDashboard();renderHistory();showToast('↩ Payment reverted');
         });
+        card.appendChild(mainRow);
 
-        // Adjustment notes under settled rows
-        if(settled&&wkAdjs.length){
+        // Adjustment notes
+        if(wkAdjs.length){
           wkAdjs.forEach(a=>{
-            const adjRow=document.createElement('div');adjRow.className=`adj-note ${a.direction}`;
             const sign=a.direction==='owe'?'+':'-';
-            adjRow.innerHTML=`<span>⚠</span><span>${a.reason} · ${sign}₹${Math.round(a.amount)} — rolled to next due week</span>`;
-            body.appendChild(adjRow);
+            const noteEl=document.createElement('div');
+            noteEl.style=`padding:5px 12px 7px;font-size:11px;color:var(--orange);border-top:1px solid ${borderColor};line-height:1.5`;
+            noteEl.innerHTML=`⚠ ${sign}₹${Math.round(a.amount)} — ${a.reason}`;
+            card.appendChild(noteEl);
           });
         }
-        body.appendChild(row);
+        block.appendChild(card);
       });
 
-      // Contributions panel at the bottom of each rider block (last settled or current week)
+      // Contributions panel — latest week
       const latestWk=weekRows[0]||inProgressWk;
       if(latestWk){
         const contribs=getWeekContributions(latestWk.monday);
         if(contribs.length){
           const weekFuelCost=contribs.reduce((s,c)=>s+c.amount,0);
-          const contribWrap=document.createElement('div');contribWrap.style.cssText='margin:8px 14px 12px;border:1px solid var(--border);border-radius:9px;background:var(--bg);overflow:hidden';
+          const contribWrap=document.createElement('div');contribWrap.style.cssText='margin-bottom:6px;border:1px solid var(--border);border-radius:9px;background:var(--bg);overflow:hidden';
           const contribHd=document.createElement('div');contribHd.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;user-select:none;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px';
-          contribHd.innerHTML=`<span>💰 Latest Week Contributions · Total ₹${Math.round(weekFuelCost)}</span><span style="font-size:10px;color:var(--text3)">▼</span>`;
+          contribHd.innerHTML=`<span>💰 Latest Week · Total ₹${Math.round(weekFuelCost)}</span><span style="font-size:10px;color:var(--text3)">▼</span>`;
           const contribBody=document.createElement('div');contribBody.style.cssText='background:var(--white);display:none';
           contribs.forEach(c=>{
             const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--border)';
             const pct=weekFuelCost>0?Math.round((c.amount/weekFuelCost)*100):0;
             const roleTag=c.role==='captain'?'<span style="font-size:9px;font-weight:700;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple-border);border-radius:20px;padding:1px 6px;margin-left:5px">CAPTAIN</span>':'';
-            const isMe=c.key===rider.key?'<span style="font-size:9px;font-weight:700;background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-border);border-radius:20px;padding:1px 6px;margin-left:5px">THIS RIDER</span>':'';
-            row.innerHTML=`<div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1"><div style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0"></div><div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}${roleTag}${isMe}</div></div><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--text3);font-weight:600">${pct}%</span><span style="font-size:13px;font-weight:700;color:var(--text)">₹${Math.round(c.amount)}</span></div>`;
+            const meTag=c.key===rider.key?'<span style="font-size:9px;font-weight:700;background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-border);border-radius:20px;padding:1px 6px;margin-left:5px">THIS RIDER</span>':'';
+            row.innerHTML=`<div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1"><div style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0"></div><div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}${roleTag}${meTag}</div></div><div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><span style="font-size:10px;color:var(--text3);font-weight:600">${pct}%</span><span style="font-size:13px;font-weight:700;color:var(--text)">₹${Math.round(c.amount)}</span></div>`;
             contribBody.appendChild(row);
           });
           contribHd.addEventListener('click',()=>{const open=contribBody.style.display==='none';contribBody.style.display=open?'':'none';contribHd.querySelector('span:last-child').style.transform=open?'rotate(180deg)':'rotate(0deg)';});
-          contribWrap.appendChild(contribHd);contribWrap.appendChild(contribBody);body.appendChild(contribWrap);
+          contribWrap.appendChild(contribHd);contribWrap.appendChild(contribBody);block.appendChild(contribWrap);
         }
       }
 
-      hd.addEventListener('click',()=>{const ch=hd.querySelector('.dues-week-chevron'),open=!body.classList.contains('collapsed');body.classList.toggle('collapsed',open);ch.classList.toggle('open',!open);});
-      block.appendChild(hd);block.appendChild(body);container.appendChild(block);
+      // Divider between riders
+      if(rIdx<cfg.riders.length-1){
+        const hr=document.createElement('div');hr.style='height:1px;background:var(--border);margin:10px 0 14px';
+        block.appendChild(hr);
+      }
     });
 
     if(!cfg.riders.length)container.innerHTML='<div style="font-size:13px;color:var(--text3);padding:6px 0">No riders configured.</div>';
