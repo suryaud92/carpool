@@ -1211,12 +1211,18 @@
     cfg.riders.forEach((rider,rIdx)=>{
       const myWeeks=grouped[rider.name]||{};
 
-      // Collect all weeks that have an amount > 0, sorted newest first
+      // Collect all weeks with amount > 0, sorted newest first.
+      // Unsettled: show all. Settled: cap at last 3.
       const allPast=getAllWeekKeys().filter(wk=>weekIsOver(wk.monday));
-      const weekRows=allPast.filter(wk=>{
+      const unsettledRows=allPast.filter(wk=>{
         const d=myWeeks[wk.key];
-        return d&&d.amount>0;
+        return d&&d.amount>0&&!isSettled(`${rider.name}_${wk.key}`);
       });
+      const settledRows=allPast.filter(wk=>{
+        const d=myWeeks[wk.key];
+        return d&&d.amount>0&&isSettled(`${rider.name}_${wk.key}`);
+      }).slice(0,3);
+      const weekRows=[...unsettledRows,...settledRows].sort((a,b)=>a.monday<b.monday?1:-1);
 
       // Outstanding = sum of unsettled past weeks + pending adjustments
       let outstanding=0;
