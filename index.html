@@ -1221,7 +1221,7 @@
     const allPast=getAllWeekKeys().filter(w=>w.key!==ongoingWk.key);
     const recent4=allPast.slice(0,4);
     const olderWithDues=allPast.slice(4).filter(wk=>cfg.riders.some(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return d&&d.amount>0&&!isSettled(`${r.name}_${wk.key}`);}));
-    const weekList=[ongoingWk,...recent4,...olderWithDues];
+    const weekList=[...recent4,...olderWithDues];
     weekList.forEach((wk,wkIdx)=>{
       const isOngoing=wk.key===ongoingWk.key,isOver=weekIsOver(wk.monday);
       const allSettled=!isOngoing&&isOver&&cfg.riders.every(r=>{const d=grouped[r.name]&&grouped[r.name][wk.key];return!d||d.amount===0||isSettled(`${r.name}_${wk.key}`);});
