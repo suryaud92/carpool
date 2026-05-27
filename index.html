@@ -1854,7 +1854,30 @@
     updateSessionToggles();buildColorSwatches();renderSessionChangesList();
     document.getElementById('riderEditOverlay').classList.add('open');
   }
-  function updateSessionToggles(){document.getElementById('re-morning').className=`sess-toggle${riderEditSessions.has('morning')?' active':''}`;document.getElementById('re-evening').className=`sess-toggle${riderEditSessions.has('evening')?' active':''}`;renderSessionChangesList();}
+  function updateSessionToggles(){
+    document.getElementById('re-morning').className=`sess-toggle${riderEditSessions.has('morning')?' active':''}`;
+    document.getElementById('re-evening').className=`sess-toggle${riderEditSessions.has('evening')?' active':''}`;
+    // If session history exists, disable direct session toggles — sessions are
+    // controlled via Session History only. Top toggles become read-only indicators.
+    const hasHistory=riderEditSessionChanges.length>0;
+    document.getElementById('re-morning').disabled=hasHistory;
+    document.getElementById('re-evening').disabled=hasHistory;
+    const sessLabel=document.querySelector('#riderEditOverlay .form-label');
+    const sessionFormRow=document.getElementById('re-morning').closest('.form-row');
+    if(sessionFormRow){
+      let hint=sessionFormRow.querySelector('.sess-history-hint');
+      if(hasHistory&&!hint){
+        hint=document.createElement('div');
+        hint.className='sess-history-hint';
+        hint.style='margin-top:5px;font-size:11px;color:var(--text3)';
+        hint.textContent='Managed via Session History below.';
+        sessionFormRow.appendChild(hint);
+      } else if(!hasHistory&&hint){
+        hint.remove();
+      }
+    }
+    renderSessionChangesList();
+  }
 
   function renderSessionChangesList(){
     const list=document.getElementById('sessionChangesList');
@@ -1917,9 +1940,21 @@
     if(!riderEditSessionChanges.length)return;
     const latest=[...riderEditSessionChanges].sort((a,b)=>a.date<b.date?1:-1)[0];
     riderEditSessions=new Set(latest.sessions);
-    // Update toggle buttons without re-rendering the list (would recurse)
-    document.getElementById('re-morning').className=`sess-toggle${riderEditSessions.has('morning')?' active':''}`;
-    document.getElementById('re-evening').className=`sess-toggle${riderEditSessions.has('evening')?' active':''}`;
+    // Update DOM directly to avoid recursion (updateSessionToggles → renderSessionChangesList → sync)
+    ['morning','evening'].forEach(sess=>{
+      const el=document.getElementById(`re-${sess}`);
+      if(!el)return;
+      el.className=`sess-toggle${riderEditSessions.has(sess)?' active':''}`;
+      el.disabled=true; // always disabled when history exists
+    });
+    // Remove hint if already shown; re-add if needed
+    const sessionFormRow=document.getElementById('re-morning').closest('.form-row');
+    if(sessionFormRow&&!sessionFormRow.querySelector('.sess-history-hint')){
+      const hint=document.createElement('div');hint.className='sess-history-hint';
+      hint.style='margin-top:5px;font-size:11px;color:var(--text3)';
+      hint.textContent='Managed via Session History below.';
+      sessionFormRow.appendChild(hint);
+    }
   }
 
   document.getElementById('addSessionChangeBtn').addEventListener('click',()=>{
@@ -1928,8 +1963,16 @@
     renderSessionChangesList();
   });
   function buildColorSwatches(){const c=document.getElementById('reColorSwatches');c.innerHTML='';PALETTE.forEach(col=>{const sw=document.createElement('div');sw.className=`color-swatch${col===riderEditColor?' selected':''}`;sw.style.background=col;sw.addEventListener('click',()=>{riderEditColor=col;buildColorSwatches();});c.appendChild(sw);});}
-  document.getElementById('re-morning').addEventListener('click',()=>{if(riderEditSessions.has('morning'))riderEditSessions.delete('morning');else riderEditSessions.add('morning');updateSessionToggles();});
-  document.getElementById('re-evening').addEventListener('click',()=>{if(riderEditSessions.has('evening'))riderEditSessions.delete('evening');else riderEditSessions.add('evening');updateSessionToggles();});
+  document.getElementById('re-morning').addEventListener('click',()=>{
+    if(riderEditSessionChanges.length)return; // controlled by history
+    if(riderEditSessions.has('morning'))riderEditSessions.delete('morning');else riderEditSessions.add('morning');
+    updateSessionToggles();
+  });
+  document.getElementById('re-evening').addEventListener('click',()=>{
+    if(riderEditSessionChanges.length)return; // controlled by history
+    if(riderEditSessions.has('evening'))riderEditSessions.delete('evening');else riderEditSessions.add('evening');
+    updateSessionToggles();
+  });
   function saveRiderEdit(){
     if(currentRole!=='admin'){showToast('⚠ Admin access required');return;}
     const name=document.getElementById('re-name').value.trim();
