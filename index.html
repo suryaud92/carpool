@@ -1947,19 +1947,28 @@
       ...(finalChanges.length?{sessionChanges:finalChanges}:{})};
 
     // If editing existing rider and sessionChanges changed, recompute adjustments
-    // for weeks affected by the session change (past weeks with settled riders)
+    // only for weeks on or after dates that actually changed (added, removed, or sessions differ).
     if(riderEditIdx!==null){
       const oldRider=adminDraft.riders[riderEditIdx];
       const oldChanges=oldRider.sessionChanges||[];
       const newChanges=finalChanges;
-      // Find earliest date that changed — any week from there needs rechecking
-      const allDates=[...oldChanges.map(c=>c.date),...newChanges.map(c=>c.date)];
-      if(allDates.length){
-        const earliestChanged=allDates.sort()[0];
+
+      // Build maps keyed by date for easy comparison
+      const oldMap=Object.fromEntries(oldChanges.map(c=>[c.date,c.sessions.slice().sort().join(',')]));
+      const newMap=Object.fromEntries(newChanges.map(c=>[c.date,c.sessions.slice().sort().join(',')]));
+
+      // Collect dates that are new, deleted, or have different sessions
+      const changedDates=[];
+      new Set([...Object.keys(oldMap),...Object.keys(newMap)]).forEach(date=>{
+        if(oldMap[date]!==newMap[date])changedDates.push(date);
+      });
+
+      if(changedDates.length){
+        const earliestChanged=changedDates.sort()[0];
         // Temporarily apply new rider config so computeAffectedRiders uses new sessions
         adminDraft.riders[riderEditIdx]={...oldRider,...riderObj};
         cfg=JSON.parse(JSON.stringify(adminDraft));
-        // Recompute adjustments for all past weeks from the earliest changed date
+        // Recompute adjustments only for weeks on or after the earliest truly-changed date
         const allWks=getAllWeekKeys().filter(w=>weekIsOver(w.monday)&&toDateStr(w.monday)>=earliestChanged);
         allWks.forEach(wk=>{
           cfg.riders.forEach(r=>{clearAdjustmentsFromWeek(r.name,wk.key);});
