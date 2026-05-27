@@ -339,7 +339,6 @@
   </div>
   <div class="tab-bar">
     <button class="tab-btn active" id="tabDashBtn">🏠 Dashboard</button>
-    <button class="tab-btn" id="tabDuesBtn" style="display:none">📋 Dues</button>
   </div>
   <div class="tab-panel active" id="tabDashboard"><div id="personalDashCard"></div></div>
   <div class="tab-panel" id="tabDues">
@@ -559,7 +558,6 @@
   function applyRoleUI(){
     const isAdmin=currentRole==='admin';
     document.querySelectorAll('.admin-cost-input').forEach(el=>el.disabled=!isAdmin);
-    document.getElementById('tabDuesBtn').style.display=isAdmin?'':'none';
     document.querySelector('.tab-bar').style.display=isAdmin?'':'none';
     document.getElementById('addRiderBtn').style.display=isAdmin?'':'none';
     document.getElementById('adminSaveBar').style.display=isAdmin?'':'none';
@@ -1207,6 +1205,8 @@
   // Layout: one block per rider, expanded to show week-by-week dues rows.
   function renderAdminDues(){
     if(currentRole!=='admin')return;
+    const duesWrapper=document.getElementById('adminDuesInDash');if(!duesWrapper)return;
+    duesWrapper.innerHTML='<div class="card"><div class="card-title">Dues</div><div id="adminDuesContainer"></div></div>';
     const container=document.getElementById('adminDuesContainer');container.innerHTML='';
     const grouped=buildGroupedWeeks();
 
@@ -1344,27 +1344,14 @@
   // ── Personal Dashboard ────────────────────────────────
   function renderPersonalDashboard(){
     const container=document.getElementById('personalDashCard');
-    if(currentRole==='admin'){renderAdminDashSummary(container);return;}
+    if(currentRole==='admin'){renderAdminDashSummary(container);renderAdminDues();return;}
     const myRider=getMyRider();
     if(!myRider){container.innerHTML='';return;}
     renderRiderDashboard(container,myRider);
   }
 
   function renderAdminDashSummary(container){
-    const grouped=buildGroupedWeeks();
-    let captainCardHtml=`<div id="captainAttendanceCard"></div>`;
-    let html=`<div class="dash-card"><div class="dash-section-title" style="margin-bottom:10px">📊 Outstanding</div>`;
-    cfg.riders.forEach(rider=>{
-      let outstanding=0;
-      Object.entries(grouped[rider.name]||{}).forEach(([wk,d])=>{const mon=parseDate(wk.split('_')[0]);if(weekIsOver(mon)&&!isSettled(`${rider.name}_${wk}`)&&d.amount>0)outstanding+=d.amount;});
-      outstanding+=getRiderPendingAdjTotal(rider.name);
-      html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)">
-        <div style="display:flex;align-items:center;gap:8px"><div style="width:9px;height:9px;border-radius:50%;background:${rider.color};flex-shrink:0"></div><div><div style="font-size:13px;font-weight:700">${rider.name}</div><div style="font-size:10px;color:var(--text3)">${rider.sessions.map(s=>s==='morning'?'🌅 Morning':'🌆 Evening').join(' · ')}</div></div></div>
-        <div style="font-size:18px;font-weight:700;color:${outstanding>0?'var(--orange)':'var(--green)'}">${outstanding>0?'₹'+Math.round(outstanding):'✓ Clear'}</div>
-      </div>`;
-    });
-    html+=`</div>`;
-    container.innerHTML=captainCardHtml+html;
+    container.innerHTML=`<div id="captainAttendanceCard"></div>`;
     renderCaptainGridForWeek(getAdminDisplayMonday());
   }
 
@@ -1676,15 +1663,13 @@
 
   // ── Tab switching ─────────────────────────────────────
   function setActiveTab(tabName){
-    ['dashboard','dues'].forEach(name=>{
+    ['dashboard'].forEach(name=>{
       const btn=document.getElementById(`tab${name.charAt(0).toUpperCase()+name.slice(1)}Btn`);
       const panel=document.getElementById(`tab${name.charAt(0).toUpperCase()+name.slice(1)}`);
       btn?.classList.toggle('active',name===tabName);panel?.classList.toggle('active',name===tabName);
     });
-    if(tabName==='dues')renderAdminDues();
   }
   document.getElementById('tabDashBtn').addEventListener('click',()=>setActiveTab('dashboard'));
-  document.getElementById('tabDuesBtn').addEventListener('click',()=>setActiveTab('dues'));
 
   // ── Pause helpers ─────────────────────────────────────
   function isRiderPaused(rider){if(!rider.pausedFrom||!rider.pausedUntil)return false;const now=istNow(),pFrom=parseDate(rider.pausedFrom),pUntil=parseDate(rider.pausedUntil);return now>=pFrom&&now<=pUntil;}
