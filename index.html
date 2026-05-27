@@ -990,10 +990,10 @@
     const wk=getWeekRange(monday);
     // Clear leave FIRST so computeAffectedRiders sees the restored split
     clearLeaveFromData(rider.key,allDays,rider);
-    // Now recompute — with leave gone, diff should be 0 → clears any existing adjustment
+    // Clear ALL riders' adjustments for this week first — a rider whose diff
+    // becomes 0 after revert won't appear in affected but still needs old adj cleared
+    cfg.riders.forEach(r=>{clearAdjustmentsFromWeek(r.name,wk.key);});
     const affected=computeAffectedRiders(monday,rider.key);
-    affected.forEach(a=>clearAdjustmentsFromWeek(a.riderName,wk.key));
-    // Only write new adjustments if diff is still non-zero (edge case: other leaves still active)
     writeAdjustments(affected,wk,rider.name);
     leaveCtx.pendingLeave=getRiderLeaveSessionMapForWeek(rider.key,monday,rider);
     saveData();renderAll();renderLeaveModal();
@@ -1012,9 +1012,9 @@
     const threshold=getLeaveThreshold(rider);
     const duesAdjusted=count>=threshold;
 
-    // Detect affected settled riders and write adjustments
+    // Clear ALL riders' adjustments for this week first, then rewrite only non-zero diffs
+    cfg.riders.forEach(r=>{clearAdjustmentsFromWeek(r.name,wk.key);});
     const affected=computeAffectedRiders(monday,rider.key);
-    affected.forEach(a=>clearAdjustmentsFromWeek(a.riderName,wk.key));
     writeAdjustments(affected,wk,rider.name);
 
     saveData();renderAll();closeLeaveModal();
@@ -1213,11 +1213,12 @@
         });
       }
     });
-    // After updating captain attendance, check if any settled riders need adjustment
-    // (captain absence reduces dues → riders overpaid; captain presence restores → riders underpaid)
+    // After updating captain attendance, recompute adjustments for ALL settled riders in this week.
+    // Must clear ALL first (not just affected) — a rider with diff=0 after revert needs their
+    // old adjustment cleared even though they won't appear in the new affected list.
     const wk=getWeekRange(parseDate(dateStr));
-    const affected=computeAffectedRiders(wk.monday,null); // null = no rider to exclude, check all
-    affected.forEach(a=>clearAdjustmentsFromWeek(a.riderName,wk.key));
+    cfg.riders.forEach(r=>{clearAdjustmentsFromWeek(r.name,wk.key);});
+    const affected=computeAffectedRiders(wk.monday,null);
     writeAdjustments(affected,wk,'Captain attendance change');
     saveData();closeCaptainSessModal();renderPersonalDashboard();renderAdminDues();
     const sessMsg=!morning&&!evening?'🚗 Captain absent all day':morning&&evening?'🚗 Captain present all sessions':'🚗 Captain session updated';
