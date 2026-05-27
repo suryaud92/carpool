@@ -1292,11 +1292,14 @@
         const sk=`${rider.name}_${wk.key}`;
         const settled=isSettled(sk);
         const baseAmt=d.amount;
+        // For settled weeks use the snapshotted paid amount — never the recalculated value.
+        // The recalculated value is only used for computing adjustment diffs, not display.
+        const settledAmt=settled?(getSettledAmount(sk)??baseAmt):null;
         // Include any pending adjustments rolling into this week
         const riderPendingAdjs=getPendingAdjustments(rider.name);
         const rolledInAdjs=riderPendingAdjs.filter(a=>a.resolvedInWeekKey===wk.key);
         const rolledInTotal=rolledInAdjs.reduce((sum,a)=>sum+(a.direction==='owe'?a.amount:-a.amount),0);
-        const amt=settled?baseAmt:baseAmt+rolledInTotal;
+        const amt=settled?settledAmt:baseAmt+rolledInTotal;
         const amtClass=settled?'settled':'pending';
         const leaveSess=getRiderLeaveSessionsInWeek(rider.key,wk.monday,rider);
         const leaveDays=getRiderLeaveDaysInWeek(rider.key,wk.monday);
@@ -1513,7 +1516,7 @@
         }).join(''):'';
         weeksHtml+=`<div class="dash-week-block paid">
           <div class="dash-week-block-hd">
-            <div><div class="dash-week-label">${details.label}</div><div class="dash-week-amt green">₹${Math.round(details.amount)}</div></div>
+            <div><div class="dash-week-label">${details.label}</div><div class="dash-week-amt green">₹${Math.round(getSettledAmount(sk)??details.amount)}</div></div>
             <div style="display:flex;align-items:center;gap:8px">
               <span class="dash-badge paid">✓ Paid</span>
               <button class="action-btn btn-revert" style="font-size:11px;padding:4px 9px" data-revert="${sk}">Revert</button>
