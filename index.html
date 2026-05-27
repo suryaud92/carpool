@@ -555,7 +555,7 @@
   function applyRoleUI(){
     const isAdmin=currentRole==='admin';
     document.querySelectorAll('.admin-cost-input').forEach(el=>el.disabled=!isAdmin);
-    document.querySelector('.tab-bar').style.display=isAdmin?'':'none';
+    document.querySelector('.tab-bar').style.display='none';
     document.getElementById('addRiderBtn').style.display=isAdmin?'':'none';
     document.getElementById('adminSaveBar').style.display=isAdmin?'':'none';
     document.getElementById('rolesSection').style.display=isAdmin?'':'none';
