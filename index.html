@@ -728,10 +728,13 @@
   // Returns the sessions a rider was enrolled in on a specific date,
   // using sessionChanges history if available, falling back to rider.sessions.
   function getRiderSessionsOnDate(rider, date){
+    // If no session history configured, always use rider.sessions (current config)
     if(!rider.sessionChanges||!rider.sessionChanges.length) return rider.sessions||[];
+    // Find the most recent entry on or before the date
     const sorted=[...rider.sessionChanges]
       .filter(c=>parseDate(c.date)<=date)
       .sort((a,b)=>a.date<b.date?1:-1);
+    // If no entry found before this date, fall back to rider.sessions
     return sorted.length?sorted[0].sessions:(rider.sessions||[]);
   }
 
@@ -1920,16 +1923,17 @@
     const email=document.getElementById('re-email').value.trim().toLowerCase();
     const key=name.toLowerCase().replace(/\s+/g,'_');
     const startDate=document.getElementById('re-startdate').value||'';
-    let finalSessionChanges=[...riderEditSessionChanges];
-    // If no history at all, seed with startDate + current sessions
-    if(!finalSessionChanges.length&&startDate){
-      finalSessionChanges=[{date:startDate,sessions:[...riderEditSessions]}];
-    }
-    finalSessionChanges.sort((a,b)=>a.date<b.date?-1:1);
+    // Only save sessionChanges if admin explicitly added entries — never auto-seed.
+    // rider.sessions always reflects current sessions and is the source of truth
+    // for riders without any history.
+    const finalSessionChanges=[...riderEditSessionChanges].sort((a,b)=>a.date<b.date?-1:1);
+    // Derive current sessions from latest history entry if history exists,
+    // otherwise use the session toggles directly
     const currentSessions=finalSessionChanges.length
       ?[...finalSessionChanges[finalSessionChanges.length-1].sessions]
       :[...riderEditSessions];
-    const rider={key,name,email,sessions:currentSessions,color:riderEditColor,startDate,sessionChanges:finalSessionChanges};
+    const rider={key,name,email,sessions:currentSessions,color:riderEditColor,startDate,
+      ...(finalSessionChanges.length?{sessionChanges:finalSessionChanges}:{})};
     if(riderEditIdx===null)adminDraft.riders.push(rider);else adminDraft.riders[riderEditIdx]={...adminDraft.riders[riderEditIdx],...rider};
     renderAdminRiderList();closeRiderEdit();
   }
