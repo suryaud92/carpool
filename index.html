@@ -988,11 +988,12 @@
     const{rider,monday}=leaveCtx;
     const allDays=getWeekDays(monday).map(toDateStr);
     const wk=getWeekRange(monday);
-    // Before clearing, compute affected riders (leave is being removed — splits change back)
-    const affected=computeAffectedRiders(monday,rider.key);
+    // Clear leave FIRST so computeAffectedRiders sees the restored split
     clearLeaveFromData(rider.key,allDays,rider);
-    // Clear any existing adjustments from this week for affected riders, then rewrite
+    // Now recompute — with leave gone, diff should be 0 → clears any existing adjustment
+    const affected=computeAffectedRiders(monday,rider.key);
     affected.forEach(a=>clearAdjustmentsFromWeek(a.riderName,wk.key));
+    // Only write new adjustments if diff is still non-zero (edge case: other leaves still active)
     writeAdjustments(affected,wk,rider.name);
     leaveCtx.pendingLeave=getRiderLeaveSessionMapForWeek(rider.key,monday,rider);
     saveData();renderAll();renderLeaveModal();
