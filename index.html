@@ -1236,7 +1236,6 @@
       // Current in-progress week
       const currentWk=getWeekRange(realToday);
       const isOver=weekIsOver(currentWk.monday);
-      const inProgressWk=!isOver?currentWk:null;
 
       const block=document.createElement('div');block.className='dues-week-block';
 
@@ -1255,21 +1254,7 @@
       const body=document.createElement('div');body.className=`dues-week-body${rIdx===0?'':' collapsed'}`;
 
       // In-progress current week row
-      if(inProgressWk){
-        let inProgAmt=0;
-        getWeekDays(inProgressWk.monday).forEach(d=>{
-          const ds=toDateStr(d),entry=data[ds]||{morning:{captain:true},evening:{captain:true}};
-          inProgAmt+=(calculateDayDue(entry,d)[rider.key]||0);
-        });
-        if(inProgAmt>0){
-          const row=document.createElement('div');row.className='dues-rider-row';
-          row.innerHTML=`<div class="dues-rider-left"><div style="width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0"></div><div><div class="dues-rider-name">${inProgressWk.label}</div><div class="dues-rider-sessions">In progress</div></div></div>
-            <div class="dues-rider-right"><span class="dues-rider-amt projected">₹${Math.round(inProgAmt)} <span style="font-size:10px;font-weight:500;color:var(--text3)">(so far)</span></span></div>`;
-          body.appendChild(row);
-        }
-      }
-
-      if(!weekRows.length&&!inProgressWk){
+      if(!weekRows.length){
         const empty=document.createElement('div');empty.style='padding:12px 14px;font-size:12px;color:var(--text3)';empty.textContent='No dues recorded yet.';body.appendChild(empty);
       }
 
