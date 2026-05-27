@@ -632,7 +632,7 @@
   onValue(dataRef,snap=>{data=snap.val()||{};dataLoaded=true;checkReady();if(fbReady){renderPersonalDashboard();renderAdminDues();}});
   onValue(settlementsRef,snap=>{settlements=snap.val()||{};settlementsLoaded=true;checkReady();if(fbReady){renderPersonalDashboard();renderAdminDues();}});
   onValue(adjustmentsRef,snap=>{adjustments=snap.val()||{};adjustmentsLoaded=true;checkReady();if(fbReady){renderPersonalDashboard();renderAdminDues();}});
-  function checkReady(){if(dataLoaded&&settlementsLoaded&&configLoaded&&adjustmentsLoaded&&!fbReady){fbReady=true;setSyncStatus('synced','Synced');renderAll();}}
+  function checkReady(){if(dataLoaded&&settlementsLoaded&&configLoaded&&!fbReady){fbReady=true;adjustmentsLoaded=true;setSyncStatus('synced','Synced');renderAll();}}
   onValue(ref(db,'.info/connected'),snap=>{if(!snap.val())setSyncStatus('error','Offline');else if(fbReady)setSyncStatus('synced','Synced');});
 
   let saveTimer=null;
@@ -1282,7 +1282,12 @@
         const d=myWeeks[wk.key];
         const sk=`${rider.name}_${wk.key}`;
         const settled=isSettled(sk);
-        const amt=d.amount;
+        const baseAmt=d.amount;
+        // Include any pending adjustments rolling into this week
+        const riderPendingAdjs=getPendingAdjustments(rider.name);
+        const rolledInAdjs=riderPendingAdjs.filter(a=>a.resolvedInWeekKey===wk.key);
+        const rolledInTotal=rolledInAdjs.reduce((sum,a)=>sum+(a.direction==='owe'?a.amount:-a.amount),0);
+        const amt=settled?baseAmt:baseAmt+rolledInTotal;
         const amtClass=settled?'settled':'pending';
         const leaveSess=getRiderLeaveSessionsInWeek(rider.key,wk.monday,rider);
         const leaveDays=getRiderLeaveDaysInWeek(rider.key,wk.monday);
@@ -1296,6 +1301,13 @@
         if(!settled)actionsHtml=`<button class="action-btn btn-pay" data-pay="${sk}" data-amt="${Math.round(amt)}">Mark Paid</button>`;
         else actionsHtml=`<button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
 
+        // Rollover note for unsettled weeks with adjustments
+        const rolloverNote=!settled&&rolledInTotal!==0
+          ?`<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 12px 7px;font-size:11px;background:var(--orange-soft);border-top:1px solid var(--orange-border);line-height:1.5">
+              <span>⚠</span><span style="color:var(--orange);font-weight:600">${rolledInTotal>0?'+':''}₹${Math.round(rolledInTotal)} adjustment from ${rolledInAdjs.map(a=>a.sourceWeekLabel).join(', ')}</span>
+            </div>`
+          :'';
+
         // Wrap each week in a card so the contributions panel sits inside it
         const card=document.createElement('div');
         card.style=`border:1px solid ${settled?'var(--green-border)':'var(--orange-border)'};border-radius:9px;background:${settled?'var(--green-soft)':'var(--orange-soft)'};margin-bottom:6px;overflow:hidden`;
@@ -1308,10 +1320,11 @@
           </div>
         </div>
         <div class="dues-rider-right">
-          <span class="dues-rider-amt ${amtClass}">₹${Math.round(amt)}</span>
+          <span class="dues-rider-amt ${amtClass}">₹${Math.round(amt)}${!settled&&rolledInTotal!==0?`<span style="font-size:9px;font-weight:500;margin-left:3px;color:var(--text3)">(incl. adj.)</span>`:''}</span>
           ${actionsHtml}
         </div>`;
         card.appendChild(row);
+        if(rolloverNote){const rn=document.createElement('div');rn.innerHTML=rolloverNote;card.appendChild(rn.firstElementChild);}
 
         row.querySelector('[data-pay]')?.addEventListener('click',e=>{
           const s=e.currentTarget.dataset.pay,a=parseFloat(e.currentTarget.dataset.amt);
