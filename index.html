@@ -1220,7 +1220,7 @@
       const settledRows=allPast.filter(wk=>{
         const d=myWeeks[wk.key];
         return d&&d.amount>0&&isSettled(`${rider.name}_${wk.key}`);
-      }).slice(0,3);
+      }).slice(0,2);
       const weekRows=[...unsettledRows,...settledRows].sort((a,b)=>a.monday<b.monday?1:-1);
 
       // Outstanding = sum of unsettled past weeks + pending adjustments
@@ -1403,7 +1403,7 @@
     // ── Unified week list: all unpaid + last 3 paid, newest first ──────────────
     const settledList=Object.entries(myWeeks)
       .filter(([wk,d])=>isSettled(`${rider.name}_${wk}`)&&d.amount>0)
-      .sort(([a],[b])=>a<b?1:-1).slice(0,3);
+      .sort(([a],[b])=>a<b?1:-1).slice(0,2);
 
     const allWeekRows=[
       ...unsettled.map(u=>({wk:u.wk,details:u.details,paid:false})),
