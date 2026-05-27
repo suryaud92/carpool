@@ -769,9 +769,36 @@
   // Stored at carpoolAdjustments/{riderName}/{adjId}
   // { amount, sourceWeekKey, sourceWeekLabel, reason, direction:'owe'|'credit', resolved:bool, resolvedInWeekKey }
 
+  // Dynamically find which week an adjustment should roll into.
+  // Priority: 1) earliest unsettled past week, 2) current week, 3) next week.
+  // This is computed fresh every render so it always reflects current settlement state.
+  function getResolvedInWeekKey(riderName,sourceWeekKey){
+    const allWks=getAllWeekKeys();
+    // 1. Find the earliest unsettled past week (oldest first so rider pays in order)
+    const pastTarget=allWks.slice().reverse().find(w=>{
+      if(!weekIsOver(w.monday))return false;
+      if(w.key===sourceWeekKey)return false;
+      return!isSettled(`${riderName}_${w.key}`);
+    });
+    if(pastTarget)return pastTarget.key;
+    // 2. Roll into current week (will become due on Friday 4:30 PM)
+    const currentWk=getWeekRange(realToday);
+    if(currentWk.key!==sourceWeekKey)return currentWk.key;
+    // 3. Last resort: roll into next week
+    const nextMon=new Date(getMonday(realToday));
+    nextMon.setDate(nextMon.getDate()+7);
+    return getWeekRange(nextMon).key;
+  }
+
   function getPendingAdjustments(riderName){
     const all=adjustments[riderName]||{};
-    return Object.entries(all).filter(([,a])=>!a.resolved).map(([id,a])=>({id,...a}));
+    return Object.entries(all)
+      .filter(([,a])=>!a.resolved)
+      .map(([id,a])=>({
+        id,...a,
+        // Always compute dynamically — never trust stored resolvedInWeekKey
+        resolvedInWeekKey:getResolvedInWeekKey(riderName,a.sourceWeekKey),
+      }));
   }
 
   function getAdjustmentsForWeek(riderName,weekKey){
@@ -810,21 +837,16 @@
     return affected;
   }
 
-  // Write adjustments for affected riders; find the next unsettled week to roll into
+  // Write adjustments for affected riders.
+  // resolvedInWeekKey is NOT stored — computed dynamically at render time
+  // so it always points to the correct current unsettled week.
   function writeAdjustments(affected,sourceWk,triggerRiderName){
     if(!affected.length)return;
     const now=Date.now();
-    affected.forEach(({riderName,diff,newAmount,oldAmount},i)=>{
+    affected.forEach(({riderName,diff},i)=>{
       const direction=diff>0?'owe':'credit';
       const absAmt=Math.abs(diff);
       const adjId=`adj_${now+i}`;
-      // Find the next unsettled week for this rider to roll into
-      const allWks=getAllWeekKeys();
-      const nextUnsettledWk=allWks.slice().reverse().find(w=>{
-        if(!weekIsOver(w.monday))return false;
-        if(w.key===sourceWk.key)return false;
-        return!isSettled(`${riderName}_${w.key}`);
-      });
       if(!adjustments[riderName])adjustments[riderName]={};
       adjustments[riderName][adjId]={
         amount:absAmt,
@@ -833,7 +855,6 @@
         sourceWeekLabel:sourceWk.label,
         reason:`${triggerRiderName} applied leave adjustment`,
         resolved:false,
-        resolvedInWeekKey:nextUnsettledWk?nextUnsettledWk.key:null,
         createdAt:now+i,
       };
     });
@@ -1398,10 +1419,7 @@
       }).join('');
     }
 
-    // Standalone adjustment block for adjs with no resolvedInWeekKey (no future unsettled week found)
-    const orphanAdjs=pendingAdjs.filter(a=>!a.resolvedInWeekKey);
-
-    // ── Unified week list: all unpaid + last 3 paid, newest first ──────────────
+    // ── Unified week list: all unpaid + last 2 paid, newest first ──────────────
     const settledList=Object.entries(myWeeks)
       .filter(([wk,d])=>isSettled(`${rider.name}_${wk}`)&&d.amount>0)
       .sort(([a],[b])=>a<b?1:-1).slice(0,2);
@@ -1411,23 +1429,30 @@
       ...settledList.map(([wk,d])=>({wk,details:d,paid:true}))
     ].sort((a,b)=>a.wk<b.wk?1:-1);
 
+    // If any adjustment targets a week not already in the list (e.g. current/next week
+    // when rider is fully paid up), add it as a virtual unpaid row so the adj is visible
+    pendingAdjs.forEach(a=>{
+      if(!a.resolvedInWeekKey)return;
+      const alreadyInList=allWeekRows.some(r=>r.wk===a.resolvedInWeekKey);
+      if(!alreadyInList){
+        const wkRange=getAllWeekKeys().find(w=>w.key===a.resolvedInWeekKey);
+        if(wkRange){
+          // Check if it's already in myWeeks (has base dues)
+          const baseDues=myWeeks[a.resolvedInWeekKey];
+          allWeekRows.push({
+            wk:a.resolvedInWeekKey,
+            details:baseDues||{label:wkRange.label,amount:0,monday:new Date(wkRange.monday),friday:new Date(wkRange.friday)},
+            paid:false,
+            virtual:true,
+          });
+        }
+      }
+    });
+    allWeekRows.sort((a,b)=>a.wk<b.wk?1:-1);
+
     let weeksHtml='';
 
-    // Orphan adjustments at the top
-    if(orphanAdjs.length){
-      orphanAdjs.forEach(a=>{
-        const sign=a.direction==='owe'?'+':'-';
-        const color=a.direction==='owe'?'var(--orange)':'var(--green)';
-        weeksHtml+=`<div class="dash-week-block unpaid" style="border-color:${color}">
-          <div class="dash-week-block-hd">
-            <div><div class="dash-week-label">Pending Adjustment</div><div class="dash-week-amt orange">${sign}₹${Math.round(a.amount)}</div></div>
-          </div>
-          <div style="padding:0 12px 10px;font-size:11px;color:${color};line-height:1.5">${a.reason}<br><span style="opacity:0.8">From week: ${a.sourceWeekLabel}</span></div>
-        </div>`;
-      });
-    }
-
-    if(!allWeekRows.length&&!orphanAdjs.length){
+    if(!allWeekRows.length&&adjTotal===0){
       weeksHtml=`<div style="padding:12px 0;font-size:13px;color:var(--text2);text-align:center">✓ No dues yet</div>`;
     }
 
