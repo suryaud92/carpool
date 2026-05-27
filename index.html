@@ -713,7 +713,14 @@
 
   function getMyRider(){if(currentRole==='admin'||!currentUser)return null;return cfg.riders.find(r=>r.email&&r.email.toLowerCase()===currentUser.email.toLowerCase())||null;}
   function istNow(){const n=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));n.setHours(0,0,0,0);return n;}
-  function weekIsOver(monday){const fri=new Date(monday);fri.setDate(fri.getDate()+4);fri.setHours(0,0,0,0);return istNow()>fri;}
+  // Returns current IST datetime without stripping time — used for time-of-day comparisons
+  function istNowWithTime(){return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));}
+  // Week is considered "over" (dues become payable) on Friday at 4:30 PM IST
+  function weekIsOver(monday){
+    const fri=new Date(monday);fri.setDate(fri.getDate()+4);
+    const cutoff=new Date(fri);cutoff.setHours(16,30,0,0); // 4:30 PM on Friday
+    return istNowWithTime()>=cutoff;
+  }
 
   // ── Leave helpers ─────────────────────────────────────
   function getLeaveThreshold(rider){return rider&&rider.sessions&&rider.sessions.length>=2?5:3;}
