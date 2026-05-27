@@ -340,14 +340,10 @@
   <div class="tab-bar">
     <button class="tab-btn active" id="tabDashBtn">🏠 Dashboard</button>
     <button class="tab-btn" id="tabDuesBtn" style="display:none">📋 Dues</button>
-    <button class="tab-btn" id="tabHistoryBtn" style="display:none">🕐 History</button>
   </div>
   <div class="tab-panel active" id="tabDashboard"><div id="personalDashCard"></div></div>
   <div class="tab-panel" id="tabDues">
     <div class="card"><div class="card-title">Dues — by week</div><div id="adminDuesContainer"></div></div>
-  </div>
-  <div class="tab-panel" id="tabHistory">
-    <div class="card"><div class="card-title">Payment History</div><div id="historyContainer"></div></div>
   </div>
 </div>
 
@@ -564,7 +560,6 @@
     const isAdmin=currentRole==='admin';
     document.querySelectorAll('.admin-cost-input').forEach(el=>el.disabled=!isAdmin);
     document.getElementById('tabDuesBtn').style.display=isAdmin?'':'none';
-    document.getElementById('tabHistoryBtn').style.display=isAdmin?'':'none';
     document.querySelector('.tab-bar').style.display=isAdmin?'':'none';
     document.getElementById('addRiderBtn').style.display=isAdmin?'':'none';
     document.getElementById('adminSaveBar').style.display=isAdmin?'':'none';
@@ -1097,7 +1092,7 @@
     return weeks.reverse();
   }
 
-  let renderAll=function(){renderPersonalDashboard();renderAdminDues();if(document.getElementById('tabHistory').classList.contains('active'))renderHistory();};
+  let renderAll=function(){renderPersonalDashboard();renderAdminDues();};
 
   // ── Admin captain week selector ───────────────────────
   let _adminDisplayMonday=null,_riderLeaveStripMonday=null;
@@ -1314,7 +1309,7 @@
           markSettled(s,a);saveSettlements();renderAdminDues();renderPersonalDashboard();showToast('✓ Marked as paid');
         });
         row.querySelector('[data-revert]')?.addEventListener('click',e=>{
-          markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderAdminDues();renderPersonalDashboard();renderHistory();showToast('↩ Payment reverted');
+          markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderAdminDues();renderPersonalDashboard();showToast('↩ Payment reverted');
         });
 
         // Adjustment notes under settled rows
@@ -1691,51 +1686,18 @@
 
 
   // ── History (admin) ───────────────────────────────────
-  function renderHistory(){
-    if(currentRole!=='admin')return;
-    const container=document.getElementById('historyContainer');container.innerHTML='';
-    const grouped=buildGroupedWeeks();let anyShown=false;
-    cfg.riders.forEach(rider=>{
-      const settled=Object.entries(grouped[rider.name]||{}).filter(([wk,d])=>isSettled(`${rider.name}_${wk}`)&&d.amount>0).sort(([a],[b])=>a<b?1:-1).slice(0,6);
-      if(!settled.length)return;
-      if(anyShown){const hr=document.createElement('div');hr.style='height:1px;background:var(--border);margin:10px 0';container.appendChild(hr);}
-      const lbl=document.createElement('div');lbl.style='display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;margin-bottom:10px';lbl.innerHTML=`<div style="width:8px;height:8px;border-radius:50%;background:${rider.color}"></div>${rider.name}`;container.appendChild(lbl);
-      settled.forEach(([wk,d])=>{
-        const sk=`${rider.name}_${wk}`;
-        const wkAdjs=getAdjustmentsForWeek(rider.name,wk);
-        const row=document.createElement('div');row.style='border:1px solid var(--green-border);border-radius:9px;background:var(--green-soft);margin-bottom:6px;overflow:hidden';
-        const mainRow=document.createElement('div');mainRow.style='display:flex;align-items:center;justify-content:space-between;padding:9px 12px';
-        mainRow.innerHTML=`<div><div style="font-size:12px;color:var(--text2)">${d.label}</div><div style="font-size:15px;font-weight:700">₹${Math.round(d.amount)}</div><div style="font-size:11px;font-weight:600;color:var(--green)">✓ Settled</div></div><button class="action-btn btn-revert" data-revert="${sk}">Revert</button>`;
-        mainRow.querySelector('[data-revert]').addEventListener('click',e=>{markUnsettled(e.currentTarget.dataset.revert);saveSettlements();renderAdminDues();renderHistory();showToast('↩ Payment reverted');});
-        row.appendChild(mainRow);
-        if(wkAdjs.length){
-          wkAdjs.forEach(a=>{
-            const sign=a.direction==='owe'?'+':'-';
-            const noteEl=document.createElement('div');noteEl.style='padding:4px 12px 7px;font-size:11px;color:var(--orange);border-top:1px solid var(--green-border)';
-            noteEl.innerHTML=`⚠ ${sign}₹${Math.round(a.amount)} adjustment — ${a.reason}`;
-            row.appendChild(noteEl);
-          });
-        }
-        container.appendChild(row);
-      });
-      anyShown=true;
-    });
-    if(!anyShown){const e=document.createElement('div');e.style='font-size:13px;color:var(--text3);padding:6px 0';e.textContent='No payments recorded yet.';container.appendChild(e);}
-  }
 
   // ── Tab switching ─────────────────────────────────────
   function setActiveTab(tabName){
-    ['dashboard','dues','history'].forEach(name=>{
+    ['dashboard','dues'].forEach(name=>{
       const btn=document.getElementById(`tab${name.charAt(0).toUpperCase()+name.slice(1)}Btn`);
       const panel=document.getElementById(`tab${name.charAt(0).toUpperCase()+name.slice(1)}`);
       btn?.classList.toggle('active',name===tabName);panel?.classList.toggle('active',name===tabName);
     });
-    if(tabName==='history')renderHistory();
     if(tabName==='dues')renderAdminDues();
   }
   document.getElementById('tabDashBtn').addEventListener('click',()=>setActiveTab('dashboard'));
   document.getElementById('tabDuesBtn').addEventListener('click',()=>setActiveTab('dues'));
-  document.getElementById('tabHistoryBtn').addEventListener('click',()=>setActiveTab('history'));
 
   // ── Pause helpers ─────────────────────────────────────
   function isRiderPaused(rider){if(!rider.pausedFrom||!rider.pausedUntil)return false;const now=istNow(),pFrom=parseDate(rider.pausedFrom),pUntil=parseDate(rider.pausedUntil);return now>=pFrom&&now<=pUntil;}
